@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ÉLORIA — Women's Fashion</title>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
 
 * {
@@ -25,7 +27,8 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* TOP BAR */
+
+/* ================= TOP BAR ================= */
 
 .top-bar {
     height: 34px;
@@ -38,7 +41,8 @@ body {
     letter-spacing: 1.5px;
 }
 
-/* NAVBAR */
+
+/* ================= NAVBAR ================= */
 
 .navbar {
     height: 82px;
@@ -90,7 +94,12 @@ body {
     color: #C9A96E;
 }
 
-/* HERO */
+.mobile-menu {
+    display: none;
+}
+
+
+/* ================= HERO ================= */
 
 .hero {
     min-height: calc(100vh - 116px);
@@ -153,9 +162,87 @@ body {
     color: white;
 }
 
-/* ANIMATION */
+
+/* ================= NEW ARRIVALS ================= */
+
+.new-arrivals {
+    padding: 90px 5%;
+    background: #FAF8F3;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-subtitle {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #77716D;
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.product {
+    position: relative;
+    overflow: hidden;
+    background: #EDE5DA;
+}
+
+.product img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.product:hover img {
+    transform: scale(1.04);
+}
+
+.product-info {
+    padding: 18px 5px 5px;
+}
+
+.product-name {
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-size: 11px;
+    color: #77716D;
+}
+
+.product-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #FAF8F3;
+    padding: 8px 12px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+
+/* ================= ANIMATION ================= */
 
 @keyframes fadeUp {
+
     from {
         opacity: 0;
         transform: translateY(25px);
@@ -165,13 +252,11 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
-/* MOBILE */
 
-.mobile-menu {
-    display: none;
-}
+/* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
 
@@ -228,19 +313,73 @@ body {
     .shop-button {
         padding: 14px 30px;
     }
+
+
+    /* NEW ARRIVALS MOBILE */
+
+    .new-arrivals {
+        padding: 65px 15px;
+    }
+
+    .section-header {
+        margin-bottom: 30px;
+    }
+
+    .section-subtitle {
+        font-size: 8px;
+        letter-spacing: 3px;
+    }
+
+    .section-title {
+        font-size: 38px;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product img {
+        height: 280px;
+    }
+
+    .product-info {
+        padding: 12px 3px 3px;
+    }
+
+    .product-name {
+        font-size: 10px;
+    }
+
+    .product-price {
+        font-size: 9px;
+    }
+
+    .product-tag {
+        top: 10px;
+        left: 10px;
+        padding: 6px 8px;
+        font-size: 7px;
+    }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<!-- TOP BAR -->
+
+<!-- ================= TOP BAR ================= -->
 
 <div class="top-bar">
     FREE SHIPPING ON ORDERS OVER €100
 </div>
 
-<!-- NAVBAR -->
+
+<!-- ================= NAVBAR ================= -->
 
 <header class="navbar">
 
@@ -253,25 +392,53 @@ body {
     </div>
 
     <nav>
+
         <ul class="nav-links">
-            <li><a href="#">NEW IN</a></li>
-            <li><a href="#">COLLECTION</a></li>
-            <li><a href="#">DRESSES</a></li>
-            <li><a href="#">TOPS</a></li>
-            <li><a href="#">BOTTOMS</a></li>
-            <li><a href="#">SALE</a></li>
+
+            <li>
+                <a href="#">NEW IN</a>
+            </li>
+
+            <li>
+                <a href="#">COLLECTION</a>
+            </li>
+
+            <li>
+                <a href="#">DRESSES</a>
+            </li>
+
+            <li>
+                <a href="#">TOPS</a>
+            </li>
+
+            <li>
+                <a href="#">BOTTOMS</a>
+            </li>
+
+            <li>
+                <a href="#">SALE</a>
+            </li>
+
         </ul>
+
     </nav>
 
+
     <div class="nav-icons">
+
         <span>⌕</span>
+
         <span>♡</span>
+
         <span>🛍</span>
+
     </div>
 
 </header>
 
-<!-- HERO -->
+
+
+<!-- ================= HERO ================= -->
 
 <section class="hero">
 
@@ -289,7 +456,7 @@ body {
             DISCOVER THE NEW COLLECTION
         </p>
 
-        <a href="#" class="shop-button">
+        <a href="#new-arrivals" class="shop-button">
             SHOP NOW
         </a>
 
@@ -297,5 +464,145 @@ body {
 
 </section>
 
+
+
+<!-- ================= NEW ARRIVALS ================= -->
+
+<section class="new-arrivals" id="new-arrivals">
+
+
+    <div class="section-header">
+
+        <div class="section-subtitle">
+            JUST ARRIVED
+        </div>
+
+        <h2 class="section-title">
+            New Arrivals
+        </h2>
+
+    </div>
+
+
+    <div class="products">
+
+
+        <!-- PRODUCT 1 -->
+
+        <div class="product">
+
+            <div class="product-tag">
+                NEW
+            </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=85"
+                alt="Elegant dress"
+            >
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    SILK MIDI DRESS
+                </div>
+
+                <div class="product-price">
+                    €79.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PRODUCT 2 -->
+
+        <div class="product">
+
+            <div class="product-tag">
+                NEW
+            </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85"
+                alt="Fashion top"
+            >
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    SOFT KNIT TOP
+                </div>
+
+                <div class="product-price">
+                    €49.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PRODUCT 3 -->
+
+        <div class="product">
+
+            <img
+                src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=900&q=85"
+                alt="Elegant fashion"
+            >
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    SATIN BLOUSE
+                </div>
+
+                <div class="product-price">
+                    €59.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PRODUCT 4 -->
+
+        <div class="product">
+
+            <div class="product-tag">
+                NEW
+            </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=85"
+                alt="Women's fashion"
+            >
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    LUXE BLAZER
+                </div>
+
+                <div class="product-price">
+                    €89.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
 </body>
-  </html>
+
+</html>
