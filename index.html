@@ -257,7 +257,7 @@ body {
 /* ================= PRODUCT INFO ================= */
 
 .product-info {
-    padding: 18px 5px 5px;
+    padding: 18px 5px 12px;
 }
 
 .product-name {
@@ -271,6 +271,16 @@ body {
     color: #77716D;
 }
 
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 7px;
+}
+
+.sale-price {
+    color: #242222;
+}
+
 .product-tag {
     position: absolute;
     top: 15px;
@@ -280,6 +290,26 @@ body {
     font-size: 9px;
     letter-spacing: 1.5px;
     z-index: 5;
+}
+
+/* ================= LOADING ================= */
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 10px;
+    color: #77716D;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px 10px;
+    color: #77716D;
+    font-size: 11px;
+    letter-spacing: 1px;
 }
 
 /* ================= SHOP BY CATEGORY ================= */
@@ -414,8 +444,6 @@ body {
         padding: 14px 30px;
     }
 
-    /* NEW ARRIVALS */
-
     .new-arrivals {
         padding: 65px 15px;
     }
@@ -443,7 +471,7 @@ body {
     }
 
     .product-info {
-        padding: 12px 3px 3px;
+        padding: 12px 3px 8px;
     }
 
     .product-name {
@@ -460,8 +488,6 @@ body {
         padding: 6px 8px;
         font-size: 7px;
     }
-
-    /* CATEGORIES */
 
     .categories {
         padding: 65px 15px;
@@ -513,12 +539,12 @@ body {
 
         <ul class="nav-links">
 
-            <li><a href="#">NEW IN</a></li>
-            <li><a href="#">COLLECTION</a></li>
-            <li><a href="#">DRESSES</a></li>
-            <li><a href="#">TOPS</a></li>
-            <li><a href="#">BOTTOMS</a></li>
-            <li><a href="#">SALE</a></li>
+            <li><a href="#new-arrivals">NEW IN</a></li>
+            <li><a href="#new-arrivals">COLLECTION</a></li>
+            <li><a href="#categories">DRESSES</a></li>
+            <li><a href="#categories">TOPS</a></li>
+            <li><a href="#categories">BOTTOMS</a></li>
+            <li><a href="#new-arrivals">SALE</a></li>
 
         </ul>
 
@@ -578,197 +604,12 @@ body {
 
     </div>
 
+    <!-- PRODUCTS WILL COME AUTOMATICALLY FROM GOOGLE SHEETS -->
 
-    <div class="products">
+    <div class="products" id="products">
 
-
-        <!-- ================= SILK MIDI DRESS ================= -->
-
-        <div class="product">
-
-            <div class="product-tag">
-                NEW
-            </div>
-
-            <div class="product-gallery" data-gallery>
-
-                <div class="product-track">
-
-                    <div class="product-slide">
-                        <img src="1.jpg" alt="Silk Midi Dress">
-                    </div>
-
-                    <div class="product-slide">
-                        <img src="2.jpg" alt="Silk Midi Dress second view">
-                    </div>
-
-                </div>
-
-                <div class="carousel-dots">
-
-                    <button class="carousel-dot active"></button>
-                    <button class="carousel-dot"></button>
-
-                </div>
-
-            </div>
-
-            <div class="product-info">
-
-                <div class="product-name">
-                    SILK MIDI DRESS
-                </div>
-
-                <div class="product-price">
-                    €79.00
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ================= SOFT KNIT TOP ================= -->
-
-        <div class="product">
-
-            <div class="product-tag">
-                NEW
-            </div>
-
-            <div class="product-gallery" data-gallery>
-
-                <div class="product-track">
-
-                    <div class="product-slide">
-                        <img src="soft-knit-top-1.jpg"
-                             alt="Soft Knit Top">
-                    </div>
-
-                    <div class="product-slide">
-                        <img src="soft-knit-top-2.jpg"
-                             alt="Soft Knit Top second view">
-                    </div>
-
-                </div>
-
-                <div class="carousel-dots">
-
-                    <button class="carousel-dot active"></button>
-                    <button class="carousel-dot"></button>
-
-                </div>
-
-            </div>
-
-            <div class="product-info">
-
-                <div class="product-name">
-                    SOFT KNIT TOP
-                </div>
-
-                <div class="product-price">
-                    €49.00
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ================= SATIN BLOUSE ================= -->
-
-        <div class="product">
-
-            <div class="product-tag">
-                NEW
-            </div>
-
-            <div class="product-gallery" data-gallery>
-
-                <div class="product-track">
-
-                    <div class="product-slide">
-                        <img src="satin-blouse-1.jpg"
-                             alt="Satin Blouse">
-                    </div>
-
-                    <div class="product-slide">
-                        <img src="satin-blouse-2.jpg"
-                             alt="Satin Blouse second view">
-                    </div>
-
-                </div>
-
-                <div class="carousel-dots">
-
-                    <button class="carousel-dot active"></button>
-                    <button class="carousel-dot"></button>
-
-                </div>
-
-            </div>
-
-            <div class="product-info">
-
-                <div class="product-name">
-                    SATIN BLOUSE
-                </div>
-
-                <div class="product-price">
-                    €59.00
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ================= LUXE BLAZER ================= -->
-
-        <div class="product">
-
-            <div class="product-tag">
-                NEW
-            </div>
-
-            <div class="product-gallery" data-gallery>
-
-                <div class="product-track">
-
-                    <div class="product-slide">
-                        <img src="luxe-blazer-1.jpg"
-                             alt="Luxe Blazer">
-                    </div>
-
-                    <div class="product-slide">
-                        <img src="luxe-blazer-2.jpg"
-                             alt="Luxe Blazer second view">
-                    </div>
-
-                </div>
-
-                <div class="carousel-dots">
-
-                    <button class="carousel-dot active"></button>
-                    <button class="carousel-dot"></button>
-
-                </div>
-
-            </div>
-
-            <div class="product-info">
-
-                <div class="product-name">
-                    LUXE BLAZER
-                </div>
-
-                <div class="product-price">
-                    €89.00
-                </div>
-
-            </div>
-
+        <div class="loading">
+            LOADING PRODUCTS...
         </div>
 
     </div>
@@ -778,7 +619,7 @@ body {
 
 <!-- ================= SHOP BY CATEGORY ================= -->
 
-<section class="categories">
+<section class="categories" id="categories">
 
     <div class="section-header">
 
@@ -804,7 +645,6 @@ body {
 
         </a>
 
-
         <a href="#" class="category-card">
 
             <img
@@ -815,7 +655,6 @@ body {
 
         </a>
 
-
         <a href="#" class="category-card">
 
             <img
@@ -825,7 +664,6 @@ body {
             <span>BOTTOMS</span>
 
         </a>
-
 
         <a href="#" class="category-card">
 
@@ -846,166 +684,419 @@ body {
 
 <script>
 
-document.querySelectorAll('[data-gallery]').forEach(function(gallery) {
+/* =========================================================
+   GOOGLE SHEETS WEB APP
+   ========================================================= */
 
-    const track = gallery.querySelector('.product-track');
-    const dots = gallery.querySelectorAll('.carousel-dot');
-
-    let current = 0;
-    let startX = 0;
-    let startY = 0;
-    let dragging = false;
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
 
 
-    function showImage(index) {
+/* =========================================================
+   LOAD PRODUCTS
+   ========================================================= */
 
-        current = Math.max(0, Math.min(1, index));
+async function loadProducts() {
 
-        track.style.transform =
-            'translateX(-' + (current * 50) + '%)';
+    const productsContainer =
+        document.getElementById("products");
 
-        dots.forEach(function(dot, i) {
+    try {
 
-            dot.classList.toggle(
-                'active',
-                i === current
-            );
+        const response = await fetch(SCRIPT_URL);
+
+        if (!response.ok) {
+            throw new Error("Unable to load products");
+        }
+
+        const products = await response.json();
+
+        productsContainer.innerHTML = "";
+
+        if (!Array.isArray(products) || products.length === 0) {
+
+            productsContainer.innerHTML = `
+                <div class="no-products">
+                    NO PRODUCTS AVAILABLE
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /* SHOW ONLY AVAILABLE PRODUCTS */
+
+        const availableProducts = products.filter(function(product) {
+
+            return String(product.Status || "")
+                .toLowerCase() === "available";
 
         });
+
+
+        if (availableProducts.length === 0) {
+
+            productsContainer.innerHTML = `
+                <div class="no-products">
+                    NO PRODUCTS AVAILABLE
+                </div>
+            `;
+
+            return;
+        }
+
+
+        /* NEW PRODUCTS FIRST */
+
+        availableProducts.sort(function(a, b) {
+
+            const aNew = a.New === true ||
+                         String(a.New).toLowerCase() === "true";
+
+            const bNew = b.New === true ||
+                         String(b.New).toLowerCase() === "true";
+
+            return Number(bNew) - Number(aNew);
+
+        });
+
+
+        availableProducts.forEach(function(product) {
+
+            createProduct(product, productsContainer);
+
+        });
+
+
+        initializeGalleries();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        productsContainer.innerHTML = `
+            <div class="no-products">
+                PRODUCTS COULD NOT BE LOADED
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE PRODUCT CARD
+   ========================================================= */
+
+function createProduct(product, container) {
+
+    const name =
+        product["Product Name"] || "PRODUCT";
+
+    const price =
+        product["Price"] || "";
+
+    const oldPrice =
+        product["Old Price"] || "";
+
+    const image1 =
+        product["Image 1"] || "";
+
+    const image2 =
+        product["Image 2"] || "";
+
+    const isNew =
+        product["New"] === true ||
+        String(product["New"]).toLowerCase() === "true";
+
+    const isSale =
+        product["Sale"] === true ||
+        String(product["Sale"]).toLowerCase() === "true";
+
+
+    /* IMAGE */
+
+    let firstImage = image1 || image2;
+
+    let secondImage = image2 || image1;
+
+
+    if (!firstImage) {
+
+        firstImage =
+        "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85";
+
+        secondImage = firstImage;
 
     }
 
 
-    /* DOT BUTTONS */
+    /* TAG */
 
-    dots.forEach(function(dot, i) {
+    let tag = "";
 
-        dot.addEventListener('click', function(event) {
+    if (isSale) {
 
-            event.stopPropagation();
+        tag = "SALE";
 
-            showImage(i);
+    } else if (isNew) {
+
+        tag = "NEW";
+
+    }
+
+
+    /* PRICE */
+
+    let priceHTML = "";
+
+    if (isSale && oldPrice) {
+
+        priceHTML = `
+            <span class="old-price">
+                €${Number(oldPrice).toFixed(2)}
+            </span>
+
+            <span class="sale-price">
+                €${Number(price).toFixed(2)}
+            </span>
+        `;
+
+    } else {
+
+        priceHTML = `
+            €${Number(price).toFixed(2)}
+        `;
+
+    }
+
+
+    const productElement =
+        document.createElement("div");
+
+    productElement.className = "product";
+
+
+    productElement.innerHTML = `
+
+        ${tag ? `
+            <div class="product-tag">
+                ${tag}
+            </div>
+        ` : ""}
+
+        <div class="product-gallery" data-gallery>
+
+            <div class="product-track">
+
+                <div class="product-slide">
+
+                    <img
+                        src="${escapeHTML(firstImage)}"
+                        alt="${escapeHTML(name)}"
+                        loading="lazy"
+                    >
+
+                </div>
+
+                <div class="product-slide">
+
+                    <img
+                        src="${escapeHTML(secondImage)}"
+                        alt="${escapeHTML(name)} second view"
+                        loading="lazy"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="carousel-dots">
+
+                <button
+                    class="carousel-dot active"
+                    aria-label="Image 1">
+                </button>
+
+                <button
+                    class="carousel-dot"
+                    aria-label="Image 2">
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="product-info">
+
+            <div class="product-name">
+                ${escapeHTML(name).toUpperCase()}
+            </div>
+
+            <div class="product-price">
+                ${priceHTML}
+            </div>
+
+        </div>
+
+    `;
+
+
+    container.appendChild(productElement);
+
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE CAROUSELS
+   ========================================================= */
+
+function initializeGalleries() {
+
+    document.querySelectorAll("[data-gallery]")
+    .forEach(function(gallery) {
+
+        const track =
+            gallery.querySelector(".product-track");
+
+        const dots =
+            gallery.querySelectorAll(".carousel-dot");
+
+        let current = 0;
+
+        let startX = 0;
+        let startY = 0;
+
+        let dragging = false;
+
+
+        function showImage(index) {
+
+            current =
+                Math.max(0, Math.min(1, index));
+
+            track.style.transform =
+                "translateX(-" +
+                (current * 50) +
+                "%)";
+
+
+            dots.forEach(function(dot, i) {
+
+                dot.classList.toggle(
+                    "active",
+                    i === current
+                );
+
+            });
+
+        }
+
+
+        /* DOT BUTTONS */
+
+        dots.forEach(function(dot, i) {
+
+            dot.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                    showImage(i);
+
+                }
+            );
 
         });
 
-    });
+
+        /* TOUCH START */
+
+        gallery.addEventListener(
+            "touchstart",
+            function(event) {
+
+                const touch =
+                    event.changedTouches[0];
+
+                startX =
+                    touch.clientX;
+
+                startY =
+                    touch.clientY;
+
+                dragging = true;
+
+            },
+            { passive: true }
+        );
 
 
-    /* TOUCH START */
+        /* TOUCH END */
 
-    gallery.addEventListener(
-        'touchstart',
-        function(event) {
+        gallery.addEventListener(
+            "touchend",
+            function(event) {
 
-            const touch = event.changedTouches[0];
-
-            startX = touch.clientX;
-            startY = touch.clientY;
-
-            dragging = true;
-
-        },
-        { passive: true }
-    );
-
-
-    /* TOUCH END */
-
-    gallery.addEventListener(
-        'touchend',
-        function(event) {
-
-            if (!dragging) {
-                return;
-            }
-
-            const touch = event.changedTouches[0];
-
-            const dx = touch.clientX - startX;
-            const dy = touch.clientY - startY;
-
-            dragging = false;
-
-
-            if (
-                Math.abs(dx) > 45 &&
-                Math.abs(dx) > Math.abs(dy)
-            ) {
-
-                if (dx < 0) {
-                    showImage(current + 1);
-                } else {
-                    showImage(current - 1);
+                if (!dragging) {
+                    return;
                 }
 
-            }
+                const touch =
+                    event.changedTouches[0];
 
-        },
-        { passive: true }
-    );
+                const dx =
+                    touch.clientX - startX;
 
+                const dy =
+                    touch.clientY - startY;
 
-    /* MOUSE START */
-
-    gallery.addEventListener(
-        'mousedown',
-        function(event) {
-
-            startX = event.clientX;
-
-            dragging = true;
-
-            gallery.style.cursor = 'grabbing';
-
-        }
-    );
+                dragging = false;
 
 
-    /* MOUSE END */
+                if (
+                    Math.abs(dx) > 45 &&
+                    Math.abs(dx) > Math.abs(dy)
+                ) {
 
-    gallery.addEventListener(
-        'mouseup',
-        function(event) {
+                    if (dx < 0) {
 
-            if (!dragging) {
-                return;
-            }
+                        showImage(current + 1);
 
-            const dx = event.clientX - startX;
+                    } else {
 
-            dragging = false;
+                        showImage(current - 1);
 
-            gallery.style.cursor = 'grab';
+                    }
 
-
-            if (Math.abs(dx) > 45) {
-
-                if (dx < 0) {
-                    showImage(current + 1);
-                } else {
-                    showImage(current - 1);
                 }
 
-            }
+            },
+            { passive: true }
+        );
 
-        }
-    );
 
+        /* MOUSE START */
 
-    gallery.addEventListener(
-        'mouseleave',
-        function() {
-
-            dragging = false;
-
-            gallery.style.cursor = 'grab';
-
-        }
-    );
-
-});
-
-</script>
-
-</body>
-                        </html>
+        gal
