@@ -304,7 +304,7 @@ body {
     letter-spacing: 2px;
 }
 
-/* ================= SHOP BY CATEGORY ================= */
+/* ================= CATEGORIES ================= */
 
 .categories {
     padding: 90px 5%;
@@ -508,14 +508,9 @@ body {
 
 <body>
 
-<!-- ================= TOP BAR ================= -->
-
 <div class="top-bar">
     FREE SHIPPING ON ORDERS OVER €100
 </div>
-
-
-<!-- ================= NAVBAR ================= -->
 
 <header class="navbar">
 
@@ -550,9 +545,6 @@ body {
 
 </header>
 
-
-<!-- ================= HERO ================= -->
-
 <section class="hero">
 
     <div class="hero-content">
@@ -576,9 +568,6 @@ body {
     </div>
 
 </section>
-
-
-<!-- ================= NEW ARRIVALS ================= -->
 
 <section class="new-arrivals" id="new-arrivals">
 
@@ -604,9 +593,6 @@ body {
 
 </section>
 
-
-<!-- ================= SHOP BY CATEGORY ================= -->
-
 <section class="categories" id="categories">
 
     <div class="section-header">
@@ -624,206 +610,384 @@ body {
     <div class="category-grid">
 
         <a href="#new-arrivals" class="category-card">
+
             <img
                 src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=85"
                 alt="Dresses">
+
             <span>DRESSES</span>
+
         </a>
 
         <a href="#new-arrivals" class="category-card">
+
             <img
                 src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=85"
                 alt="Tops">
+
             <span>TOPS</span>
+
         </a>
 
         <a href="#new-arrivals" class="category-card">
+
             <img
                 src="https://images.unsplash.com/photo-1506629905607-d9c297d3b7b7?auto=format&fit=crop&w=900&q=85"
                 alt="Bottoms">
+
             <span>BOTTOMS</span>
+
         </a>
 
         <a href="#new-arrivals" class="category-card">
+
             <img
                 src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
                 alt="Accessories">
+
             <span>ACCESSORIES</span>
+
         </a>
 
     </div>
 
 </section>
 
-
-<!-- ================= JAVASCRIPT ================= -->
-
 <script>
+
+/* =========================================================
+   GOOGLE APPS SCRIPT URL
+   ========================================================= */
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
 
 
 /* =========================================================
-   LOAD PRODUCTS USING DYNAMIC JSONP
+   LOAD PRODUCTS
    ========================================================= */
 
 function loadProducts() {
 
-    const productsContainer =
+    const container =
         document.getElementById("products");
 
-    if (!productsContainer) {
-        console.error("products element not found");
+    if (!container) {
+        console.error("Products container not found.");
         return;
     }
 
-    productsContainer.innerHTML = `
+    container.innerHTML = `
         <div class="loading">
             LOADING PRODUCTS...
         </div>
     `;
 
-    const uniqueCallbackName = "eloria_cb_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
-    const script = document.createElement("script");
+
+    /* =====================================================
+       TRY FETCH FIRST
+       ===================================================== */
+
+    fetch(
+        SCRIPT_URL + "?t=" + Date.now(),
+        {
+            method: "GET",
+            cache: "no-store"
+        }
+    )
+
+    .then(function(response) {
+
+        if (!response.ok) {
+            throw new Error(
+                "HTTP ERROR " + response.status
+            );
+        }
+
+        return response.json();
+
+    })
+
+    .then(function(data) {
+
+        console.log(
+            "FETCH SUCCESS:",
+            data
+        );
+
+        displayProducts(data);
+
+    })
+
+    .catch(function(error) {
+
+        console.warn(
+            "FETCH FAILED. TRYING JSONP...",
+            error
+        );
+
+        loadProductsJSONP();
+
+    });
+
+}
+
+
+/* =========================================================
+   JSONP FALLBACK
+   ========================================================= */
+
+function loadProductsJSONP() {
+
+    const container =
+        document.getElementById("products");
+
+
+    const callbackName =
+        "eloria_callback_" +
+        Date.now() +
+        "_" +
+        Math.floor(
+            Math.random() * 100000
+        );
+
+
+    const script =
+        document.createElement("script");
+
 
     let finished = false;
 
+
     function cleanup() {
+
         if (script.parentNode) {
             script.parentNode.removeChild(script);
         }
-        delete window[uniqueCallbackName];
+
+        delete window[callbackName];
+
     }
 
-    window[uniqueCallbackName] = function(products) {
 
-        if (finished) return;
-        finished = true;
+    window[callbackName] =
+        function(data) {
 
-        console.log("Data received:", products);
-
-        try {
-
-            productsContainer.innerHTML = "";
-
-            if (!Array.isArray(products) || products.length === 0) {
-
-                productsContainer.innerHTML = `
-                    <div class="no-products">
-                        NO PRODUCTS AVAILABLE
-                    </div>
-                `;
-
-                cleanup();
+            if (finished) {
                 return;
             }
 
-            const availableProducts =
-                products.filter(function(product) {
+            finished = true;
 
-                    return String(product.Status || product.status || "")
-                        .trim()
-                        .toLowerCase() === "available";
 
-                });
-
-            if (availableProducts.length === 0) {
-
-                productsContainer.innerHTML = `
-                    <div class="no-products">
-                        NO PRODUCTS AVAILABLE
-                    </div>
-                `;
-
-                cleanup();
-                return;
-            }
-
-            availableProducts.sort(function(a, b) {
-
-                const aNew =
-                    a.New === true ||
-                    String(a.New).toLowerCase() === "true" ||
-                    a.NEW === true;
-
-                const bNew =
-                    b.New === true ||
-                    String(b.New).toLowerCase() === "true" ||
-                    b.NEW === true;
-
-                return Number(bNew) - Number(aNew);
-
-            });
-
-            availableProducts.forEach(function(product) {
-
-                createProduct(
-                    product,
-                    productsContainer
-                );
-
-            });
-
-            initializeGalleries();
-            cleanup();
-
-        } catch (error) {
-
-            console.error(
-                "Product display error:",
-                error
+            console.log(
+                "JSONP SUCCESS:",
+                data
             );
 
-            productsContainer.innerHTML = `
-                <div class="no-products">
-                    PRODUCTS COULD NOT BE DISPLAYED
-                </div>
-            `;
+
+            try {
+
+                displayProducts(data);
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "PRODUCT DISPLAY ERROR:",
+                    error
+                );
+
+                container.innerHTML = `
+                    <div class="no-products">
+                        PRODUCTS COULD NOT BE DISPLAYED
+                    </div>
+                `;
+
+            }
+
 
             cleanup();
-        }
-    };
+
+        };
+
 
     script.src =
         SCRIPT_URL +
         "?callback=" +
-        uniqueCallbackName +
+        encodeURIComponent(callbackName) +
         "&t=" +
         Date.now();
 
-    script.onerror = function() {
 
-        if (finished) return;
-        finished = true;
+    console.log(
+        "JSONP URL:",
+        script.src
+    );
 
-        productsContainer.innerHTML = `
-            <div class="no-products">
-                PRODUCTS COULD NOT BE LOADED
-            </div>
-        `;
 
-        cleanup();
-    };
+    script.onerror =
+        function() {
+
+            if (finished) {
+                return;
+            }
+
+            finished = true;
+
+
+            container.innerHTML = `
+                <div class="no-products">
+                    PRODUCTS COULD NOT BE LOADED
+                </div>
+            `;
+
+
+            cleanup();
+
+        };
+
 
     document.body.appendChild(script);
 
-    /* TIMEOUT */
 
-    setTimeout(function() {
+    setTimeout(
+        function() {
 
-        if (finished) return;
-        finished = true;
+            if (finished) {
+                return;
+            }
 
-        productsContainer.innerHTML = `
+            finished = true;
+
+
+            container.innerHTML = `
+                <div class="no-products">
+                    CONNECTION TIMEOUT
+                </div>
+            `;
+
+
+            cleanup();
+
+        },
+        15000
+    );
+
+}
+
+
+/* =========================================================
+   DISPLAY PRODUCTS
+   ========================================================= */
+
+function displayProducts(products) {
+
+    const container =
+        document.getElementById("products");
+
+
+    container.innerHTML = "";
+
+
+    if (
+        !Array.isArray(products) ||
+        products.length === 0
+    ) {
+
+        container.innerHTML = `
             <div class="no-products">
-                CONNECTION TIMEOUT
+                NO PRODUCTS AVAILABLE
             </div>
         `;
 
-        cleanup();
+        return;
+    }
 
-    }, 15000);
+
+    /* =====================================================
+       AVAILABLE PRODUCTS
+       ===================================================== */
+
+    const availableProducts =
+        products.filter(
+            function(product) {
+
+                return String(
+                    product.Status ||
+                    product.status ||
+                    ""
+                )
+                .trim()
+                .toLowerCase() ===
+                "available";
+
+            }
+        );
+
+
+    if (availableProducts.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-products">
+                NO PRODUCTS AVAILABLE
+            </div>
+        `;
+
+        return;
+    }
+
+
+    /* =====================================================
+       NEW PRODUCTS FIRST
+       ===================================================== */
+
+    availableProducts.sort(
+        function(a, b) {
+
+            const aNew =
+                a.New === true ||
+                String(a.New)
+                    .toLowerCase() ===
+                    "true" ||
+                a.NEW === true;
+
+
+            const bNew =
+                b.New === true ||
+                String(b.New)
+                    .toLowerCase() ===
+                    "true" ||
+                b.NEW === true;
+
+
+            return (
+                Number(bNew) -
+                Number(aNew)
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       CREATE PRODUCT CARDS
+       ===================================================== */
+
+    availableProducts.forEach(
+        function(product) {
+
+            createProduct(
+                product,
+                container
+            );
+
+        }
+    );
+
+
+    initializeGalleries();
 
 }
 
@@ -832,36 +996,57 @@ function loadProducts() {
    CREATE PRODUCT
    ========================================================= */
 
-function createProduct(product, container) {
+function createProduct(
+    product,
+    container
+) {
 
     const name =
-        product["Product Name"] || "PRODUCT";
+        product["Product Name"] ||
+        "PRODUCT";
+
 
     const price =
-        product["Price"] || "";
+        product["Price"] ||
+        "";
+
 
     const oldPrice =
-        product["Old Price"] || "";
+        product["Old Price"] ||
+        "";
+
 
     const image1 =
-        product["Image 1"] || "";
+        product["Image 1"] ||
+        "";
+
 
     const image2 =
-        product["Image 2"] || "";
+        product["Image 2"] ||
+        "";
+
 
     const isNew =
         product["New"] === true ||
-        String(product["New"]).toLowerCase() === "true";
+        String(product["New"])
+            .toLowerCase() ===
+            "true";
+
 
     const isSale =
         product["Sale"] === true ||
-        String(product["Sale"]).toLowerCase() === "true";
+        String(product["Sale"])
+            .toLowerCase() ===
+            "true";
 
 
-    /* IMAGES */
+    /* =====================================================
+       IMAGES
+       ===================================================== */
 
     let firstImage =
         image1 || image2;
+
 
     let secondImage =
         image2 || image1;
@@ -877,14 +1062,19 @@ function createProduct(product, container) {
 
     }
 
+
     if (!secondImage) {
-        secondImage = firstImage;
+        secondImage =
+            firstImage;
     }
 
 
-    /* TAG */
+    /* =====================================================
+       TAG
+       ===================================================== */
 
     let tag = "";
+
 
     if (isSale) {
 
@@ -897,15 +1087,19 @@ function createProduct(product, container) {
     }
 
 
-    /* PRICE */
-
-    let priceHTML = "";
+    /* =====================================================
+       PRICE
+       ===================================================== */
 
     const numericPrice =
         Number(price);
 
+
     const numericOldPrice =
         Number(oldPrice);
+
+
+    let priceHTML = "";
 
 
     if (
@@ -915,6 +1109,7 @@ function createProduct(product, container) {
     ) {
 
         priceHTML = `
+
             <span class="old-price">
                 €${numericOldPrice.toFixed(2)}
             </span>
@@ -922,6 +1117,7 @@ function createProduct(product, container) {
             <span class="sale-price">
                 €${numericPrice.toFixed(2)}
             </span>
+
         `;
 
     } else {
@@ -933,19 +1129,30 @@ function createProduct(product, container) {
     }
 
 
-    /* PRODUCT ELEMENT */
+    /* =====================================================
+       PRODUCT ELEMENT
+       ===================================================== */
 
-    const productElement =
+    const element =
         document.createElement("div");
 
-    productElement.className =
+
+    element.className =
         "product";
 
 
-    productElement.innerHTML = `
+    element.innerHTML = `
 
         ${
             tag
+                      ? `
+                <div class="product-tag">
+                    ${tag}
+                </div>
+            `
+            : ""
+    }
+                tag
             ? `
                 <div class="product-tag">
                     ${tag}
@@ -953,7 +1160,6 @@ function createProduct(product, container) {
             `
             : ""
         }
-
 
         <div
             class="product-gallery"
@@ -972,7 +1178,6 @@ function createProduct(product, container) {
 
                 </div>
 
-
                 <div class="product-slide">
 
                     <img
@@ -985,23 +1190,23 @@ function createProduct(product, container) {
 
             </div>
 
-
             <div class="carousel-dots">
 
                 <button
                     class="carousel-dot active"
+                    type="button"
                     aria-label="Image 1">
                 </button>
 
                 <button
                     class="carousel-dot"
+                    type="button"
                     aria-label="Image 2">
                 </button>
 
             </div>
 
         </div>
-
 
         <div class="product-info">
 
@@ -1018,7 +1223,7 @@ function createProduct(product, container) {
     `;
 
 
-    container.appendChild(productElement);
+    container.appendChild(element);
 
 }
 
@@ -1057,6 +1262,7 @@ function initializeGalleries() {
 
             let current = 0;
 
+
             function showImage(index) {
 
                 current =
@@ -1065,4 +1271,107 @@ function initializeGalleries() {
                         Math.min(1, index)
                     );
 
-                track.style.t
+
+                track.style.transform =
+                    "translateX(-" +
+                    (current * 50) +
+                    "%)";
+
+
+                dots.forEach(function(dot, i) {
+
+                    if (i === current) {
+
+                        dot.classList.add("active");
+
+                    } else {
+
+                        dot.classList.remove("active");
+
+                    }
+
+                });
+
+            }
+
+
+            dots.forEach(function(dot, index) {
+
+                dot.addEventListener(
+                    "click",
+                    function() {
+
+                        showImage(index);
+
+                    }
+                );
+
+            });
+
+
+            /* SWIPE ON PHONE */
+
+            let startX = 0;
+            let endX = 0;
+
+
+            gallery.addEventListener(
+                "touchstart",
+                function(event) {
+
+                    startX =
+                        event.touches[0].clientX;
+
+                },
+                { passive: true }
+            );
+
+
+            gallery.addEventListener(
+                "touchend",
+                function(event) {
+
+                    endX =
+                        event.changedTouches[0].clientX;
+
+                    const difference =
+                        startX - endX;
+
+
+                    if (Math.abs(difference) < 40) {
+                        return;
+                    }
+
+
+                    if (difference > 0) {
+
+                        showImage(current + 1);
+
+                    } else {
+
+                        showImage(current - 1);
+
+                    }
+
+                },
+                { passive: true }
+            );
+
+
+            showImage(0);
+
+        });
+
+}
+
+
+/* =========================================================
+   START WEBSITE
+   ========================================================= */
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
