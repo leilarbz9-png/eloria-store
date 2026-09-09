@@ -1091,6 +1091,141 @@ function initializeGalleries() {
                     "%)";
 
 
-                dots.forEach(function(dot, i) {
+                                    dot.classList.toggle(
+                        "active",
+                        i === current
+                    );
 
-            
+                });
+
+            }
+
+
+            dots.forEach(function(dot, i) {
+
+                dot.addEventListener(
+                    "click",
+                    function() {
+
+                        showImage(i);
+
+                    }
+                );
+
+            });
+
+
+            gallery.addEventListener(
+                "touchstart",
+                function(e) {
+
+                    startX =
+                        e.touches[0].clientX;
+
+                    startY =
+                        e.touches[0].clientY;
+
+                    dragging = true;
+
+                },
+                { passive: true }
+            );
+
+
+            gallery.addEventListener(
+                "touchend",
+                function(e) {
+
+                    if (!dragging) {
+                        return;
+                    }
+
+                    dragging = false;
+
+                    const endX =
+                        e.changedTouches[0].clientX;
+
+                    const endY =
+                        e.changedTouches[0].clientY;
+
+                    const diffX =
+                        endX - startX;
+
+                    const diffY =
+                        endY - startY;
+
+
+                    if (
+                        Math.abs(diffX) > 40 &&
+                        Math.abs(diffX) > Math.abs(diffY)
+                    ) {
+
+                        if (diffX < 0) {
+                            showImage(current + 1);
+                        } else {
+                            showImage(current - 1);
+                        }
+
+                    }
+
+                },
+                { passive: true }
+            );
+
+
+            gallery.addEventListener(
+                "mousedown",
+                function(e) {
+
+                    startX = e.clientX;
+                    dragging = true;
+
+                }
+            );
+
+
+            gallery.addEventListener(
+                "mouseup",
+                function(e) {
+
+                    if (!dragging) {
+                        return;
+                    }
+
+                    dragging = false;
+
+                    const diff =
+                        e.clientX - startX;
+
+
+                    if (Math.abs(diff) > 40) {
+
+                        if (diff < 0) {
+                            showImage(current + 1);
+                        } else {
+                            showImage(current - 1);
+                        }
+
+                    }
+
+                }
+            );
+
+
+            showImage(0);
+
+        });
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
