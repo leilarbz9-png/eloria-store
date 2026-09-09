@@ -27,7 +27,6 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-
 /* ================= TOP BAR ================= */
 
 .top-bar {
@@ -40,7 +39,6 @@ body {
     font-size: 10px;
     letter-spacing: 1.5px;
 }
-
 
 /* ================= NAVBAR ================= */
 
@@ -97,7 +95,6 @@ body {
 .mobile-menu {
     display: none;
 }
-
 
 /* ================= HERO ================= */
 
@@ -162,7 +159,6 @@ body {
     color: white;
 }
 
-
 /* ================= NEW ARRIVALS ================= */
 
 .new-arrivals {
@@ -195,23 +191,70 @@ body {
     gap: 20px;
 }
 
+/* ================= PRODUCT ================= */
+
 .product {
     position: relative;
     overflow: hidden;
     background: #EDE5DA;
 }
 
-.product img {
+.product-gallery {
+    position: relative;
     width: 100%;
     height: 480px;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.6s ease;
+    overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
 }
 
-.product:hover img {
-    transform: scale(1.04);
+.product-track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transition: transform 0.45s ease;
 }
+
+.product-slide {
+    width: 50%;
+    height: 100%;
+    flex: 0 0 50%;
+}
+
+.product-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ================= DOTS ================= */
+
+.carousel-dots {
+    position: absolute;
+    z-index: 4;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 7px;
+}
+
+.carousel-dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+.carousel-dot.active {
+    background: white;
+}
+
+/* ================= PRODUCT INFO ================= */
 
 .product-info {
     padding: 18px 5px 5px;
@@ -236,9 +279,8 @@ body {
     padding: 8px 12px;
     font-size: 9px;
     letter-spacing: 1.5px;
-    z-index: 2;
+    z-index: 5;
 }
-
 
 /* ================= SHOP BY CATEGORY ================= */
 
@@ -277,12 +319,12 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(20, 20, 20, 0.18);
+    background: rgba(20,20,20,0.18);
     transition: 0.4s;
 }
 
 .category-card:hover::after {
-    background: rgba(20, 20, 20, 0.28);
+    background: rgba(20,20,20,0.28);
 }
 
 .category-card span {
@@ -297,7 +339,6 @@ body {
     letter-spacing: 3px;
     white-space: nowrap;
 }
-
 
 /* ================= ANIMATION ================= */
 
@@ -314,7 +355,6 @@ body {
     }
 
 }
-
 
 /* ================= MOBILE ================= */
 
@@ -374,7 +414,6 @@ body {
         padding: 14px 30px;
     }
 
-
     /* NEW ARRIVALS */
 
     .new-arrivals {
@@ -399,7 +438,7 @@ body {
         gap: 12px;
     }
 
-    .product img {
+    .product-gallery {
         height: 280px;
     }
 
@@ -421,7 +460,6 @@ body {
         padding: 6px 8px;
         font-size: 7px;
     }
-
 
     /* CATEGORIES */
 
@@ -450,9 +488,7 @@ body {
 
 </head>
 
-
 <body>
-
 
 <!-- ================= TOP BAR ================= -->
 
@@ -477,34 +513,16 @@ body {
 
         <ul class="nav-links">
 
-            <li>
-                <a href="#">NEW IN</a>
-            </li>
-
-            <li>
-                <a href="#">COLLECTION</a>
-            </li>
-
-            <li>
-                <a href="#">DRESSES</a>
-            </li>
-
-            <li>
-                <a href="#">TOPS</a>
-            </li>
-
-            <li>
-                <a href="#">BOTTOMS</a>
-            </li>
-
-            <li>
-                <a href="#">SALE</a>
-            </li>
+            <li><a href="#">NEW IN</a></li>
+            <li><a href="#">COLLECTION</a></li>
+            <li><a href="#">DRESSES</a></li>
+            <li><a href="#">TOPS</a></li>
+            <li><a href="#">BOTTOMS</a></li>
+            <li><a href="#">SALE</a></li>
 
         </ul>
 
     </nav>
-
 
     <div class="nav-icons">
 
@@ -515,7 +533,6 @@ body {
     </div>
 
 </header>
-
 
 
 <!-- ================= HERO ================= -->
@@ -545,7 +562,6 @@ body {
 </section>
 
 
-
 <!-- ================= NEW ARRIVALS ================= -->
 
 <section class="new-arrivals" id="new-arrivals">
@@ -566,7 +582,7 @@ body {
     <div class="products">
 
 
-        <!-- SILK MIDI DRESS -->
+        <!-- ================= SILK MIDI DRESS ================= -->
 
         <div class="product">
 
@@ -574,10 +590,28 @@ body {
                 NEW
             </div>
 
-            <img
-                src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=900&q=85"
-                alt="Silk Midi Dress"
-            >
+            <div class="product-gallery" data-gallery>
+
+                <div class="product-track">
+
+                    <div class="product-slide">
+                        <img src="1.jpg" alt="Silk Midi Dress">
+                    </div>
+
+                    <div class="product-slide">
+                        <img src="2.jpg" alt="Silk Midi Dress second view">
+                    </div>
+
+                </div>
+
+                <div class="carousel-dots">
+
+                    <button class="carousel-dot active"></button>
+                    <button class="carousel-dot"></button>
+
+                </div>
+
+            </div>
 
             <div class="product-info">
 
@@ -594,8 +628,7 @@ body {
         </div>
 
 
-
-        <!-- SOFT KNIT TOP -->
+        <!-- ================= SOFT KNIT TOP ================= -->
 
         <div class="product">
 
@@ -603,10 +636,30 @@ body {
                 NEW
             </div>
 
-            <img
-                src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85"
-                alt="Soft Knit Top"
-            >
+            <div class="product-gallery" data-gallery>
+
+                <div class="product-track">
+
+                    <div class="product-slide">
+                        <img src="soft-knit-top-1.jpg"
+                             alt="Soft Knit Top">
+                    </div>
+
+                    <div class="product-slide">
+                        <img src="soft-knit-top-2.jpg"
+                             alt="Soft Knit Top second view">
+                    </div>
+
+                </div>
+
+                <div class="carousel-dots">
+
+                    <button class="carousel-dot active"></button>
+                    <button class="carousel-dot"></button>
+
+                </div>
+
+            </div>
 
             <div class="product-info">
 
@@ -623,8 +676,7 @@ body {
         </div>
 
 
-
-        <!-- SATIN BLOUSE -->
+        <!-- ================= SATIN BLOUSE ================= -->
 
         <div class="product">
 
@@ -632,10 +684,30 @@ body {
                 NEW
             </div>
 
-            <img
-                src="https://images.unsplash.com/photo-1564257577054-0c8e9f1b1f1c?auto=format&fit=crop&w=900&q=85"
-                alt="Satin Blouse"
-            >
+            <div class="product-gallery" data-gallery>
+
+                <div class="product-track">
+
+                    <div class="product-slide">
+                        <img src="satin-blouse-1.jpg"
+                             alt="Satin Blouse">
+                    </div>
+
+                    <div class="product-slide">
+                        <img src="satin-blouse-2.jpg"
+                             alt="Satin Blouse second view">
+                    </div>
+
+                </div>
+
+                <div class="carousel-dots">
+
+                    <button class="carousel-dot active"></button>
+                    <button class="carousel-dot"></button>
+
+                </div>
+
+            </div>
 
             <div class="product-info">
 
@@ -652,8 +724,7 @@ body {
         </div>
 
 
-
-        <!-- LUXE BLAZER -->
+        <!-- ================= LUXE BLAZER ================= -->
 
         <div class="product">
 
@@ -661,10 +732,30 @@ body {
                 NEW
             </div>
 
-            <img
-                src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=900&q=85"
-                alt="Luxe Blazer"
-            >
+            <div class="product-gallery" data-gallery>
+
+                <div class="product-track">
+
+                    <div class="product-slide">
+                        <img src="luxe-blazer-1.jpg"
+                             alt="Luxe Blazer">
+                    </div>
+
+                    <div class="product-slide">
+                        <img src="luxe-blazer-2.jpg"
+                             alt="Luxe Blazer second view">
+                    </div>
+
+                </div>
+
+                <div class="carousel-dots">
+
+                    <button class="carousel-dot active"></button>
+                    <button class="carousel-dot"></button>
+
+                </div>
+
+            </div>
 
             <div class="product-info">
 
@@ -680,11 +771,9 @@ body {
 
         </div>
 
-
     </div>
 
 </section>
-
 
 
 <!-- ================= SHOP BY CATEGORY ================= -->
@@ -703,81 +792,220 @@ body {
 
     </div>
 
-
     <div class="category-grid">
-
-
-        <!-- DRESSES -->
 
         <a href="#" class="category-card">
 
             <img
                 src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=85"
-                alt="Dresses"
-            >
+                alt="Dresses">
 
-            <span>
-                DRESSES
-            </span>
+            <span>DRESSES</span>
 
         </a>
 
-
-
-        <!-- TOPS -->
 
         <a href="#" class="category-card">
 
             <img
                 src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=85"
-                alt="Tops"
-            >
+                alt="Tops">
 
-            <span>
-                TOPS
-            </span>
+            <span>TOPS</span>
 
         </a>
 
-
-
-        <!-- BOTTOMS -->
 
         <a href="#" class="category-card">
 
             <img
                 src="https://images.unsplash.com/photo-1506629905607-d9c297d3b7b7?auto=format&fit=crop&w=900&q=85"
-                alt="Bottoms"
-            >
+                alt="Bottoms">
 
-            <span>
-                BOTTOMS
-            </span>
+            <span>BOTTOMS</span>
 
         </a>
 
-
-
-        <!-- ACCESSORIES -->
 
         <a href="#" class="category-card">
 
             <img
                 src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
-                alt="Accessories"
-            >
+                alt="Accessories">
 
-            <span>
-                ACCESSORIES
-            </span>
+            <span>ACCESSORIES</span>
 
         </a>
-
 
     </div>
 
 </section>
 
 
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+document.querySelectorAll('[data-gallery]').forEach(function(gallery) {
+
+    const track = gallery.querySelector('.product-track');
+    const dots = gallery.querySelectorAll('.carousel-dot');
+
+    let current = 0;
+    let startX = 0;
+    let startY = 0;
+    let dragging = false;
+
+
+    function showImage(index) {
+
+        current = Math.max(0, Math.min(1, index));
+
+        track.style.transform =
+            'translateX(-' + (current * 50) + '%)';
+
+        dots.forEach(function(dot, i) {
+
+            dot.classList.toggle(
+                'active',
+                i === current
+            );
+
+        });
+
+    }
+
+
+    /* DOT BUTTONS */
+
+    dots.forEach(function(dot, i) {
+
+        dot.addEventListener('click', function(event) {
+
+            event.stopPropagation();
+
+            showImage(i);
+
+        });
+
+    });
+
+
+    /* TOUCH START */
+
+    gallery.addEventListener(
+        'touchstart',
+        function(event) {
+
+            const touch = event.changedTouches[0];
+
+            startX = touch.clientX;
+            startY = touch.clientY;
+
+            dragging = true;
+
+        },
+        { passive: true }
+    );
+
+
+    /* TOUCH END */
+
+    gallery.addEventListener(
+        'touchend',
+        function(event) {
+
+            if (!dragging) {
+                return;
+            }
+
+            const touch = event.changedTouches[0];
+
+            const dx = touch.clientX - startX;
+            const dy = touch.clientY - startY;
+
+            dragging = false;
+
+
+            if (
+                Math.abs(dx) > 45 &&
+                Math.abs(dx) > Math.abs(dy)
+            ) {
+
+                if (dx < 0) {
+                    showImage(current + 1);
+                } else {
+                    showImage(current - 1);
+                }
+
+            }
+
+        },
+        { passive: true }
+    );
+
+
+    /* MOUSE START */
+
+    gallery.addEventListener(
+        'mousedown',
+        function(event) {
+
+            startX = event.clientX;
+
+            dragging = true;
+
+            gallery.style.cursor = 'grabbing';
+
+        }
+    );
+
+
+    /* MOUSE END */
+
+    gallery.addEventListener(
+        'mouseup',
+        function(event) {
+
+            if (!dragging) {
+                return;
+            }
+
+            const dx = event.clientX - startX;
+
+            dragging = false;
+
+            gallery.style.cursor = 'grab';
+
+
+            if (Math.abs(dx) > 45) {
+
+                if (dx < 0) {
+                    showImage(current + 1);
+                } else {
+                    showImage(current - 1);
+                }
+
+            }
+
+        }
+    );
+
+
+    gallery.addEventListener(
+        'mouseleave',
+        function() {
+
+            dragging = false;
+
+            gallery.style.cursor = 'grab';
+
+        }
+    );
+
+});
+
+</script>
+
 </body>
-            </html>
+                        </html>
