@@ -683,7 +683,7 @@ function loadProducts() {
 
     const script =
         document.createElement("script");
-
+console.log("JSONP SCRIPT CREATED");
     let finished = false;
 
     window[callbackName] = function(products) {
