@@ -292,24 +292,16 @@ body {
     z-index: 5;
 }
 
-/* ================= LOADING ================= */
+/* ================= MESSAGES ================= */
 
-.loading {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 50px 10px;
-    color: #77716D;
-    font-size: 11px;
-    letter-spacing: 2px;
-}
-
+.loading,
 .no-products {
     grid-column: 1 / -1;
     text-align: center;
     padding: 50px 10px;
     color: #77716D;
     font-size: 11px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 /* ================= SHOP BY CATEGORY ================= */
@@ -551,11 +543,9 @@ body {
     </nav>
 
     <div class="nav-icons">
-
         <span>⌕</span>
         <span>♡</span>
         <span>🛍</span>
-
     </div>
 
 </header>
@@ -604,8 +594,6 @@ body {
 
     </div>
 
-    <!-- PRODUCTS WILL COME AUTOMATICALLY FROM GOOGLE SHEETS -->
-
     <div class="products" id="products">
 
         <div class="loading">
@@ -635,44 +623,32 @@ body {
 
     <div class="category-grid">
 
-        <a href="#" class="category-card">
-
+        <a href="#new-arrivals" class="category-card">
             <img
                 src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=85"
                 alt="Dresses">
-
             <span>DRESSES</span>
-
         </a>
 
-        <a href="#" class="category-card">
-
+        <a href="#new-arrivals" class="category-card">
             <img
                 src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=85"
                 alt="Tops">
-
             <span>TOPS</span>
-
         </a>
 
-        <a href="#" class="category-card">
-
+        <a href="#new-arrivals" class="category-card">
             <img
                 src="https://images.unsplash.com/photo-1506629905607-d9c297d3b7b7?auto=format&fit=crop&w=900&q=85"
                 alt="Bottoms">
-
             <span>BOTTOMS</span>
-
         </a>
 
-        <a href="#" class="category-card">
-
+        <a href="#new-arrivals" class="category-card">
             <img
                 src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
                 alt="Accessories">
-
             <span>ACCESSORIES</span>
-
         </a>
 
     </div>
@@ -684,114 +660,139 @@ body {
 
 <script>
 
-/* =========================================================
-   GOOGLE SHEETS WEB APP
-   ========================================================= */
-
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
 
 
 /* =========================================================
-   LOAD PRODUCTS
+   LOAD PRODUCTS USING JSONP
    ========================================================= */
 
-async function loadProducts() {
+function loadProducts() {
 
     const productsContainer =
         document.getElementById("products");
 
-    try {
+    productsContainer.innerHTML = `
+        <div class="loading">
+            LOADING PRODUCTS...
+        </div>
+    `;
 
-        const response = await fetch(
-    SCRIPT_URL + "?t=" + Date.now(),
-    {
-        method: "GET",
-        mode: "cors",
-        cache: "no-store"
-    }
-);
+    const callbackName =
+        "eloriaProducts_" + Date.now();
 
-if (!response.ok) {
-    throw new Error("HTTP " + response.status);
-}
+    const script =
+        document.createElement("script");
 
-        const text = await response.text();
+    let finished = false;
 
-        console.log("Google response:", text);
+    window[callbackName] = function(products) {
 
-        const products = JSON.parse(text);
+        finished = true;
 
-        productsContainer.innerHTML = "";
+        try {
 
-        if (!Array.isArray(products) || products.length === 0) {
+            productsContainer.innerHTML = "";
 
-            productsContainer.innerHTML = `
-                <div class="no-products">
-                    NO PRODUCTS AVAILABLE
-                </div>
-            `;
+            if (!Array.isArray(products) || products.length === 0) {
 
-            return;
-        }
+                productsContainer.innerHTML = `
+                    <div class="no-products">
+                        NO PRODUCTS AVAILABLE
+                    </div>
+                `;
 
-        const availableProducts =
-            products.filter(function(product) {
+                cleanup();
+                return;
+            }
 
-                return String(product.Status || "")
-                    .trim()
-                    .toLowerCase() === "available";
+
+            const availableProducts =
+                products.filter(function(product) {
+
+                    return String(product.Status || "")
+                        .trim()
+                        .toLowerCase() === "available";
+
+                });
+
+
+            if (availableProducts.length === 0) {
+
+                productsContainer.innerHTML = `
+                    <div class="no-products">
+                        NO PRODUCTS AVAILABLE
+                    </div>
+                `;
+
+                cleanup();
+                return;
+            }
+
+
+            availableProducts.sort(function(a, b) {
+
+                const aNew =
+                    a.New === true ||
+                    String(a.New).toLowerCase() === "true";
+
+                const bNew =
+                    b.New === true ||
+                    String(b.New).toLowerCase() === "true";
+
+                return Number(bNew) - Number(aNew);
 
             });
 
 
-        if (availableProducts.length === 0) {
+            availableProducts.forEach(function(product) {
+
+                createProduct(
+                    product,
+                    productsContainer
+                );
+
+            });
+
+
+            initializeGalleries();
+
+            cleanup();
+
+        } catch (error) {
+
+            console.error(
+                "Product display error:",
+                error
+            );
 
             productsContainer.innerHTML = `
                 <div class="no-products">
-                    NO PRODUCTS AVAILABLE
+                    PRODUCTS COULD NOT BE DISPLAYED
                 </div>
             `;
 
+            cleanup();
+        }
+    };
+
+
+    script.src =
+        SCRIPT_URL +
+        "?callback=" +
+        callbackName +
+        "&t=" +
+        Date.now();
+
+
+    script.onerror = function() {
+
+        if (finished) {
             return;
         }
 
-
-        availableProducts.sort(function(a, b) {
-
-            const aNew =
-                a.New === true ||
-                String(a.New).toLowerCase() === "true";
-
-            const bNew =
-                b.New === true ||
-                String(b.New).toLowerCase() === "true";
-
-            return Number(bNew) - Number(aNew);
-
-        });
-
-
-        availableProducts.forEach(function(product) {
-
-            createProduct(
-                product,
-                productsContainer
-            );
-
-        });
-
-
-        initializeGalleries();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Product loading error:",
-            error
-        );
+        finished = true;
 
         productsContainer.innerHTML = `
             <div class="no-products">
@@ -799,9 +800,52 @@ if (!response.ok) {
             </div>
         `;
 
+        cleanup();
+    };
+
+
+    document.body.appendChild(script);
+
+
+    /* TIMEOUT */
+
+    setTimeout(function() {
+
+        if (finished) {
+            return;
+        }
+
+        finished = true;
+
+        productsContainer.innerHTML = `
+            <div class="no-products">
+                CONNECTION TIMEOUT
+            </div>
+        `;
+
+        cleanup();
+
+    }, 15000);
+
+
+    function cleanup() {
+
+        if (script.parentNode) {
+            script.parentNode.removeChild(script);
+        }
+
+        delete window[callbackName];
     }
 
 }
+
+
+/* =========================================================
+   CREATE PRODUCT
+   ========================================================= */
+
+function createProduct(product, container) {
+
     const name =
         product["Product Name"] || "PRODUCT";
 
@@ -826,20 +870,28 @@ if (!response.ok) {
         String(product["Sale"]).toLowerCase() === "true";
 
 
-    /* IMAGE */
+    /* IMAGES */
 
-    let firstImage = image1 || image2;
+    let firstImage =
+        image1 || image2;
 
-    let secondImage = image2 || image1;
+    let secondImage =
+        image2 || image1;
 
 
     if (!firstImage) {
 
         firstImage =
-        "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85";
+            "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85";
 
+        secondImage =
+            firstImage;
+
+    }
+
+
+    if (!secondImage) {
         secondImage = firstImage;
-
     }
 
 
@@ -862,42 +914,64 @@ if (!response.ok) {
 
     let priceHTML = "";
 
-    if (isSale && oldPrice) {
+    const numericPrice =
+        Number(price);
+
+    const numericOldPrice =
+        Number(oldPrice);
+
+
+    if (
+        isSale &&
+        oldPrice !== "" &&
+        !isNaN(numericOldPrice)
+    ) {
 
         priceHTML = `
             <span class="old-price">
-                €${Number(oldPrice).toFixed(2)}
+                €${numericOldPrice.toFixed(2)}
             </span>
 
             <span class="sale-price">
-                €${Number(price).toFixed(2)}
+                €${numericPrice.toFixed(2)}
             </span>
         `;
 
     } else {
 
         priceHTML = `
-            €${Number(price).toFixed(2)}
+            €${numericPrice.toFixed(2)}
         `;
 
     }
 
 
+    /* PRODUCT ELEMENT */
+
     const productElement =
         document.createElement("div");
 
-    productElement.className = "product";
+    productElement.className =
+        "product";
 
 
     productElement.innerHTML = `
 
-        ${tag ? `
-            <div class="product-tag">
-                ${tag}
-            </div>
-        ` : ""}
+        ${
+            tag
+            ? `
+                <div class="product-tag">
+                    ${tag}
+                </div>
+            `
+            : ""
+        }
 
-        <div class="product-gallery" data-gallery>
+
+        <div
+            class="product-gallery"
+            data-gallery
+        >
 
             <div class="product-track">
 
@@ -911,6 +985,7 @@ if (!response.ok) {
 
                 </div>
 
+
                 <div class="product-slide">
 
                     <img
@@ -922,6 +997,7 @@ if (!response.ok) {
                 </div>
 
             </div>
+
 
             <div class="carousel-dots">
 
@@ -938,6 +1014,7 @@ if (!response.ok) {
             </div>
 
         </div>
+
 
         <div class="product-info">
 
@@ -981,130 +1058,39 @@ function escapeHTML(value) {
 
 function initializeGalleries() {
 
-    document.querySelectorAll("[data-gallery]")
-    .forEach(function(gallery) {
+    document
+        .querySelectorAll("[data-gallery]")
+        .forEach(function(gallery) {
 
-        const track =
-            gallery.querySelector(".product-track");
+            const track =
+                gallery.querySelector(".product-track");
 
-        const dots =
-            gallery.querySelectorAll(".carousel-dot");
+            const dots =
+                gallery.querySelectorAll(".carousel-dot");
 
-        let current = 0;
+            let current = 0;
 
-        let startX = 0;
-        let startY = 0;
+            let startX = 0;
+            let startY = 0;
 
-        let dragging = false;
-
-
-        function showImage(index) {
-
-            current =
-                Math.max(0, Math.min(1, index));
-
-            track.style.transform =
-                "translateX(-" +
-                (current * 50) +
-                "%)";
+            let dragging = false;
 
 
-            dots.forEach(function(dot, i) {
+            function showImage(index) {
 
-                dot.classList.toggle(
-                    "active",
-                    i === current
-                );
-
-            });
-
-        }
+                current =
+                    Math.max(
+                        0,
+                        Math.min(1, index)
+                    );
 
 
-        /* DOT BUTTONS */
-
-        dots.forEach(function(dot, i) {
-
-            dot.addEventListener(
-                "click",
-                function(event) {
-
-                    event.stopPropagation();
-
-                    showImage(i);
-
-                }
-            );
-
-        });
+                track.style.transform =
+                    "translateX(-" +
+                    (current * 50) +
+                    "%)";
 
 
-        /* TOUCH START */
+                dots.forEach(function(dot, i) {
 
-        gallery.addEventListener(
-            "touchstart",
-            function(event) {
-
-                const touch =
-                    event.changedTouches[0];
-
-                startX =
-                    touch.clientX;
-
-                startY =
-                    touch.clientY;
-
-                dragging = true;
-
-            },
-            { passive: true }
-        );
-
-
-        /* TOUCH END */
-
-        gallery.addEventListener(
-            "touchend",
-            function(event) {
-
-                if (!dragging) {
-                    return;
-                }
-
-                const touch =
-                    event.changedTouches[0];
-
-                const dx =
-                    touch.clientX - startX;
-
-                const dy =
-                    touch.clientY - startY;
-
-                dragging = false;
-
-
-                if (
-                    Math.abs(dx) > 45 &&
-                    Math.abs(dx) > Math.abs(dy)
-                ) {
-
-                    if (dx < 0) {
-
-                        showImage(current + 1);
-
-                    } else {
-
-                        showImage(current - 1);
-
-                    }
-
-                }
-
-            },
-            { passive: true }
-        );
-
-
-        /* MOUSE START */
-
-        gal
+            
