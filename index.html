@@ -703,7 +703,7 @@ async function loadProducts() {
 
     try {
 
-        const response = await fetch(SCRIPT_URL);
+        const response = await fetch(SCRIPT_URL + "?t=" + Date.now());
 
         if (!response.ok) {
             throw new Error("Unable to load products");
