@@ -665,7 +665,7 @@ const SCRIPT_URL =
 
 
 /* =========================================================
-   LOAD PRODUCTS USING JSONP
+   LOAD PRODUCTS USING DYNAMIC JSONP
    ========================================================= */
 
 function loadProducts() {
@@ -673,22 +673,35 @@ function loadProducts() {
     const productsContainer =
         document.getElementById("products");
 
+    if (!productsContainer) {
+        console.error("products element not found");
+        return;
+    }
+
     productsContainer.innerHTML = `
         <div class="loading">
             LOADING PRODUCTS...
         </div>
     `;
 
-    const callbackName = "eloriaProducts_test";
+    const uniqueCallbackName = "eloria_cb_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+    const script = document.createElement("script");
 
-    const script =
-        document.createElement("script");
-console.log("JSONP SCRIPT CREATED");
     let finished = false;
 
-    window[callbackName] = function(products) {
+    function cleanup() {
+        if (script.parentNode) {
+            script.parentNode.removeChild(script);
+        }
+        delete window[uniqueCallbackName];
+    }
 
+    window[uniqueCallbackName] = function(products) {
+
+        if (finished) return;
         finished = true;
+
+        console.log("Data received:", products);
 
         try {
 
@@ -706,16 +719,14 @@ console.log("JSONP SCRIPT CREATED");
                 return;
             }
 
-
             const availableProducts =
                 products.filter(function(product) {
 
-                    return String(product.Status || "")
+                    return String(product.Status || product.status || "")
                         .trim()
                         .toLowerCase() === "available";
 
                 });
-
 
             if (availableProducts.length === 0) {
 
@@ -729,21 +740,21 @@ console.log("JSONP SCRIPT CREATED");
                 return;
             }
 
-
             availableProducts.sort(function(a, b) {
 
                 const aNew =
                     a.New === true ||
-                    String(a.New).toLowerCase() === "true";
+                    String(a.New).toLowerCase() === "true" ||
+                    a.NEW === true;
 
                 const bNew =
                     b.New === true ||
-                    String(b.New).toLowerCase() === "true";
+                    String(b.New).toLowerCase() === "true" ||
+                    b.NEW === true;
 
                 return Number(bNew) - Number(aNew);
 
             });
-
 
             availableProducts.forEach(function(product) {
 
@@ -754,9 +765,7 @@ console.log("JSONP SCRIPT CREATED");
 
             });
 
-
             initializeGalleries();
-
             cleanup();
 
         } catch (error) {
@@ -776,21 +785,16 @@ console.log("JSONP SCRIPT CREATED");
         }
     };
 
-
     script.src =
         SCRIPT_URL +
         "?callback=" +
-        callbackName +
+        uniqueCallbackName +
         "&t=" +
         Date.now();
 
-
     script.onerror = function() {
 
-        if (finished) {
-            return;
-        }
-
+        if (finished) return;
         finished = true;
 
         productsContainer.innerHTML = `
@@ -802,18 +806,13 @@ console.log("JSONP SCRIPT CREATED");
         cleanup();
     };
 
-
     document.body.appendChild(script);
-
 
     /* TIMEOUT */
 
     setTimeout(function() {
 
-        if (finished) {
-            return;
-        }
-
+        if (finished) return;
         finished = true;
 
         productsContainer.innerHTML = `
@@ -825,16 +824,6 @@ console.log("JSONP SCRIPT CREATED");
         cleanup();
 
     }, 15000);
-
-
-    function cleanup() {
-
-        if (script.parentNode) {
-            script.parentNode.removeChild(script);
-        }
-
-        delete window[callbackName];
-    }
 
 }
 
@@ -887,7 +876,6 @@ function createProduct(product, container) {
             firstImage;
 
     }
-
 
     if (!secondImage) {
         secondImage = firstImage;
@@ -1069,12 +1057,6 @@ function initializeGalleries() {
 
             let current = 0;
 
-            let startX = 0;
-            let startY = 0;
-
-            let dragging = false;
-
-
             function showImage(index) {
 
                 current =
@@ -1083,148 +1065,4 @@ function initializeGalleries() {
                         Math.min(1, index)
                     );
 
-
-                track.style.transform =
-                    "translateX(-" +
-                    (current * 50) +
-                    "%)";
-
-
-                                    dot.classList.toggle(
-                        "active",
-                        i === current
-                    );
-
-                });
-
-            }
-
-
-            dots.forEach(function(dot, i) {
-
-                dot.addEventListener(
-                    "click",
-                    function() {
-
-                        showImage(i);
-
-                    }
-                );
-
-            });
-
-
-            gallery.addEventListener(
-                "touchstart",
-                function(e) {
-
-                    startX =
-                        e.touches[0].clientX;
-
-                    startY =
-                        e.touches[0].clientY;
-
-                    dragging = true;
-
-                },
-                { passive: true }
-            );
-
-
-            gallery.addEventListener(
-                "touchend",
-                function(e) {
-
-                    if (!dragging) {
-                        return;
-                    }
-
-                    dragging = false;
-
-                    const endX =
-                        e.changedTouches[0].clientX;
-
-                    const endY =
-                        e.changedTouches[0].clientY;
-
-                    const diffX =
-                        endX - startX;
-
-                    const diffY =
-                        endY - startY;
-
-
-                    if (
-                        Math.abs(diffX) > 40 &&
-                        Math.abs(diffX) > Math.abs(diffY)
-                    ) {
-
-                        if (diffX < 0) {
-                            showImage(current + 1);
-                        } else {
-                            showImage(current - 1);
-                        }
-
-                    }
-
-                },
-                { passive: true }
-            );
-
-
-            gallery.addEventListener(
-                "mousedown",
-                function(e) {
-
-                    startX = e.clientX;
-                    dragging = true;
-
-                }
-            );
-
-
-            gallery.addEventListener(
-                "mouseup",
-                function(e) {
-
-                    if (!dragging) {
-                        return;
-                    }
-
-                    dragging = false;
-
-                    const diff =
-                        e.clientX - startX;
-
-
-                    if (Math.abs(diff) > 40) {
-
-                        if (diff < 0) {
-                            showImage(current + 1);
-                        } else {
-                            showImage(current - 1);
-                        }
-
-                    }
-
-                }
-            );
-
-
-            showImage(0);
-
-        });
-
-}
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-loadProducts();
-
-</script>
-
-</body>
-</html>
+                track.style.t
