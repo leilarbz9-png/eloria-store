@@ -703,13 +703,20 @@ async function loadProducts() {
 
     try {
 
-        const response = await fetch(SCRIPT_URL + "?t=" + Date.now());
+        const response = await fetch(
+            SCRIPT_URL + "?t=" + Date.now(),
+            {
+                method: "GET",
+                mode: "cors",
+                cache: "no-store"
+            }
+        );
 
-        if (!response.ok) {
-            throw new Error("Unable to load products");
-        }
+        const text = await response.text();
 
-        const products = await response.json();
+        console.log("Google response:", text);
+
+        const products = JSON.parse(text);
 
         productsContainer.innerHTML = "";
 
@@ -724,15 +731,14 @@ async function loadProducts() {
             return;
         }
 
+        const availableProducts =
+            products.filter(function(product) {
 
-        /* SHOW ONLY AVAILABLE PRODUCTS */
+                return String(product.Status || "")
+                    .trim()
+                    .toLowerCase() === "available";
 
-        const availableProducts = products.filter(function(product) {
-
-            return String(product.Status || "")
-                .toLowerCase() === "available";
-
-        });
+            });
 
 
         if (availableProducts.length === 0) {
@@ -747,15 +753,15 @@ async function loadProducts() {
         }
 
 
-        /* NEW PRODUCTS FIRST */
-
         availableProducts.sort(function(a, b) {
 
-            const aNew = a.New === true ||
-                         String(a.New).toLowerCase() === "true";
+            const aNew =
+                a.New === true ||
+                String(a.New).toLowerCase() === "true";
 
-            const bNew = b.New === true ||
-                         String(b.New).toLowerCase() === "true";
+            const bNew =
+                b.New === true ||
+                String(b.New).toLowerCase() === "true";
 
             return Number(bNew) - Number(aNew);
 
@@ -764,7 +770,10 @@ async function loadProducts() {
 
         availableProducts.forEach(function(product) {
 
-            createProduct(product, productsContainer);
+            createProduct(
+                product,
+                productsContainer
+            );
 
         });
 
@@ -775,7 +784,10 @@ async function loadProducts() {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Product loading error:",
+            error
+        );
 
         productsContainer.innerHTML = `
             <div class="no-products">
@@ -786,14 +798,6 @@ async function loadProducts() {
     }
 
 }
-
-
-/* =========================================================
-   CREATE PRODUCT CARD
-   ========================================================= */
-
-function createProduct(product, container) {
-
     const name =
         product["Product Name"] || "PRODUCT";
 
