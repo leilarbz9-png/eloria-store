@@ -75,6 +75,11 @@ header{
     position:relative;
 }
 
+.bag-icon{
+    font-size:15px;
+    margin-right:5px;
+}
+
 .bag-count{
     display:inline-flex;
     justify-content:center;
@@ -186,6 +191,65 @@ header{
     font-family:'Cormorant Garamond',serif;
     font-size:52px;
     font-weight:500;
+}
+
+/* ================= COLLECTIONS ================= */
+
+.collections{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+}
+
+.collection-card{
+    position:relative;
+    cursor:pointer;
+    overflow:hidden;
+    background:#f5f3f2;
+    aspect-ratio:16/10;
+}
+
+.collection-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .7s ease;
+}
+
+.collection-card:hover img{
+    transform:scale(1.04);
+}
+
+.collection-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.58),
+        rgba(0,0,0,.05) 65%
+    );
+}
+
+.collection-info{
+    position:absolute;
+    left:30px;
+    right:30px;
+    bottom:28px;
+    color:white;
+}
+
+.collection-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:38px;
+    margin-bottom:7px;
+}
+
+.collection-description{
+    font-size:10px;
+    letter-spacing:1.2px;
+    line-height:1.6;
+    max-width:500px;
 }
 
 /* ================= PRODUCTS ================= */
@@ -604,6 +668,10 @@ footer p{
         gap:18px;
     }
 
+    .collections{
+        grid-template-columns:1fr;
+    }
+
     .nav{
         gap:14px;
     }
@@ -659,6 +727,10 @@ footer p{
         display:none;
     }
 
+    .bag-icon{
+        font-size:14px;
+    }
+
     .hero{
         height:calc(100vh - 68px);
         min-height:550px;
@@ -686,6 +758,20 @@ footer p{
         font-size:19px;
     }
 
+    .collection-card{
+        aspect-ratio:4/3;
+    }
+
+    .collection-info{
+        left:20px;
+        right:20px;
+        bottom:20px;
+    }
+
+    .collection-name{
+        font-size:31px;
+    }
+
     .modal{
         padding:10px;
     }
@@ -711,10 +797,12 @@ footer p{
 
     <nav class="nav">
         <a href="#new-arrivals">NEW ARRIVALS</a>
+        <a href="#collections">COLLECTIONS</a>
         <a href="#all-products">SHOP ALL</a>
     </nav>
 
     <button class="bag-button" onclick="openBag()">
+        <span class="bag-icon">🛍️</span>
         BAG
         <span class="bag-count" id="bagCount">0</span>
     </button>
@@ -726,7 +814,6 @@ footer p{
 
 <section class="hero">
 
-    <!-- صورة Hero -->
     <img
         src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=85"
         alt="ÉLORIA Fashion"
@@ -743,9 +830,32 @@ footer p{
 
         <span>ELEGANCE, REIMAGINED.</span>
 
-        <a href="#all-products" class="hero-button">
-            SHOP NOW
+        <a href="#collections" class="hero-button">
+            EXPLORE COLLECTIONS
         </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= COLLECTIONS ================= -->
+
+<section class="section" id="collections">
+
+    <div class="section-heading">
+
+        <small>ÉLORIA EDIT</small>
+
+        <h2>Collections</h2>
+
+    </div>
+
+    <div class="collections" id="collectionsContainer">
+
+        <div class="loading">
+            LOADING COLLECTIONS...
+        </div>
 
     </div>
 
@@ -927,6 +1037,7 @@ const SCRIPT_URL =
 
 
 let products = [];
+let collections = [];
 let currentProduct = null;
 let detailQuantity = 1;
 
@@ -1109,6 +1220,208 @@ function loadProducts(){
 }
 
 
+/* =====================================================
+   LOAD COLLECTIONS — JSONP
+===================================================== */
+
+function loadCollections(){
+
+    const callbackName =
+        "eloriaCollections_" + Date.now();
+
+    const script = document.createElement("script");
+
+    const timeout = setTimeout(() => {
+
+        script.remove();
+
+        showCollectionsMessage(
+            "Unable to load collections."
+        );
+
+    },15000);
+
+
+    window[callbackName] = function(data){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        try{
+
+            if(Array.isArray(data)){
+
+                collections = data;
+
+            }else if(data && Array.isArray(data.collections)){
+
+                collections = data.collections;
+
+            }else if(data && Array.isArray(data.data)){
+
+                collections = data.data;
+
+            }else{
+
+                collections = [];
+
+            }
+
+            displayCollections();
+
+        }catch(error){
+
+            console.error(error);
+
+            showCollectionsMessage(
+                "Something went wrong while loading collections."
+            );
+
+        }
+
+        delete window[callbackName];
+
+    };
+
+
+    script.onerror = function(){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        showCollectionsMessage(
+            "Could not connect to the collection database."
+        );
+
+        delete window[callbackName];
+
+    };
+
+
+    script.src =
+        SCRIPT_URL +
+        "?action=collections&callback=" +
+        encodeURIComponent(callbackName) +
+        "&t=" +
+        Date.now();
+
+    document.body.appendChild(script);
+
+}
+
+
+function showCollectionsMessage(message){
+
+    document.getElementById("collectionsContainer").innerHTML =
+        `<div class="empty">${escapeHTML(message)}</div>`;
+
+}
+
+
+/* =====================================================
+   DISPLAY COLLECTIONS
+===================================================== */
+
+function displayCollections(){
+
+    const container =
+        document.getElementById("collectionsContainer");
+
+    if(!collections.length){
+
+        container.innerHTML =
+            `<div class="empty">NO COLLECTIONS AVAILABLE YET.</div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        collections
+        .map(collection => createCollection(collection))
+        .join("");
+
+}
+
+
+function createCollection(collection){
+
+    const name =
+        collection["Collection Name"] ||
+        collection.Name ||
+        collection.name ||
+        collection.Collection ||
+        "ÉLORIA Collection";
+
+    const description =
+        collection.Description ||
+        collection.description ||
+        "";
+
+    const image1 =
+        collection["Image 1"] ||
+        collection.Image1 ||
+        collection.image1 ||
+        collection.image ||
+        "";
+
+    const image2 =
+        collection["Image 2"] ||
+        collection.Image2 ||
+        collection.image2 ||
+        "";
+
+
+    const image =
+        image1 || image2 ||
+        "https://via.placeholder.com/1000x600?text=ELORIA";
+
+
+    return `
+
+        <article class="collection-card">
+
+            <img
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(name)}"
+                loading="lazy"
+                onerror="this.src='https://via.placeholder.com/1000x600?text=ELORIA'"
+            >
+
+            <div class="collection-overlay"></div>
+
+            <div class="collection-info">
+
+                <div class="collection-name">
+                    ${escapeHTML(name)}
+                </div>
+
+                ${
+                    description
+                    ? `
+                        <div class="collection-description">
+                            ${escapeHTML(description)}
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+/* =====================================================
+   PRODUCTS ERROR
+===================================================== */
+
 function showLoadError(message){
 
     document.getElementById("newProducts").innerHTML =
@@ -1212,66 +1525,66 @@ function createProduct(product){
     return `
 
         <article
-    class="product-card"
-    onclick="openProduct('${escapeHTML(id)}')"
->
-
-    <div class="product-image">
-
-        <img
-            src="${escapeHTML(image1)}"
-            alt="${escapeHTML(name)}"
-            loading="lazy"
-            onerror="this.src='https://via.placeholder.com/600x800?text=ELORIA'"
+            class="product-card"
+            onclick="openProduct('${escapeHTML(id)}')"
         >
 
-        <div class="product-badges">
+            <div class="product-image">
 
-            ${
-                isNew
-                ? `<span class="badge new">NEW</span>`
-                : ""
-            }
+                <img
+                    src="${escapeHTML(image1)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/600x800?text=ELORIA'"
+                >
 
-            ${
-                isSale
-                ? `<span class="badge sale">SALE</span>`
-                : ""
-            }
+                <div class="product-badges">
 
-        </div>
+                    ${
+                        isNew
+                        ? `<span class="badge new">NEW</span>`
+                        : ""
+                    }
 
-    </div>
+                    ${
+                        isSale
+                        ? `<span class="badge sale">SALE</span>`
+                        : ""
+                    }
 
-    <div class="product-info">
+                </div>
 
-        <div class="product-name">
-            ${escapeHTML(name)}
-        </div>
+            </div>
 
-        <div class="price-row">
+            <div class="product-info">
 
-            <span class="price">
-                ${formatPrice(price)}
-            </span>
+                <div class="product-name">
+                    ${escapeHTML(name)}
+                </div>
 
-            ${
-                isSale && oldPrice
-                ? `
-                    <span class="old-price">
-                        ${formatPrice(oldPrice)}
+                <div class="price-row">
+
+                    <span class="price">
+                        ${formatPrice(price)}
                     </span>
-                `
-                : ""
-            }
 
-        </div>
+                    ${
+                        isSale && oldPrice
+                        ? `
+                            <span class="old-price">
+                                ${formatPrice(oldPrice)}
+                            </span>
+                        `
+                        : ""
+                    }
 
-    </div>
+                </div>
 
-</article>
+            </div>
 
-`;
+        </article>
+
+    `;
 }
 
 
@@ -1794,6 +2107,8 @@ document.getElementById("bagOverlay")
 updateBagCount();
 
 loadProducts();
+
+loadCollections();
 
 </script>
 
