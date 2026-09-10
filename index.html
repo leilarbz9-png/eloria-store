@@ -1,567 +1,749 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ÉLORIA — Women's Fashion</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    background: #FAF8F3;
-    color: #242222;
-    font-family: 'Montserrat', sans-serif;
+body{
+    font-family:'Montserrat',sans-serif;
+    background:#fff;
+    color:#242222;
 }
 
-/* ================= TOP BAR ================= */
+/* ================= HEADER ================= */
 
-.top-bar {
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #242222;
-    color: #FAF8F3;
-    font-size: 10px;
-    letter-spacing: 1.5px;
+header{
+    height:78px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    border-bottom:1px solid #eee;
+    background:#fff;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
-/* ================= NAVBAR ================= */
-
-.navbar {
-    height: 82px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5%;
-    background: #FAF8F3;
-    border-bottom: 1px solid rgba(36,34,34,0.08);
+.logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:35px;
+    letter-spacing:5px;
+    font-weight:600;
 }
 
-.logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 38px;
-    letter-spacing: 5px;
-    font-weight: 500;
+.nav{
+    display:flex;
+    gap:32px;
+    align-items:center;
 }
 
-.nav-links {
-    display: flex;
-    gap: 30px;
-    list-style: none;
+.nav a{
+    text-decoration:none;
+    color:#242222;
+    font-size:12px;
+    letter-spacing:2px;
+    font-weight:500;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: #242222;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    transition: 0.3s;
+.nav a:hover{
+    opacity:.55;
 }
 
-.nav-links a:hover {
-    color: #C9A96E;
+.bag-button{
+    border:0;
+    background:none;
+    cursor:pointer;
+    font-family:'Montserrat',sans-serif;
+    font-size:12px;
+    letter-spacing:1.5px;
+    position:relative;
 }
 
-.nav-icons {
-    display: flex;
-    gap: 18px;
-    font-size: 20px;
-}
-
-.nav-icons span {
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.nav-icons span:hover {
-    color: #C9A96E;
-}
-
-.mobile-menu {
-    display: none;
+.bag-count{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#e85d75;
+    color:white;
+    font-size:10px;
+    margin-left:5px;
 }
 
 /* ================= HERO ================= */
 
-.hero {
-    min-height: calc(100vh - 116px);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            rgba(20,20,20,0.15),
-            rgba(20,20,20,0.25)
-        ),
-        url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1800&q=85');
-
-    background-size: cover;
-    background-position: center;
+.hero{
+    height:calc(100vh - 78px);
+    min-height:600px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    background:#f4eeee;
 }
 
-.hero-content {
-    text-align: center;
-    color: white;
-    animation: fadeUp 1.2s ease forwards;
+.hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-.small-title {
-    font-size: 12px;
-    letter-spacing: 4px;
-    margin-bottom: 18px;
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.48),
+        rgba(0,0,0,.04) 65%
+    );
 }
 
-.hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(55px, 8vw, 110px);
-    font-weight: 400;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
+.hero-content{
+    position:absolute;
+    bottom:11%;
+    text-align:center;
+    color:white;
+    padding:20px;
 }
 
-.hero p {
-    font-size: 13px;
-    letter-spacing: 3px;
-    margin-bottom: 35px;
+.hero-content p{
+    font-size:11px;
+    letter-spacing:4px;
+    margin-bottom:12px;
 }
 
-.shop-button {
-    display: inline-block;
-    padding: 15px 38px;
-    background: #FAF8F3;
-    color: #242222;
-    text-decoration: none;
-    font-size: 11px;
-    letter-spacing: 2px;
-    transition: 0.4s;
+.hero-content h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(65px,12vw,150px);
+    letter-spacing:8px;
+    font-weight:500;
+    line-height:.8;
 }
 
-.shop-button:hover {
-    background: #C9A96E;
-    color: white;
+.hero-content span{
+    display:block;
+    margin-top:25px;
+    font-size:12px;
+    letter-spacing:4px;
 }
 
-/* ================= NEW ARRIVALS ================= */
-
-.new-arrivals {
-    padding: 90px 5%;
-    background: #FAF8F3;
+.hero-button{
+    display:inline-block;
+    margin-top:28px;
+    padding:15px 35px;
+    background:white;
+    color:#242222;
+    text-decoration:none;
+    font-size:11px;
+    letter-spacing:2px;
+    transition:.3s;
 }
 
-.section-header {
-    text-align: center;
-    margin-bottom: 45px;
+.hero-button:hover{
+    background:#e85d75;
+    color:white;
 }
 
-.section-subtitle {
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: #77716D;
-    margin-bottom: 12px;
+/* ================= SECTIONS ================= */
+
+.section{
+    padding:90px 5%;
 }
 
-.section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    font-weight: 500;
-    letter-spacing: 2px;
+.section-heading{
+    text-align:center;
+    margin-bottom:45px;
 }
 
-.products {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+.section-heading small{
+    display:block;
+    font-size:10px;
+    letter-spacing:4px;
+    color:#e85d75;
+    margin-bottom:10px;
 }
 
-/* ================= PRODUCT ================= */
-
-.product {
-    position: relative;
-    overflow: hidden;
-    background: #EDE5DA;
+.section-heading h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:52px;
+    font-weight:500;
 }
 
-.product-gallery {
-    position: relative;
-    width: 100%;
-    height: 480px;
-    overflow: hidden;
-    touch-action: pan-y;
-    cursor: grab;
+/* ================= PRODUCTS ================= */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:28px;
 }
 
-.product-track {
-    display: flex;
-    width: 200%;
-    height: 100%;
-    transition: transform 0.45s ease;
+.product-card{
+    cursor:pointer;
+    position:relative;
 }
 
-.product-slide {
-    width: 50%;
-    height: 100%;
-    flex: 0 0 50%;
+.product-image{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    overflow:hidden;
+    background:#f5f3f2;
 }
 
-.product-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .6s ease;
 }
 
-/* ================= DOTS ================= */
-
-.carousel-dots {
-    position: absolute;
-    z-index: 4;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 7px;
+.product-card:hover .product-image img{
+    transform:scale(1.04);
 }
 
-.carousel-dot {
-    width: 7px;
-    height: 7px;
-    padding: 0;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.55);
-    border: 1px solid rgba(0,0,0,0.15);
-    cursor: pointer;
+.product-badges{
+    position:absolute;
+    top:13px;
+    left:13px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    z-index:2;
 }
 
-.carousel-dot.active {
-    background: white;
+.badge{
+    background:white;
+    padding:7px 10px;
+    font-size:9px;
+    letter-spacing:1.5px;
 }
 
-/* ================= PRODUCT INFO ================= */
-
-.product-info {
-    padding: 18px 5px 12px;
+.badge.new{
+    color:#e85d75;
 }
 
-.product-name {
-    font-size: 12px;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+.badge.sale{
+    color:#222;
 }
 
-.product-price {
-    font-size: 11px;
-    color: #77716D;
+.product-info{
+    padding:17px 2px 0;
 }
 
-.old-price {
-    text-decoration: line-through;
-    color: #999;
-    margin-right: 7px;
+.product-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:23px;
+    margin-bottom:7px;
 }
 
-.sale-price {
-    color: #242222;
+.price-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
 }
 
-.product-tag {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: #FAF8F3;
-    padding: 8px 12px;
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    z-index: 5;
+.price{
+    font-size:12px;
+    font-weight:500;
 }
 
-/* ================= MESSAGES ================= */
+.old-price{
+    font-size:11px;
+    color:#999;
+    text-decoration:line-through;
+}
 
 .loading,
-.no-products {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 50px 10px;
-    color: #77716D;
-    font-size: 11px;
-    letter-spacing: 2px;
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:80px 20px;
+    font-size:11px;
+    letter-spacing:2px;
 }
 
-/* ================= CATEGORIES ================= */
-
-.categories {
-    padding: 90px 5%;
-    background: #EDE5DA;
+.error{
+    grid-column:1/-1;
+    text-align:center;
+    padding:60px 20px;
+    color:#c33;
+    font-size:12px;
 }
 
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+/* ================= PRODUCT MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:3000;
+    display:none;
+    overflow-y:auto;
+    padding:30px;
 }
 
-.category-card {
-    position: relative;
-    height: 500px;
-    overflow: hidden;
-    text-decoration: none;
-    background: #FAF8F3;
+.modal.active{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.category-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.7s ease;
+.product-detail{
+    width:min(1050px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    position:relative;
 }
 
-.category-card:hover img {
-    transform: scale(1.05);
+.close{
+    position:absolute;
+    top:15px;
+    right:18px;
+    width:35px;
+    height:35px;
+    border:0;
+    background:white;
+    font-size:22px;
+    cursor:pointer;
+    z-index:5;
 }
 
-.category-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(20,20,20,0.18);
-    transition: 0.4s;
+.detail-gallery{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#f5f3f2;
 }
 
-.category-card:hover::after {
-    background: rgba(20,20,20,0.28);
+.detail-gallery img{
+    width:100%;
+    height:100%;
+    min-height:560px;
+    object-fit:cover;
 }
 
-.category-card span {
-    position: absolute;
-    z-index: 2;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    color: white;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    letter-spacing: 3px;
-    white-space: nowrap;
+.detail-info{
+    padding:70px 50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
-/* ================= ANIMATION ================= */
+.detail-badges{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+}
 
-@keyframes fadeUp {
+.detail-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:48px;
+    line-height:1;
+    margin-bottom:20px;
+}
 
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
+.detail-price{
+    font-size:16px;
+    margin-bottom:25px;
+}
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.detail-old-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:13px;
+    margin-left:8px;
+}
 
+.detail-description{
+    color:#666;
+    font-size:12px;
+    line-height:1.9;
+    margin-bottom:25px;
+}
+
+.stock{
+    font-size:10px;
+    letter-spacing:1.5px;
+    margin-bottom:25px;
+}
+
+.quantity{
+    display:flex;
+    align-items:center;
+    border:1px solid #ddd;
+    width:max-content;
+    margin-bottom:18px;
+}
+
+.quantity button{
+    width:40px;
+    height:40px;
+    border:0;
+    background:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.quantity span{
+    width:40px;
+    text-align:center;
+    font-size:12px;
+}
+
+.add-button{
+    width:100%;
+    padding:17px;
+    border:0;
+    background:#242222;
+    color:white;
+    cursor:pointer;
+    letter-spacing:2px;
+    font-size:11px;
+    transition:.3s;
+}
+
+.add-button:hover{
+    background:#e85d75;
+}
+
+.add-button:disabled{
+    background:#aaa;
+    cursor:not-allowed;
+}
+
+/* ================= BAG ================= */
+
+.bag-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.35);
+    z-index:4000;
+    display:none;
+}
+
+.bag-overlay.active{
+    display:block;
+}
+
+.bag{
+    position:absolute;
+    top:0;
+    right:0;
+    height:100%;
+    width:min(450px,100%);
+    background:white;
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+}
+
+.bag-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:20px;
+    border-bottom:1px solid #eee;
+}
+
+.bag-header h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    font-weight:500;
+}
+
+.bag-close{
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.bag-items{
+    flex:1;
+    overflow-y:auto;
+    padding:20px 0;
+}
+
+.bag-item{
+    display:grid;
+    grid-template-columns:75px 1fr auto;
+    gap:13px;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.bag-item img{
+    width:75px;
+    height:95px;
+    object-fit:cover;
+    background:#f5f3f2;
+}
+
+.bag-item-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:20px;
+}
+
+.bag-item-price{
+    font-size:11px;
+    margin-top:5px;
+}
+
+.bag-quantity{
+    display:flex;
+    align-items:center;
+    margin-top:12px;
+    border:1px solid #ddd;
+    width:max-content;
+}
+
+.bag-quantity button{
+    width:28px;
+    height:28px;
+    border:0;
+    background:white;
+    cursor:pointer;
+}
+
+.bag-quantity span{
+    width:28px;
+    text-align:center;
+    font-size:10px;
+}
+
+.remove{
+    border:0;
+    background:none;
+    color:#999;
+    cursor:pointer;
+    font-size:10px;
+    margin-top:8px;
+}
+
+.bag-footer{
+    border-top:1px solid #eee;
+    padding-top:20px;
+}
+
+.subtotal{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+    font-size:13px;
+}
+
+.checkout{
+    width:100%;
+    padding:17px;
+    background:#e85d75;
+    color:white;
+    border:0;
+    cursor:pointer;
+    letter-spacing:2px;
+    font-size:11px;
+}
+
+.empty-bag{
+    text-align:center;
+    padding:70px 10px;
+    color:#777;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:#242222;
+    color:white;
+    text-align:center;
+    padding:65px 20px;
+}
+
+.footer-logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    letter-spacing:5px;
+}
+
+footer p{
+    font-size:10px;
+    letter-spacing:2px;
+    margin-top:15px;
+    color:#ccc;
 }
 
 /* ================= MOBILE ================= */
 
-@media (max-width: 768px) {
+@media(max-width:900px){
 
-    .top-bar {
-        font-size: 8px;
-        letter-spacing: 1px;
+    .products{
+        grid-template-columns:repeat(2,1fr);
+        gap:18px;
     }
 
-    .navbar {
-        height: 70px;
-        padding: 0 20px;
+    .nav{
+        gap:14px;
     }
 
-    .logo {
-        font-size: 30px;
-        letter-spacing: 3px;
+    .nav a{
+        font-size:9px;
+        letter-spacing:1px;
     }
 
-    .nav-links {
-        display: none;
+    .logo{
+        font-size:27px;
     }
 
-    .nav-icons {
-        gap: 12px;
-        font-size: 18px;
+    .product-detail{
+        grid-template-columns:1fr;
+        max-height:94vh;
     }
 
-    .mobile-menu {
-        display: block;
-        font-size: 21px;
-        cursor: pointer;
+    .detail-gallery{
+        grid-template-columns:1fr 1fr;
     }
 
-    .hero {
-        min-height: calc(100vh - 104px);
-        background-position: center;
+    .detail-gallery img{
+        min-height:400px;
     }
 
-    .hero h1 {
-        font-size: 58px;
+    .detail-info{
+        padding:35px 25px 45px;
     }
 
-    .hero p {
-        font-size: 10px;
-        letter-spacing: 2px;
-        padding: 0 20px;
+    .detail-name{
+        font-size:38px;
     }
-
-    .small-title {
-        font-size: 9px;
-        letter-spacing: 3px;
-    }
-
-    .shop-button {
-        padding: 14px 30px;
-    }
-
-    .new-arrivals {
-        padding: 65px 15px;
-    }
-
-    .section-header {
-        margin-bottom: 30px;
-    }
-
-    .section-subtitle {
-        font-size: 8px;
-        letter-spacing: 3px;
-    }
-
-    .section-title {
-        font-size: 38px;
-    }
-
-    .products {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .product-gallery {
-        height: 280px;
-    }
-
-    .product-info {
-        padding: 12px 3px 8px;
-    }
-
-    .product-name {
-        font-size: 10px;
-    }
-
-    .product-price {
-        font-size: 9px;
-    }
-
-    .product-tag {
-        top: 10px;
-        left: 10px;
-        padding: 6px 8px;
-        font-size: 7px;
-    }
-
-    .categories {
-        padding: 65px 15px;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .category-card {
-        height: 300px;
-    }
-
-    .category-card span {
-        font-size: 21px;
-        bottom: 20px;
-        letter-spacing: 2px;
-    }
-
 }
 
-</style>
+@media(max-width:600px){
 
+    header{
+        height:68px;
+        padding:0 18px;
+    }
+
+    .logo{
+        font-size:24px;
+        letter-spacing:3px;
+    }
+
+    .nav{
+        gap:10px;
+    }
+
+    .nav a{
+        display:none;
+    }
+
+    .hero{
+        height:calc(100vh - 68px);
+        min-height:550px;
+    }
+
+    .hero-content h1{
+        font-size:65px;
+        letter-spacing:4px;
+    }
+
+    .section{
+        padding:65px 18px;
+    }
+
+    .section-heading h2{
+        font-size:42px;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+        gap:14px;
+    }
+
+    .product-name{
+        font-size:19px;
+    }
+
+    .modal{
+        padding:10px;
+    }
+
+    .detail-gallery img{
+        min-height:300px;
+    }
+
+    .bag{
+        padding:22px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="top-bar">
-    FREE SHIPPING ON ORDERS OVER €100
-</div>
+<!-- ================= HEADER ================= -->
 
-<header class="navbar">
+<header>
 
-    <div class="mobile-menu">
-        ☰
-    </div>
+    <div class="logo">ÉLORIA</div>
 
-    <div class="logo">
-        ÉLORIA
-    </div>
-
-    <nav>
-
-        <ul class="nav-links">
-
-            <li><a href="#new-arrivals">NEW IN</a></li>
-            <li><a href="#new-arrivals">COLLECTION</a></li>
-            <li><a href="#categories">DRESSES</a></li>
-            <li><a href="#categories">TOPS</a></li>
-            <li><a href="#categories">BOTTOMS</a></li>
-            <li><a href="#new-arrivals">SALE</a></li>
-
-        </ul>
-
+    <nav class="nav">
+        <a href="#new-arrivals">NEW ARRIVALS</a>
+        <a href="#all-products">SHOP ALL</a>
     </nav>
 
-    <div class="nav-icons">
-        <span>⌕</span>
-        <span>♡</span>
-        <span>🛍</span>
-    </div>
+    <button class="bag-button" onclick="openBag()">
+        BAG
+        <span class="bag-count" id="bagCount">0</span>
+    </button>
 
 </header>
 
+
+<!-- ================= HERO ================= -->
+
 <section class="hero">
+
+    <!-- صورة Hero -->
+    <img
+        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=85"
+        alt="ÉLORIA Fashion"
+        onerror="this.style.display='none'"
+    >
+
+    <div class="hero-overlay"></div>
 
     <div class="hero-content">
 
-        <div class="small-title">
-            THE ART OF ELEGANCE
-        </div>
+        <p>WOMEN'S COLLECTION</p>
 
-        <h1>
-            A NEW CHAPTER
-        </h1>
+        <h1>ÉLORIA</h1>
 
-        <p>
-            DISCOVER THE NEW COLLECTION
-        </p>
+        <span>ELEGANCE, REIMAGINED.</span>
 
-        <a href="#new-arrivals" class="shop-button">
+        <a href="#all-products" class="hero-button">
             SHOP NOW
         </a>
 
@@ -569,21 +751,20 @@ body {
 
 </section>
 
-<section class="new-arrivals" id="new-arrivals">
 
-    <div class="section-header">
+<!-- ================= NEW ARRIVALS ================= -->
 
-        <div class="section-subtitle">
-            JUST ARRIVED
-        </div>
+<section class="section" id="new-arrivals">
 
-        <h2 class="section-title">
-            New Arrivals
-        </h2>
+    <div class="section-heading">
+
+        <small>JUST IN</small>
+
+        <h2>New Arrivals</h2>
 
     </div>
 
-    <div class="products" id="products">
+    <div class="products" id="newProducts">
 
         <div class="loading">
             LOADING PRODUCTS...
@@ -593,224 +774,327 @@ body {
 
 </section>
 
-<section class="categories" id="categories">
 
-    <div class="section-header">
+<!-- ================= ALL PRODUCTS ================= -->
 
-        <div class="section-subtitle">
-            EXPLORE
-        </div>
+<section class="section" id="all-products">
 
-        <h2 class="section-title">
-            Shop by Category
-        </h2>
+    <div class="section-heading">
+
+        <small>ÉLORIA COLLECTION</small>
+
+        <h2>Shop All</h2>
 
     </div>
 
-    <div class="category-grid">
+    <div class="products" id="allProducts">
 
-        <a href="#new-arrivals" class="category-card">
-
-            <img
-                src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=85"
-                alt="Dresses">
-
-            <span>DRESSES</span>
-
-        </a>
-
-        <a href="#new-arrivals" class="category-card">
-
-            <img
-                src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=900&q=85"
-                alt="Tops">
-
-            <span>TOPS</span>
-
-        </a>
-
-        <a href="#new-arrivals" class="category-card">
-
-            <img
-                src="https://images.unsplash.com/photo-1506629905607-d9c297d3b7b7?auto=format&fit=crop&w=900&q=85"
-                alt="Bottoms">
-
-            <span>BOTTOMS</span>
-
-        </a>
-
-        <a href="#new-arrivals" class="category-card">
-
-            <img
-                src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
-                alt="Accessories">
-
-            <span>ACCESSORIES</span>
-
-        </a>
+        <div class="loading">
+            LOADING PRODUCTS...
+        </div>
 
     </div>
 
 </section>
 
+
+<!-- ================= PRODUCT DETAILS ================= -->
+
+<div class="modal" id="productModal">
+
+    <div class="product-detail">
+
+        <button class="close" onclick="closeProduct()">
+            ×
+        </button>
+
+        <div class="detail-gallery">
+
+            <img id="detailImage1" src="" alt="Product">
+
+            <img id="detailImage2" src="" alt="Product">
+
+        </div>
+
+        <div class="detail-info">
+
+            <div class="detail-badges" id="detailBadges"></div>
+
+            <h2 class="detail-name" id="detailName"></h2>
+
+            <div class="detail-price" id="detailPrice"></div>
+
+            <div class="detail-description" id="detailDescription"></div>
+
+            <div class="stock" id="detailStock"></div>
+
+            <div class="quantity">
+
+                <button onclick="changeDetailQuantity(-1)">
+                    −
+                </button>
+
+                <span id="detailQuantity">
+                    1
+                </span>
+
+                <button onclick="changeDetailQuantity(1)">
+                    +
+                </button>
+
+            </div>
+
+            <button
+                class="add-button"
+                id="addButton"
+                onclick="addCurrentProduct()"
+            >
+                ADD TO BAG
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= BAG ================= -->
+
+<div class="bag-overlay" id="bagOverlay">
+
+    <div class="bag">
+
+        <div class="bag-header">
+
+            <h2>Your Bag</h2>
+
+            <button class="bag-close" onclick="closeBag()">
+                ×
+            </button>
+
+        </div>
+
+        <div class="bag-items" id="bagItems"></div>
+
+        <div class="bag-footer">
+
+            <div class="subtotal">
+
+                <span>SUBTOTAL</span>
+
+                <strong id="subtotal">
+                    €0.00
+                </strong>
+
+            </div>
+
+            <button class="checkout" onclick="checkout()">
+                CHECKOUT
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        ÉLORIA
+    </div>
+
+    <p>
+        WOMEN'S FASHION · ELEGANCE · STYLE
+    </p>
+
+</footer>
+
+
 <script>
 
-/* =========================================================
-   GOOGLE APPS SCRIPT URL
-   ========================================================= */
+/* =====================================================
+   ÉLORIA
+   GOOGLE SHEETS CONNECTION
+===================================================== */
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
 
 
-/* =========================================================
-   LOAD PRODUCTS
-   ========================================================= */
+let products = [];
+let currentProduct = null;
+let detailQuantity = 1;
 
-function loadProducts() {
 
-    const container =
-        document.getElementById("products");
+/* =====================================================
+   HELPERS
+===================================================== */
 
-    if (!container) {
-        console.error("Products container not found.");
-        return;
+function escapeHTML(value){
+
+    if(value === undefined || value === null){
+        return "";
     }
 
-    container.innerHTML = `
-        <div class="loading">
-            LOADING PRODUCTS...
-        </div>
-    `;
-
-
-    /* =====================================================
-       TRY FETCH FIRST
-       ===================================================== */
-
-    fetch(
-        SCRIPT_URL + "?t=" + Date.now(),
-        {
-            method: "GET",
-            cache: "no-store"
-        }
-    )
-
-    .then(function(response) {
-
-        if (!response.ok) {
-            throw new Error(
-                "HTTP ERROR " + response.status
-            );
-        }
-
-        return response.json();
-
-    })
-
-    .then(function(data) {
-
-        console.log(
-            "FETCH SUCCESS:",
-            data
-        );
-
-        displayProducts(data);
-
-    })
-
-    .catch(function(error) {
-
-        console.warn(
-            "FETCH FAILED. TRYING JSONP...",
-            error
-        );
-
-        loadProductsJSONP();
-
-    });
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================================
-   JSONP FALLBACK
-   ========================================================= */
+function isTrue(value){
 
-function loadProductsJSONP() {
+    if(value === true){
+        return true;
+    }
 
-    const container =
-        document.getElementById("products");
+    const v = String(value || "")
+        .trim()
+        .toLowerCase();
 
+    return (
+        v === "true" ||
+        v === "1" ||
+        v === "yes" ||
+        v === "نعم"
+    );
+
+}
+
+
+function isAvailable(product){
+
+    const status = String(product.Status || "")
+        .trim()
+        .toLowerCase();
+
+    if(!status){
+        return true;
+    }
+
+    return (
+        status === "available" ||
+        status === "متوفر" ||
+        status === "true" ||
+        status === "yes"
+    );
+
+}
+
+
+function formatPrice(value){
+
+    const number = parseFloat(
+        String(value || "")
+        .replace(",", ".")
+        .replace(/[^\d.-]/g,"")
+    );
+
+    if(isNaN(number)){
+        return escapeHTML(value || "—");
+    }
+
+    return "€" + number.toFixed(2);
+
+}
+
+
+function getProductId(product,index){
+
+    return String(
+        product.ID ||
+        product.id ||
+        ("product-" + index)
+    );
+
+}
+
+
+/* =====================================================
+   LOAD PRODUCTS — JSONP
+===================================================== */
+
+function loadProducts(){
 
     const callbackName =
-        "eloria_callback_" +
-        Date.now() +
-        "_" +
-        Math.floor(
-            Math.random() * 100000
+        "eloriaProducts_" + Date.now();
+
+    const script = document.createElement("script");
+
+    const timeout = setTimeout(() => {
+
+        script.remove();
+
+        showLoadError(
+            "Unable to load products. Please refresh the page."
         );
 
-
-    const script =
-        document.createElement("script");
+    },15000);
 
 
-    let finished = false;
+    window[callbackName] = function(data){
 
+        clearTimeout(timeout);
 
-    function cleanup() {
+        script.remove();
 
-        if (script.parentNode) {
-            script.parentNode.removeChild(script);
+        try{
+
+            if(Array.isArray(data)){
+
+                products = data;
+
+            }else if(data && Array.isArray(data.data)){
+
+                products = data.data;
+
+            }else{
+
+                products = [];
+
+            }
+
+            products = products.filter(isAvailable);
+
+            displayProducts();
+
+        }catch(error){
+
+            console.error(error);
+
+            showLoadError(
+                "Something went wrong while loading products."
+            );
+
         }
 
         delete window[callbackName];
 
-    }
+    };
 
 
-    window[callbackName] =
-        function(data) {
+    script.onerror = function(){
 
-            if (finished) {
-                return;
-            }
+        clearTimeout(timeout);
 
-            finished = true;
+        script.remove();
 
+        showLoadError(
+            "Could not connect to the product database."
+        );
 
-            console.log(
-                "JSONP SUCCESS:",
-                data
-            );
+        delete window[callbackName];
 
-
-            try {
-
-                displayProducts(data);
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "PRODUCT DISPLAY ERROR:",
-                    error
-                );
-
-                container.innerHTML = `
-                    <div class="no-products">
-                        PRODUCTS COULD NOT BE DISPLAYED
-                    </div>
-                `;
-
-            }
-
-
-            cleanup();
-
-        };
+    };
 
 
     script.src =
@@ -820,554 +1104,694 @@ function loadProductsJSONP() {
         "&t=" +
         Date.now();
 
-
-    console.log(
-        "JSONP URL:",
-        script.src
-    );
-
-
-    script.onerror =
-        function() {
-
-            if (finished) {
-                return;
-            }
-
-            finished = true;
-
-
-            container.innerHTML = `
-                <div class="no-products">
-                    PRODUCTS COULD NOT BE LOADED
-                </div>
-            `;
-
-
-            cleanup();
-
-        };
-
-
     document.body.appendChild(script);
 
-
-    setTimeout(
-        function() {
-
-            if (finished) {
-                return;
-            }
-
-            finished = true;
+}
 
 
-            container.innerHTML = `
-                <div class="no-products">
-                    CONNECTION TIMEOUT
-                </div>
-            `;
+function showLoadError(message){
 
+    document.getElementById("newProducts").innerHTML =
+        `<div class="error">${escapeHTML(message)}</div>`;
 
-            cleanup();
-
-        },
-        15000
-    );
+    document.getElementById("allProducts").innerHTML =
+        `<div class="error">${escapeHTML(message)}</div>`;
 
 }
 
 
-/* =========================================================
+/* =====================================================
    DISPLAY PRODUCTS
-   ========================================================= */
+===================================================== */
 
-function displayProducts(products) {
+function displayProducts(){
 
-    const container =
-        document.getElementById("products");
+    const newContainer =
+        document.getElementById("newProducts");
+
+    const allContainer =
+        document.getElementById("allProducts");
 
 
-    container.innerHTML = "";
+    if(!products.length){
 
+        newContainer.innerHTML =
+            `<div class="empty">NO PRODUCTS AVAILABLE YET.</div>`;
 
-    if (
-        !Array.isArray(products) ||
-        products.length === 0
-    ) {
-
-        container.innerHTML = `
-            <div class="no-products">
-                NO PRODUCTS AVAILABLE
-            </div>
-        `;
+        allContainer.innerHTML =
+            `<div class="empty">NO PRODUCTS AVAILABLE YET.</div>`;
 
         return;
+
     }
 
 
-    /* =====================================================
-       AVAILABLE PRODUCTS
-       ===================================================== */
-
-    const availableProducts =
-        products.filter(
-            function(product) {
-
-                return String(
-                    product.Status ||
-                    product.status ||
-                    ""
-                )
-                .trim()
-                .toLowerCase() ===
-                "available";
-
-            }
-        );
+    const newProducts =
+        products.filter(product => isTrue(product.New));
 
 
-    if (availableProducts.length === 0) {
+    if(!newProducts.length){
 
-        container.innerHTML = `
-            <div class="no-products">
-                NO PRODUCTS AVAILABLE
-            </div>
-        `;
+        newContainer.innerHTML =
+            `<div class="empty">NEW ARRIVALS COMING SOON.</div>`;
 
-        return;
+    }else{
+
+        newContainer.innerHTML =
+            newProducts
+            .map(product => createProduct(product))
+            .join("");
+
     }
 
 
-    /* =====================================================
-       NEW PRODUCTS FIRST
-       ===================================================== */
-
-    availableProducts.sort(
-        function(a, b) {
-
-            const aNew =
-                a.New === true ||
-                String(a.New)
-                    .toLowerCase() ===
-                    "true" ||
-                a.NEW === true;
-
-
-            const bNew =
-                b.New === true ||
-                String(b.New)
-                    .toLowerCase() ===
-                    "true" ||
-                b.NEW === true;
-
-
-            return (
-                Number(bNew) -
-                Number(aNew)
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       CREATE PRODUCT CARDS
-       ===================================================== */
-
-    availableProducts.forEach(
-        function(product) {
-
-            createProduct(
-                product,
-                container
-            );
-
-        }
-    );
-
-
-    initializeGalleries();
+    allContainer.innerHTML =
+        products
+        .map(product => createProduct(product))
+        .join("");
 
 }
 
 
-/* =========================================================
-   CREATE PRODUCT
-   ========================================================= */
+function createProduct(product){
 
-function createProduct(
-    product,
-    container
-) {
+    const index =
+        products.indexOf(product);
 
-    const name =
-        product["Product Name"] ||
-        "PRODUCT";
-
-
-    const price =
-        product["Price"] ||
-        "";
-
-
-    const oldPrice =
-        product["Old Price"] ||
-        "";
-
+    const id =
+        getProductId(product,index);
 
     const image1 =
         product["Image 1"] ||
+        product.image1 ||
+        product.image ||
         "";
 
+    const name =
+        product["Product Name"] ||
+        product.name ||
+        "ÉLORIA Product";
 
-    const image2 =
-        product["Image 2"] ||
+    const price =
+        product.Price ||
+        product.price ||
         "";
 
+    const oldPrice =
+        product["Old Price"] ||
+        product.oldPrice ||
+        "";
 
     const isNew =
-        product["New"] === true ||
-        String(product["New"])
-            .toLowerCase() ===
-            "true";
-
+        isTrue(product.New);
 
     const isSale =
-        product["Sale"] === true ||
-        String(product["Sale"])
-            .toLowerCase() ===
-            "true";
+        isTrue(product.Sale);
 
 
-    /* =====================================================
-       IMAGES
-       ===================================================== */
+    return `
 
-    let firstImage =
-        image1 || image2;
+        <article
+    class="product-card"
+    onclick="openProduct('${escapeHTML(id)}')"
+>
 
+    <div class="product-image">
 
-    let secondImage =
-        image2 || image1;
+        <img
+            src="${escapeHTML(image1)}"
+            alt="${escapeHTML(name)}"
+            loading="lazy"
+            onerror="this.src='https://via.placeholder.com/600x800?text=ELORIA'"
+        >
 
+        <div class="product-badges">
 
-    if (!firstImage) {
+            ${
+                isNew
+                ? `<span class="badge new">NEW</span>`
+                : ""
+            }
 
-        firstImage =
-            "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85";
+            ${
+                isSale
+                ? `<span class="badge sale">SALE</span>`
+                : ""
+            }
 
-        secondImage =
-            firstImage;
+        </div>
 
-    }
+    </div>
 
+    <div class="product-info">
 
-    if (!secondImage) {
-        secondImage =
-            firstImage;
-    }
+        <div class="product-name">
+            ${escapeHTML(name)}
+        </div>
 
+        <div class="price-row">
 
-    /* =====================================================
-       TAG
-       ===================================================== */
-
-    let tag = "";
-
-
-    if (isSale) {
-
-        tag = "SALE";
-
-    } else if (isNew) {
-
-        tag = "NEW";
-
-    }
-
-
-    /* =====================================================
-       PRICE
-       ===================================================== */
-
-    const numericPrice =
-        Number(price);
-
-
-    const numericOldPrice =
-        Number(oldPrice);
-
-
-    let priceHTML = "";
-
-
-    if (
-        isSale &&
-        oldPrice !== "" &&
-        !isNaN(numericOldPrice)
-    ) {
-
-        priceHTML = `
-
-            <span class="old-price">
-                €${numericOldPrice.toFixed(2)}
+            <span class="price">
+                ${formatPrice(price)}
             </span>
 
-            <span class="sale-price">
-                €${numericPrice.toFixed(2)}
-            </span>
+            ${
+                isSale && oldPrice
+                ? `
+                    <span class="old-price">
+                        ${formatPrice(oldPrice)}
+                    </span>
+                `
+                : ""
+            }
 
-        `;
+        </div>
 
-    } else {
+    </div>
 
-        priceHTML = `
-            €${numericPrice.toFixed(2)}
-        `;
+</article>
 
+`;
+}
+
+
+/* =====================================================
+   PRODUCT DETAILS
+===================================================== */
+
+function openProduct(id){
+
+    currentProduct =
+        products.find(
+            (product,index) =>
+                getProductId(product,index) === String(id)
+        );
+
+    if(!currentProduct){
+        return;
     }
 
+    detailQuantity = 1;
 
-    /* =====================================================
-       PRODUCT ELEMENT
-       ===================================================== */
+    document.getElementById("detailQuantity")
+        .textContent = "1";
 
-    const element =
-        document.createElement("div");
+    const image1 =
+        currentProduct["Image 1"] ||
+        currentProduct.image1 ||
+        currentProduct.image ||
+        "";
 
+    const image2 =
+        currentProduct["Image 2"] ||
+        currentProduct.image2 ||
+        image1;
 
-    element.className =
-        "product";
+    document.getElementById("detailImage1").src =
+        image1 ||
+        "https://via.placeholder.com/600x800?text=ELORIA";
 
+    document.getElementById("detailImage2").src =
+        image2 ||
+        image1 ||
+        "https://via.placeholder.com/600x800?text=ELORIA";
 
-    element.innerHTML = `
+    document.getElementById("detailName").textContent =
+        currentProduct["Product Name"] ||
+        currentProduct.name ||
+        "ÉLORIA Product";
+
+    const price =
+        currentProduct.Price ||
+        currentProduct.price ||
+        "";
+
+    const oldPrice =
+        currentProduct["Old Price"] ||
+        currentProduct.oldPrice ||
+        "";
+
+    document.getElementById("detailPrice").innerHTML = `
+
+        ${formatPrice(price)}
 
         ${
-            tag
-                      ? `
-                <div class="product-tag">
-                    ${tag}
-                </div>
-            `
-            : ""
-    }
-                tag
+            isTrue(currentProduct.Sale) && oldPrice
             ? `
-                <div class="product-tag">
-                    ${tag}
-                </div>
+                <span class="detail-old-price">
+                    ${formatPrice(oldPrice)}
+                </span>
             `
             : ""
         }
 
-        <div
-            class="product-gallery"
-            data-gallery
-        >
-
-            <div class="product-track">
-
-                <div class="product-slide">
-
-                    <img
-                        src="${escapeHTML(firstImage)}"
-                        alt="${escapeHTML(name)}"
-                        loading="lazy"
-                    >
-
-                </div>
-
-                <div class="product-slide">
-
-                    <img
-                        src="${escapeHTML(secondImage)}"
-                        alt="${escapeHTML(name)} second view"
-                        loading="lazy"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="carousel-dots">
-
-                <button
-                    class="carousel-dot active"
-                    type="button"
-                    aria-label="Image 1">
-                </button>
-
-                <button
-                    class="carousel-dot"
-                    type="button"
-                    aria-label="Image 2">
-                </button>
-
-            </div>
-
-        </div>
-
-        <div class="product-info">
-
-            <div class="product-name">
-                ${escapeHTML(name).toUpperCase()}
-            </div>
-
-            <div class="product-price">
-                ${priceHTML}
-            </div>
-
-        </div>
-
     `;
 
+    document.getElementById("detailDescription").textContent =
+        currentProduct.Description ||
+        currentProduct.description ||
+        "A beautiful piece from the ÉLORIA collection.";
 
-    container.appendChild(element);
+    const stockValue =
+        parseInt(currentProduct.Stock);
+
+    const stockElement =
+        document.getElementById("detailStock");
+
+    if(!isNaN(stockValue)){
+
+        if(stockValue <= 0){
+
+            stockElement.textContent =
+                "OUT OF STOCK";
+
+        }else{
+
+            stockElement.textContent =
+                stockValue + " PIECES AVAILABLE";
+
+        }
+
+    }else{
+
+        stockElement.textContent =
+            "AVAILABLE";
+
+    }
+
+    let badges = "";
+
+    if(isTrue(currentProduct.New)){
+
+        badges +=
+            `<span class="badge new">NEW</span>`;
+
+    }
+
+    if(isTrue(currentProduct.Sale)){
+
+        badges +=
+            `<span class="badge sale">SALE</span>`;
+
+    }
+
+    document.getElementById("detailBadges").innerHTML =
+        badges;
+
+    const addButton =
+        document.getElementById("addButton");
+
+    if(!isNaN(stockValue) && stockValue <= 0){
+
+        addButton.disabled = true;
+
+        addButton.textContent =
+            "OUT OF STOCK";
+
+    }else{
+
+        addButton.disabled = false;
+
+        addButton.textContent =
+            "ADD TO BAG";
+
+    }
+
+    document.getElementById("productModal")
+        .classList.add("active");
+
+    document.body.style.overflow = "hidden";
 
 }
 
 
-/* =========================================================
-   SECURITY
-   ========================================================= */
+function closeProduct(){
 
-function escapeHTML(value) {
+    document.getElementById("productModal")
+        .classList.remove("active");
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    document.body.style.overflow = "";
 
 }
 
 
-/* =========================================================
-   PRODUCT IMAGE CAROUSELS
-   ========================================================= */
+function changeDetailQuantity(change){
 
-function initializeGalleries() {
+    if(!currentProduct){
+        return;
+    }
 
-    document
-        .querySelectorAll("[data-gallery]")
-        .forEach(function(gallery) {
+    const stock =
+        parseInt(currentProduct.Stock);
 
-            const track =
-                gallery.querySelector(".product-track");
+    detailQuantity += change;
 
-            const dots =
-                gallery.querySelectorAll(".carousel-dot");
+    if(detailQuantity < 1){
+        detailQuantity = 1;
+    }
 
-            let current = 0;
+    if(!isNaN(stock) && detailQuantity > stock){
+        detailQuantity = stock;
+    }
 
+    document.getElementById("detailQuantity")
+        .textContent = detailQuantity;
 
-            function showImage(index) {
-
-                current =
-                    Math.max(
-                        0,
-                        Math.min(1, index)
-                    );
+}
 
 
-                track.style.transform =
-                    "translateX(-" +
-                    (current * 50) +
-                    "%)";
+/* =====================================================
+   CART
+===================================================== */
+
+let cart = [];
+
+try{
+
+    cart =
+        JSON.parse(
+            localStorage.getItem("eloria_cart_v1")
+        ) || [];
+
+}catch(error){
+
+    cart = [];
+
+}
 
 
-                dots.forEach(function(dot, i) {
+function saveCart(){
 
-                    if (i === current) {
+    localStorage.setItem(
+        "eloria_cart_v1",
+        JSON.stringify(cart)
+    );
 
-                        dot.classList.add("active");
+    updateBagCount();
 
-                    } else {
-
-                        dot.classList.remove("active");
-
-                    }
-
-                });
-
-            }
+}
 
 
-            dots.forEach(function(dot, index) {
+function updateBagCount(){
 
-                dot.addEventListener(
-                    "click",
-                    function() {
+    const count =
+        cart.reduce(
+            (total,item) =>
+                total + Number(item.quantity || 0),
+            0
+        );
 
-                        showImage(index);
+    document.getElementById("bagCount")
+        .textContent = count;
 
-                    }
-                );
-
-            });
-
-
-            /* SWIPE ON PHONE */
-
-            let startX = 0;
-            let endX = 0;
+}
 
 
-            gallery.addEventListener(
-                "touchstart",
-                function(event) {
+function addCurrentProduct(){
 
-                    startX =
-                        event.touches[0].clientX;
+    if(!currentProduct){
+        return;
+    }
 
-                },
-                { passive: true }
-            );
+    const index =
+        products.indexOf(currentProduct);
 
+    const id =
+        getProductId(currentProduct,index);
 
-            gallery.addEventListener(
-                "touchend",
-                function(event) {
+    const existing =
+        cart.find(item =>
+            String(item.id) === String(id)
+        );
 
-                    endX =
-                        event.changedTouches[0].clientX;
+    const stock =
+        parseInt(currentProduct.Stock);
 
-                    const difference =
-                        startX - endX;
+    if(existing){
 
+        const newQuantity =
+            existing.quantity + detailQuantity;
 
-                    if (Math.abs(difference) < 40) {
-                        return;
-                    }
+        if(!isNaN(stock) && newQuantity > stock){
 
+            existing.quantity = stock;
 
-                    if (difference > 0) {
+        }else{
 
-                        showImage(current + 1);
+            existing.quantity = newQuantity;
 
-                    } else {
+        }
 
-                        showImage(current - 1);
+    }else{
 
-                    }
+        cart.push({
 
-                },
-                { passive: true }
-            );
+            id:id,
 
+            name:
+                currentProduct["Product Name"] ||
+                currentProduct.name ||
+                "ÉLORIA Product",
 
-            showImage(0);
+            price:
+                currentProduct.Price ||
+                currentProduct.price ||
+                0,
+
+            image:
+                currentProduct["Image 1"] ||
+                currentProduct.image1 ||
+                currentProduct.image ||
+                "",
+
+            quantity:detailQuantity
 
         });
 
+    }
+
+    saveCart();
+
+    closeProduct();
+
+    openBag();
+
 }
 
 
-/* =========================================================
-   START WEBSITE
-   ========================================================= */
+/* =====================================================
+   BAG
+===================================================== */
+
+function openBag(){
+
+    renderBag();
+
+    document.getElementById("bagOverlay")
+        .classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeBag(){
+
+    document.getElementById("bagOverlay")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+function renderBag(){
+
+    const container =
+        document.getElementById("bagItems");
+
+    if(!cart.length){
+
+        container.innerHTML = `
+
+            <div class="empty-bag">
+                YOUR BAG IS EMPTY.
+            </div>
+
+        `;
+
+        document.getElementById("subtotal")
+            .textContent = "€0.00";
+
+        return;
+
+    }
+
+    container.innerHTML =
+        cart.map((item,index) => `
+
+            <div class="bag-item">
+
+                <img
+                    src="${escapeHTML(item.image)}"
+                    alt="${escapeHTML(item.name)}"
+                    onerror="this.src='https://via.placeholder.com/200x250?text=ELORIA'"
+                >
+
+                <div>
+
+                    <div class="bag-item-name">
+                        ${escapeHTML(item.name)}
+                    </div>
+
+                    <div class="bag-item-price">
+                        ${formatPrice(item.price)}
+                    </div>
+
+                    <div class="bag-quantity">
+
+                        <button
+                            onclick="changeCartQuantity(${index},-1)"
+                        >
+                            −
+                        </button>
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+                        <button
+                            onclick="changeCartQuantity(${index},1)"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="remove"
+                        onclick="removeFromCart(${index})"
+                    >
+                        REMOVE
+                    </button>
+
+                </div>
+
+                <div>
+                    ${formatPrice(
+                        parseFloat(item.price) *
+                        Number(item.quantity)
+                    )}
+                </div>
+
+            </div>
+
+        `).join("");
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+                sum +
+                (
+                    parseFloat(
+                        String(item.price)
+                            .replace(",",".")
+                            .replace(/[^\d.-]/g,"")
+                    ) *
+                    Number(item.quantity)
+                ),
+            0
+        );
+
+    document.getElementById("subtotal")
+        .textContent =
+        "€" + total.toFixed(2);
+
+}
+
+
+function changeCartQuantity(index,change){
+
+    if(!cart[index]){
+        return;
+    }
+
+    cart[index].quantity += change;
+
+    if(cart[index].quantity <= 0){
+
+        cart.splice(index,1);
+
+    }
+
+    saveCart();
+
+    renderBag();
+
+}
+
+
+function removeFromCart(index){
+
+    cart.splice(index,1);
+
+    saveCart();
+
+    renderBag();
+
+}
+
+
+/* =====================================================
+   CHECKOUT
+===================================================== */
+
+function checkout(){
+
+    if(!cart.length){
+
+        alert("Your bag is empty.");
+
+        return;
+
+    }
+
+    alert(
+        "Checkout will be connected to your order form next."
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE
+===================================================== */
+
+document.getElementById("productModal")
+.addEventListener("click",function(event){
+
+    if(event.target === this){
+        closeProduct();
+    }
+
+});
+
+
+document.getElementById("bagOverlay")
+.addEventListener("click",function(event){
+
+    if(event.target === this){
+        closeBag();
+    }
+
+});
+
+
+/* =====================================================
+   START
+===================================================== */
+
+updateBagCount();
 
 loadProducts();
 
