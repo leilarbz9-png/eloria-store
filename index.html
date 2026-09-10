@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -278,10 +279,21 @@ header{
     height:100%;
     object-fit:cover;
     display:block;
-    transition:transform .6s ease;
+    transition:opacity .45s ease, transform .6s ease;
 }
 
-.product-card:hover .product-image img{
+.product-image .product-image-two{
+    position:absolute;
+    inset:0;
+    opacity:0;
+}
+
+.product-card:hover .product-image .product-image-one{
+    transform:scale(1.04);
+}
+
+.product-card:hover .product-image .product-image-two{
+    opacity:1;
     transform:scale(1.04);
 }
 
@@ -944,9 +956,7 @@ footer p{
                     −
                 </button>
 
-                <span id="detailQuantity">
-                    1
-                </span>
+                <span id="detailQuantity">1</span>
 
                 <button onclick="changeDetailQuantity(1)">
                     +
@@ -979,7 +989,7 @@ footer p{
 
             <h2>Your Bag</h2>
 
-            <button class="bag-close" onclick="closeBag()">
+            <button class="bag-close" onclick="closeBag">
                 ×
             </button>
 
@@ -1034,6 +1044,39 @@ footer p{
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
+
+
+/* =====================================================
+   GITHUB PRODUCT IMAGES
+===================================================== */
+
+const IMAGE_BASE =
+"https://raw.githubusercontent.com/leilarbz9-png/eloria-store/main/";
+
+
+const PRODUCT_IMAGES = {
+
+    "Silk Midi Dress":[
+        "1.jpg",
+        "2.jpg"
+    ],
+
+    "Soft Knit Top":[
+        "soft-knit-top-1.jpg",
+        "soft-knit-top-2.jpg"
+    ],
+
+    "Satin Blouse":[
+        "satin-blouse-1.jpg",
+        "satin-blouse-2.jpg"
+    ],
+
+    "Luxe Blazer":[
+        "luxe-blazer-1.jpg",
+        "luxe-blazer-2.jpg"
+    ]
+
+};
 
 
 let products = [];
@@ -1131,6 +1174,105 @@ function getProductId(product,index){
 
 
 /* =====================================================
+   GET PRODUCT IMAGES
+===================================================== */
+
+function getProductImages(product){
+
+    const name = String(
+        product["Product Name"] ||
+        product.name ||
+        ""
+    ).trim();
+
+
+    /*
+       First priority:
+       GitHub images already uploaded for ÉLORIA products.
+    */
+
+    if(PRODUCT_IMAGES[name]){
+
+        return PRODUCT_IMAGES[name].map(
+            file => IMAGE_BASE + file
+        );
+
+    }
+
+
+    /*
+       Second priority:
+       Images saved in Google Sheets.
+    */
+
+    let image1 =
+        product["Image 1"] ||
+        product.image1 ||
+        product.image ||
+        "";
+
+    let image2 =
+        product["Image 2"] ||
+        product.image2 ||
+        image1;
+
+
+    /*
+       share.google / Google Photos links are not
+       direct image URLs, so do not use them as <img> sources.
+    */
+
+    if(
+        image1.includes("share.google") ||
+        image1.includes("photos.app.goo.gl")
+    ){
+        image1 = "";
+    }
+
+    if(
+        image2.includes("share.google") ||
+        image2.includes("photos.app.goo.gl")
+    ){
+        image2 = "";
+    }
+
+
+    return [
+        image1,
+        image2 || image1
+    ];
+
+}
+
+
+/* =====================================================
+   FIND PRODUCT BY ID
+===================================================== */
+
+function findProductById(id){
+
+    if(!id){
+        return null;
+    }
+
+    const cleanId =
+        String(id)
+        .trim()
+        .replace(/^["']|["']$/g,"");
+
+    return products.find((product,index) => {
+
+        return (
+            String(getProductId(product,index)).trim()
+            === cleanId
+        );
+
+    }) || null;
+
+}
+
+
+/* =====================================================
    LOAD PRODUCTS — JSONP
 ===================================================== */
 
@@ -1174,9 +1316,19 @@ function loadProducts(){
 
             }
 
-            products = products.filter(isAvailable);
+
+            products =
+                products.filter(isAvailable);
+
 
             displayProducts();
+
+            /*
+               Collections may need products to find
+               their Product IDs and images.
+            */
+
+            displayCollections();
 
         }catch(error){
 
@@ -1214,6 +1366,7 @@ function loadProducts(){
         encodeURIComponent(callbackName) +
         "&t=" +
         Date.now();
+
 
     document.body.appendChild(script);
 
@@ -1254,11 +1407,17 @@ function loadCollections(){
 
                 collections = data;
 
-            }else if(data && Array.isArray(data.collections)){
+            }else if(
+                data &&
+                Array.isArray(data.collections)
+            ){
 
                 collections = data.collections;
 
-            }else if(data && Array.isArray(data.data)){
+            }else if(
+                data &&
+                Array.isArray(data.data)
+            ){
 
                 collections = data.data;
 
@@ -1267,6 +1426,58 @@ function loadCollections(){
                 collections = [];
 
             }
+
+
+            /*
+               Keep only real collection rows.
+               This prevents empty / malformed rows
+               from becoming extra collection cards.
+            */
+
+            collections =
+                collections.filter(collection => {
+
+                    const name =
+                        String(
+                            collection["Collection Name"] ||
+                            collection.Name ||
+                            collection.name ||
+                            ""
+                        ).trim();
+
+                    return name !== "";
+
+                });
+
+
+            /*
+               Remove duplicates.
+            */
+
+            const seen = new Set();
+
+            collections =
+                collections.filter(collection => {
+
+                    const name =
+                        String(
+                            collection["Collection Name"] ||
+                            collection.Name ||
+                            collection.name ||
+                            ""
+                        ).trim()
+                        .toLowerCase();
+
+                    if(!name || seen.has(name)){
+                        return false;
+                    }
+
+                    seen.add(name);
+
+                    return true;
+
+                });
+
 
             displayCollections();
 
@@ -1307,6 +1518,7 @@ function loadCollections(){
         "&t=" +
         Date.now();
 
+
     document.body.appendChild(script);
 
 }
@@ -1321,6 +1533,103 @@ function showCollectionsMessage(message){
 
 
 /* =====================================================
+   GET COLLECTION IMAGE
+===================================================== */
+
+function getCollectionImage(collection){
+
+    let image1 =
+        String(
+            collection["Image 1"] ||
+            collection.Image1 ||
+            collection.image1 ||
+            ""
+        ).trim();
+
+
+    let image2 =
+        String(
+            collection["Image 2"] ||
+            collection.Image2 ||
+            collection.image2 ||
+            ""
+        ).trim();
+
+
+    /*
+       Use a direct collection image if one exists.
+    */
+
+    const invalid1 =
+        image1.includes("share.google") ||
+        image1.includes("photos.app.goo.gl");
+
+    const invalid2 =
+        image2.includes("share.google") ||
+        image2.includes("photos.app.goo.gl");
+
+
+    if(image1 && !invalid1){
+        return image1;
+    }
+
+    if(image2 && !invalid2){
+        return image2;
+    }
+
+
+    /*
+       If the collection has Product IDs,
+       use the first product's GitHub image.
+    */
+
+    const productIds =
+        String(
+            collection["Product IDs"] ||
+            collection.ProductIDs ||
+            collection.productIds ||
+            ""
+        ).trim();
+
+
+    if(productIds){
+
+        const ids =
+            productIds
+            .split(/[,;\n|]+/)
+            .map(id => id.trim())
+            .filter(Boolean);
+
+
+        for(const id of ids){
+
+            const product =
+                findProductById(id);
+
+
+            if(product){
+
+                const images =
+                    getProductImages(product);
+
+
+                if(images[0]){
+                    return images[0];
+                }
+
+            }
+
+        }
+
+    }
+
+
+    return "https://via.placeholder.com/1000x600?text=ELORIA";
+
+}
+
+
+/* =====================================================
    DISPLAY COLLECTIONS
 ===================================================== */
 
@@ -1328,6 +1637,7 @@ function displayCollections(){
 
     const container =
         document.getElementById("collectionsContainer");
+
 
     if(!collections.length){
 
@@ -1347,37 +1657,27 @@ function displayCollections(){
 }
 
 
+/* =====================================================
+   CREATE COLLECTION
+===================================================== */
+
 function createCollection(collection){
 
     const name =
         collection["Collection Name"] ||
         collection.Name ||
         collection.name ||
-        collection.Collection ||
         "ÉLORIA Collection";
+
 
     const description =
         collection.Description ||
         collection.description ||
         "";
 
-    const image1 =
-        collection["Image 1"] ||
-        collection.Image1 ||
-        collection.image1 ||
-        collection.image ||
-        "";
-
-    const image2 =
-        collection["Image 2"] ||
-        collection.Image2 ||
-        collection.image2 ||
-        "";
-
 
     const image =
-        image1 || image2 ||
-        "https://via.placeholder.com/1000x600?text=ELORIA";
+        getCollectionImage(collection);
 
 
     return `
@@ -1460,7 +1760,9 @@ function displayProducts(){
 
 
     const newProducts =
-        products.filter(product => isTrue(product.New));
+        products.filter(product =>
+            isTrue(product.New)
+        );
 
 
     if(!newProducts.length){
@@ -1486,37 +1788,55 @@ function displayProducts(){
 }
 
 
+/* =====================================================
+   CREATE PRODUCT
+===================================================== */
+
 function createProduct(product){
 
     const index =
         products.indexOf(product);
 
+
     const id =
         getProductId(product,index);
 
+
+    const images =
+        getProductImages(product);
+
+
     const image1 =
-        product["Image 1"] ||
-        product.image1 ||
-        product.image ||
-        "";
+        images[0] ||
+        "https://via.placeholder.com/600x800?text=ELORIA";
+
+
+    const image2 =
+        images[1] ||
+        image1;
+
 
     const name =
         product["Product Name"] ||
         product.name ||
         "ÉLORIA Product";
 
+
     const price =
         product.Price ||
         product.price ||
         "";
+
 
     const oldPrice =
         product["Old Price"] ||
         product.oldPrice ||
         "";
 
+
     const isNew =
         isTrue(product.New);
+
 
     const isSale =
         isTrue(product.Sale);
@@ -1532,10 +1852,19 @@ function createProduct(product){
             <div class="product-image">
 
                 <img
+                    class="product-image-one"
                     src="${escapeHTML(image1)}"
                     alt="${escapeHTML(name)}"
                     loading="lazy"
                     onerror="this.src='https://via.placeholder.com/600x800?text=ELORIA'"
+                >
+
+                <img
+                    class="product-image-two"
+                    src="${escapeHTML(image2)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
                 >
 
                 <div class="product-badges">
@@ -1585,6 +1914,7 @@ function createProduct(product){
         </article>
 
     `;
+
 }
 
 
@@ -1600,49 +1930,57 @@ function openProduct(id){
                 getProductId(product,index) === String(id)
         );
 
+
     if(!currentProduct){
         return;
     }
+
 
     detailQuantity = 1;
 
     document.getElementById("detailQuantity")
         .textContent = "1";
 
+
+    const images =
+        getProductImages(currentProduct);
+
+
     const image1 =
-        currentProduct["Image 1"] ||
-        currentProduct.image1 ||
-        currentProduct.image ||
-        "";
+        images[0] ||
+        "https://via.placeholder.com/600x800?text=ELORIA";
+
 
     const image2 =
-        currentProduct["Image 2"] ||
-        currentProduct.image2 ||
+        images[1] ||
         image1;
 
+
     document.getElementById("detailImage1").src =
-        image1 ||
-        "https://via.placeholder.com/600x800?text=ELORIA";
+        image1;
+
 
     document.getElementById("detailImage2").src =
-        image2 ||
-        image1 ||
-        "https://via.placeholder.com/600x800?text=ELORIA";
+        image2;
+
 
     document.getElementById("detailName").textContent =
         currentProduct["Product Name"] ||
         currentProduct.name ||
         "ÉLORIA Product";
 
+
     const price =
         currentProduct.Price ||
         currentProduct.price ||
         "";
 
+
     const oldPrice =
         currentProduct["Old Price"] ||
         currentProduct.oldPrice ||
         "";
+
 
     document.getElementById("detailPrice").innerHTML = `
 
@@ -1660,16 +1998,20 @@ function openProduct(id){
 
     `;
 
+
     document.getElementById("detailDescription").textContent =
         currentProduct.Description ||
         currentProduct.description ||
         "A beautiful piece from the ÉLORIA collection.";
 
+
     const stockValue =
         parseInt(currentProduct.Stock);
 
+
     const stockElement =
         document.getElementById("detailStock");
+
 
     if(!isNaN(stockValue)){
 
@@ -1692,7 +2034,9 @@ function openProduct(id){
 
     }
 
+
     let badges = "";
+
 
     if(isTrue(currentProduct.New)){
 
@@ -1701,6 +2045,7 @@ function openProduct(id){
 
     }
 
+
     if(isTrue(currentProduct.Sale)){
 
         badges +=
@@ -1708,11 +2053,14 @@ function openProduct(id){
 
     }
 
+
     document.getElementById("detailBadges").innerHTML =
         badges;
 
+
     const addButton =
         document.getElementById("addButton");
+
 
     if(!isNaN(stockValue) && stockValue <= 0){
 
@@ -1730,8 +2078,10 @@ function openProduct(id){
 
     }
 
+
     document.getElementById("productModal")
         .classList.add("active");
+
 
     document.body.style.overflow = "hidden";
 
@@ -1754,18 +2104,23 @@ function changeDetailQuantity(change){
         return;
     }
 
+
     const stock =
         parseInt(currentProduct.Stock);
 
+
     detailQuantity += change;
+
 
     if(detailQuantity < 1){
         detailQuantity = 1;
     }
 
+
     if(!isNaN(stock) && detailQuantity > stock){
         detailQuantity = stock;
     }
+
 
     document.getElementById("detailQuantity")
         .textContent = detailQuantity;
@@ -1778,6 +2133,7 @@ function changeDetailQuantity(change){
 ===================================================== */
 
 let cart = [];
+
 
 try{
 
@@ -1814,11 +2170,16 @@ function updateBagCount(){
             0
         );
 
+
     document.getElementById("bagCount")
         .textContent = count;
 
 }
 
+
+/* =====================================================
+   ADD PRODUCT TO BAG
+===================================================== */
 
 function addCurrentProduct(){
 
@@ -1826,24 +2187,34 @@ function addCurrentProduct(){
         return;
     }
 
+
     const index =
         products.indexOf(currentProduct);
 
+
     const id =
         getProductId(currentProduct,index);
+
 
     const existing =
         cart.find(item =>
             String(item.id) === String(id)
         );
 
+
     const stock =
         parseInt(currentProduct.Stock);
+
+
+    const images =
+        getProductImages(currentProduct);
+
 
     if(existing){
 
         const newQuantity =
             existing.quantity + detailQuantity;
+
 
         if(!isNaN(stock) && newQuantity > stock){
 
@@ -1872,16 +2243,14 @@ function addCurrentProduct(){
                 0,
 
             image:
-                currentProduct["Image 1"] ||
-                currentProduct.image1 ||
-                currentProduct.image ||
-                "",
+                images[0] || "",
 
             quantity:detailQuantity
 
         });
 
     }
+
 
     saveCart();
 
@@ -1923,6 +2292,7 @@ function renderBag(){
     const container =
         document.getElementById("bagItems");
 
+
     if(!cart.length){
 
         container.innerHTML = `
@@ -1933,12 +2303,15 @@ function renderBag(){
 
         `;
 
+
         document.getElementById("subtotal")
             .textContent = "€0.00";
+
 
         return;
 
     }
+
 
     container.innerHTML =
         cart.map((item,index) => `
@@ -2001,6 +2374,7 @@ function renderBag(){
 
         `).join("");
 
+
     const total =
         cart.reduce(
             (sum,item) =>
@@ -2016,6 +2390,7 @@ function renderBag(){
             0
         );
 
+
     document.getElementById("subtotal")
         .textContent =
         "€" + total.toFixed(2);
@@ -2029,13 +2404,16 @@ function changeCartQuantity(index,change){
         return;
     }
 
+
     cart[index].quantity += change;
+
 
     if(cart[index].quantity <= 0){
 
         cart.splice(index,1);
 
     }
+
 
     saveCart();
 
@@ -2069,6 +2447,7 @@ function checkout(){
 
     }
 
+
     alert(
         "Checkout will be connected to your order form next."
     );
@@ -2077,7 +2456,7 @@ function checkout(){
 
 
 /* =====================================================
-   CLOSE
+   CLOSE MODALS
 ===================================================== */
 
 document.getElementById("productModal")
@@ -2114,3 +2493,4 @@ loadCollections();
 
 </body>
 </html>
+```
