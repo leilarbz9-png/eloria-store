@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +23,11 @@ body{
     font-family:'Montserrat',sans-serif;
     background:#fff;
     color:#242222;
+}
+
+button,
+input{
+    font-family:'Montserrat',sans-serif;
 }
 
 /* ================= HEADER ================= */
@@ -66,6 +70,20 @@ header{
     opacity:.55;
 }
 
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.search-button{
+    border:0;
+    background:none;
+    cursor:pointer;
+    font-size:22px;
+    line-height:1;
+}
+
 .bag-button{
     border:0;
     background:none;
@@ -92,6 +110,42 @@ header{
     color:white;
     font-size:10px;
     margin-left:5px;
+}
+
+/* ================= SEARCH ================= */
+
+.search-panel{
+    position:fixed;
+    top:78px;
+    left:0;
+    right:0;
+    background:#fff;
+    border-bottom:1px solid #eee;
+    padding:18px 5%;
+    display:none;
+    z-index:2000;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.search-panel.active{
+    display:flex;
+    gap:10px;
+}
+
+.search-panel input{
+    flex:1;
+    border:1px solid #ddd;
+    padding:14px 16px;
+    outline:none;
+    font-size:12px;
+}
+
+.search-panel button{
+    width:45px;
+    border:0;
+    background:#242222;
+    color:white;
+    cursor:pointer;
 }
 
 /* ================= HERO ================= */
@@ -210,16 +264,37 @@ header{
     aspect-ratio:16/10;
 }
 
-.collection-card img{
+.collection-gallery{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    touch-action:pan-y;
+}
+
+.collection-image{
+    position:absolute;
+    inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
-    transition:transform .7s ease;
+    transition:opacity .45s ease,transform .7s ease;
 }
 
-.collection-card:hover img{
-    transform:scale(1.04);
+.collection-image-one{
+    opacity:1;
+}
+
+.collection-image-two{
+    opacity:0;
+}
+
+.collection-gallery.show-second .collection-image-one{
+    opacity:0;
+}
+
+.collection-gallery.show-second .collection-image-two{
+    opacity:1;
 }
 
 .collection-overlay{
@@ -238,6 +313,7 @@ header{
     right:30px;
     bottom:28px;
     color:white;
+    z-index:3;
 }
 
 .collection-name{
@@ -251,41 +327,6 @@ header{
     letter-spacing:1.2px;
     line-height:1.6;
     max-width:500px;
-}
-
-/* ================= COLLECTION GALLERY ================= */
-
-.collection-gallery{
-    position:absolute;
-    inset:0;
-    overflow:hidden;
-    touch-action:pan-y;
-}
-
-.collection-image{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition:opacity .45s ease, transform .7s ease;
-}
-
-.collection-image-one{
-    opacity:1;
-}
-
-.collection-image-two{
-    opacity:0;
-}
-
-.collection-gallery.show-second .collection-image-one{
-    opacity:0;
-}
-
-.collection-gallery.show-second .collection-image-two{
-    opacity:1;
 }
 
 .collection-dots{
@@ -320,13 +361,6 @@ header{
     color:white;
     font-size:8px;
     letter-spacing:1.5px;
-    opacity:.85;
-}
-
-.collection-gallery .collection-overlay,
-.collection-gallery .collection-info{
-    z-index:3;
-    pointer-events:none;
 }
 
 /* ================= PRODUCTS ================= */
@@ -355,7 +389,7 @@ header{
     height:100%;
     object-fit:cover;
     display:block;
-    transition:opacity .45s ease, transform .6s ease;
+    transition:opacity .45s ease,transform .6s ease;
 }
 
 .product-image .product-image-two{
@@ -541,6 +575,41 @@ header{
     margin-bottom:25px;
 }
 
+/* ================= OPTIONS ================= */
+
+.option-group{
+    margin-bottom:20px;
+}
+
+.option-group label{
+    display:block;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-bottom:10px;
+}
+
+.option-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.option{
+    padding:10px 16px;
+    border:1px solid #ddd;
+    background:white;
+    cursor:pointer;
+    font-size:10px;
+    transition:.2s;
+}
+
+.option:hover,
+.option.selected{
+    background:#242222;
+    color:white;
+    border-color:#242222;
+}
+
 .quantity{
     display:flex;
     align-items:center;
@@ -661,6 +730,13 @@ header{
 .bag-item-price{
     font-size:11px;
     margin-top:5px;
+}
+
+.bag-variant{
+    font-size:9px;
+    color:#777;
+    margin-top:4px;
+    letter-spacing:.5px;
 }
 
 .bag-quantity{
@@ -815,6 +891,10 @@ footer p{
         display:none;
     }
 
+    .header-actions{
+        gap:10px;
+    }
+
     .bag-icon{
         font-size:14px;
     }
@@ -871,13 +951,16 @@ footer p{
     .bag{
         padding:22px;
     }
+
+    .search-panel{
+        top:68px;
+        padding:14px 18px;
+    }
 }
 </style>
 </head>
 
 <body>
-
-<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -889,16 +972,34 @@ footer p{
         <a href="#all-products">SHOP ALL</a>
     </nav>
 
-    <button class="bag-button" onclick="openBag()">
-        <span class="bag-icon">🛍️</span>
-        BAG
-        <span class="bag-count" id="bagCount">0</span>
-    </button>
+    <div class="header-actions">
+
+        <button class="search-button" onclick="openSearch()" aria-label="Search">
+            ⌕
+        </button>
+
+        <button class="bag-button" onclick="openBag()">
+            <span class="bag-icon">🛍️</span>
+            BAG
+            <span class="bag-count" id="bagCount">0</span>
+        </button>
+
+    </div>
 
 </header>
 
+<div class="search-panel" id="searchPanel">
 
-<!-- ================= HERO ================= -->
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search products..."
+        oninput="searchProducts()"
+    >
+
+    <button onclick="closeSearch()">×</button>
+
+</div>
 
 <section class="hero">
 
@@ -926,9 +1027,6 @@ footer p{
 
 </section>
 
-
-<!-- ================= COLLECTIONS ================= -->
-
 <section class="section" id="collections">
 
     <div class="section-heading">
@@ -948,9 +1046,6 @@ footer p{
     </div>
 
 </section>
-
-
-<!-- ================= NEW ARRIVALS ================= -->
 
 <section class="section" id="new-arrivals">
 
@@ -972,9 +1067,6 @@ footer p{
 
 </section>
 
-
-<!-- ================= ALL PRODUCTS ================= -->
-
 <section class="section" id="all-products">
 
     <div class="section-heading">
@@ -994,9 +1086,6 @@ footer p{
     </div>
 
 </section>
-
-
-<!-- ================= PRODUCT DETAILS ================= -->
 
 <div class="modal" id="productModal">
 
@@ -1026,6 +1115,22 @@ footer p{
 
             <div class="stock" id="detailStock"></div>
 
+            <div class="option-group" id="colorGroup">
+
+                <label>COLOR</label>
+
+                <div class="option-list" id="colorOptions"></div>
+
+            </div>
+
+            <div class="option-group" id="sizeGroup">
+
+                <label>SIZE</label>
+
+                <div class="option-list" id="sizeOptions"></div>
+
+            </div>
+
             <div class="quantity">
 
                 <button onclick="changeDetailQuantity(-1)">
@@ -1053,9 +1158,6 @@ footer p{
     </div>
 
 </div>
-
-
-<!-- ================= BAG ================= -->
 
 <div class="bag-overlay" id="bagOverlay">
 
@@ -1095,9 +1197,6 @@ footer p{
 
 </div>
 
-
-<!-- ================= FOOTER ================= -->
-
 <footer>
 
     <div class="footer-logo">
@@ -1110,22 +1209,11 @@ footer p{
 
 </footer>
 
-
 <script>
-
-/* =====================================================
-   ÉLORIA
-   GOOGLE SHEETS CONNECTION
-===================================================== */
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
 
-
-/* =====================================================
-   IMAGE HELPERS
-   Images are now loaded from Google Drive / Google Sheets.
-===================================================== */
 
 function normalizeImageURL(value){
 
@@ -1133,7 +1221,6 @@ function normalizeImageURL(value){
 
     if(!url) return "";
 
-    /* Old Google Photos share links are not direct images. */
     if(
         url.includes("share.google") ||
         url.includes("photos.app.goo.gl")
@@ -1141,25 +1228,30 @@ function normalizeImageURL(value){
         return "";
     }
 
-    /* Convert Google Drive file links to a browser-friendly thumbnail. */
-    let match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+    let match =
+        url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
 
     if(match && match[1]){
+
         return "https://drive.google.com/thumbnail?id=" +
-               encodeURIComponent(match[1]) +
-               "&sz=w1600";
+            encodeURIComponent(match[1]) +
+            "&sz=w1600";
+
     }
 
-    match = url.match(/[?&]id=([^&]+)/i);
+    match =
+        url.match(/[?&]id=([^&]+)/i);
 
     if(
         url.includes("drive.google.com") &&
         match &&
         match[1]
     ){
+
         return "https://drive.google.com/thumbnail?id=" +
-               encodeURIComponent(match[1]) +
-               "&sz=w1600";
+            encodeURIComponent(match[1]) +
+            "&sz=w1600";
+
     }
 
     return url;
@@ -1171,12 +1263,25 @@ let collections = [];
 let currentProduct = null;
 let detailQuantity = 1;
 
+let selectedColor = "";
+let selectedSize = "";
+
+let cart = [];
 
 
+try{
 
-/* =====================================================
-   HELPERS
-===================================================== */
+    cart =
+        JSON.parse(
+            localStorage.getItem("eloria_cart_v1")
+        ) || [];
+
+}catch(error){
+
+    cart = [];
+
+}
+
 
 function escapeHTML(value){
 
@@ -1200,7 +1305,8 @@ function isTrue(value){
         return true;
     }
 
-    const v = String(value || "")
+    const v =
+        String(value || "")
         .trim()
         .toLowerCase();
 
@@ -1216,7 +1322,8 @@ function isTrue(value){
 
 function isAvailable(product){
 
-    const status = String(product.Status || "")
+    const status =
+        String(product.Status || "")
         .trim()
         .toLowerCase();
 
@@ -1236,11 +1343,12 @@ function isAvailable(product){
 
 function formatPrice(value){
 
-    const number = parseFloat(
-        String(value || "")
-        .replace(",", ".")
-        .replace(/[^\d.-]/g,"")
-    );
+    const number =
+        parseFloat(
+            String(value || "")
+            .replace(",",".")
+            .replace(/[^\d.-]/g,"")
+        );
 
     if(isNaN(number)){
         return escapeHTML(value || "—");
@@ -1261,10 +1369,6 @@ function getProductId(product,index){
 
 }
 
-
-/* =====================================================
-   GET PRODUCT IMAGES
-===================================================== */
 
 function getProductImages(product){
 
@@ -1287,11 +1391,19 @@ function getProductImages(product){
         image1,
         image2 || image1
     ];
+
 }
 
-/* =====================================================
-   FIND PRODUCT BY ID
-===================================================== */
+
+function parseOptions(value){
+
+    return String(value || "")
+        .split(/[,;|\n]+/)
+        .map(item => item.trim())
+        .filter(Boolean);
+
+}
+
 
 function findProductById(id){
 
@@ -1316,26 +1428,115 @@ function findProductById(id){
 }
 
 
-/* =====================================================
-   LOAD PRODUCTS — JSONP
-===================================================== */
+/* ================= SEARCH ================= */
+
+function openSearch(){
+
+    const panel =
+        document.getElementById("searchPanel");
+
+    panel.classList.add("active");
+
+    setTimeout(() => {
+
+        document
+            .getElementById("searchInput")
+            .focus();
+
+    },50);
+
+}
+
+
+function closeSearch(){
+
+    document
+        .getElementById("searchPanel")
+        .classList.remove("active");
+
+    document
+        .getElementById("searchInput")
+        .value = "";
+
+    displayProducts();
+
+}
+
+
+function searchProducts(){
+
+    const query =
+        document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    if(!query){
+
+        displayProducts();
+
+        return;
+
+    }
+
+    const results =
+        products.filter(product => {
+
+            const text = [
+
+                product["Product Name"],
+                product.Name,
+                product.name,
+                product.Category,
+                product.Description,
+                product.description,
+                product.Colors,
+                product.Sizes
+
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+            return text.includes(query);
+
+        });
+
+    document
+        .getElementById("newProducts")
+        .innerHTML = "";
+
+    document
+        .getElementById("allProducts")
+        .innerHTML =
+            results.length
+            ? results.map(createProduct).join("")
+            : `<div class="empty">NO PRODUCTS FOUND.</div>`;
+
+}
+
+
+/* ================= PRODUCTS ================= */
 
 function loadProducts(){
 
     const callbackName =
         "eloriaProducts_" + Date.now();
 
-    const script = document.createElement("script");
+    const script =
+        document.createElement("script");
 
-    const timeout = setTimeout(() => {
+    const timeout =
+        setTimeout(() => {
 
-        script.remove();
+            script.remove();
 
-        showLoadError(
-            "Unable to load products. Please refresh the page."
-        );
+            showLoadError(
+                "Unable to load products. Please refresh the page."
+            );
 
-    },15000);
+        },15000);
 
 
     window[callbackName] = function(data){
@@ -1350,7 +1551,10 @@ function loadProducts(){
 
                 products = data;
 
-            }else if(data && Array.isArray(data.data)){
+            }else if(
+                data &&
+                Array.isArray(data.data)
+            ){
 
                 products = data.data;
 
@@ -1360,17 +1564,10 @@ function loadProducts(){
 
             }
 
-
             products =
                 products.filter(isAvailable);
 
-
             displayProducts();
-
-            /*
-               Collections may need products to find
-               their Product IDs and images.
-            */
 
             displayCollections();
 
@@ -1411,424 +1608,10 @@ function loadProducts(){
         "&t=" +
         Date.now();
 
-
     document.body.appendChild(script);
 
 }
 
-
-/* =====================================================
-   LOAD COLLECTIONS — JSONP
-===================================================== */
-
-function loadCollections(){
-
-    const callbackName =
-        "eloriaCollections_" + Date.now();
-
-    const script = document.createElement("script");
-
-    const timeout = setTimeout(() => {
-
-        script.remove();
-
-        showCollectionsMessage(
-            "Unable to load collections."
-        );
-
-    },15000);
-
-
-    window[callbackName] = function(data){
-
-        clearTimeout(timeout);
-
-        script.remove();
-
-        try{
-
-            if(Array.isArray(data)){
-
-                collections = data;
-
-            }else if(
-                data &&
-                Array.isArray(data.collections)
-            ){
-
-                collections = data.collections;
-
-            }else if(
-                data &&
-                Array.isArray(data.data)
-            ){
-
-                collections = data.data;
-
-            }else{
-
-                collections = [];
-
-            }
-
-
-            /*
-               Keep only real collection rows.
-               This prevents empty / malformed rows
-               from becoming extra collection cards.
-            */
-
-            collections =
-                collections.filter(collection => {
-
-                    const name =
-                        String(
-                            collection["Collection Name"] ||
-                            collection.Name ||
-                            collection.name ||
-                            ""
-                        ).trim();
-
-                    return name !== "";
-
-                });
-
-
-            /*
-               Remove duplicates.
-            */
-
-            const seen = new Set();
-
-            collections =
-                collections.filter(collection => {
-
-                    const name =
-                        String(
-                            collection["Collection Name"] ||
-                            collection.Name ||
-                            collection.name ||
-                            ""
-                        ).trim()
-                        .toLowerCase();
-
-                    if(!name || seen.has(name)){
-                        return false;
-                    }
-
-                    seen.add(name);
-
-                    return true;
-
-                });
-
-
-            displayCollections();
-
-        }catch(error){
-
-            console.error(error);
-
-            showCollectionsMessage(
-                "Something went wrong while loading collections."
-            );
-
-        }
-
-        delete window[callbackName];
-
-    };
-
-
-    script.onerror = function(){
-
-        clearTimeout(timeout);
-
-        script.remove();
-
-        showCollectionsMessage(
-            "Could not connect to the collection database."
-        );
-
-        delete window[callbackName];
-
-    };
-
-
-    script.src =
-        SCRIPT_URL +
-        "?type=collections&callback=" +
-        encodeURIComponent(callbackName) +
-        "&t=" +
-        Date.now();
-
-
-    document.body.appendChild(script);
-
-}
-
-
-function showCollectionsMessage(message){
-
-    document.getElementById("collectionsContainer").innerHTML =
-        `<div class="empty">${escapeHTML(message)}</div>`;
-
-}
-
-
-/* =====================================================
-   GET COLLECTION IMAGE
-===================================================== */
-
-function getCollectionImages(collection){
-
-    let image1 =
-        collection["Image 1"] ||
-        collection.Image1 ||
-        collection.image1 ||
-        "";
-
-    let image2 =
-        collection["Image 2"] ||
-        collection.Image2 ||
-        collection.image2 ||
-        "";
-
-    image1 = normalizeImageURL(image1);
-    image2 = normalizeImageURL(image2);
-
-    /*
-       If the collection itself has no images, use the first
-       selected product image as a graceful fallback.
-    */
-    if(!image1 && !image2){
-
-        const productIds =
-            String(
-                collection["Product IDs"] ||
-                collection.ProductIDs ||
-                collection.productIds ||
-                ""
-            ).trim();
-
-        if(productIds){
-
-            const ids = productIds
-                .split(/[,;\n|]+/)
-                .map(id => id.trim())
-                .filter(Boolean);
-
-            for(const id of ids){
-
-                const product = findProductById(id);
-
-                if(product){
-
-                    const images = getProductImages(product);
-
-                    image1 = images[0] || "";
-                    image2 = images[1] || image1;
-
-                    if(image1) break;
-                }
-            }
-        }
-    }
-
-    return [image1, image2 || image1];
-}
-
-
-/* =====================================================
-   DISPLAY COLLECTIONS
-===================================================== */
-
-function displayCollections(){
-
-    const container =
-        document.getElementById("collectionsContainer");
-
-    if(!collections.length){
-
-        container.innerHTML =
-            `<div class="empty">NO COLLECTIONS AVAILABLE YET.</div>`;
-
-        return;
-    }
-
-    container.innerHTML =
-        collections
-        .map((collection,index) => createCollection(collection,index))
-        .join("");
-
-}
-
-
-/* =====================================================
-   CREATE COLLECTION
-   Image 1 + Image 2 work as a swipeable gallery.
-===================================================== */
-
-function createCollection(collection,index){
-
-    const name =
-        collection["Collection Name"] ||
-        collection.Name ||
-        collection.name ||
-        "ÉLORIA Collection";
-
-    const description =
-        collection.Description ||
-        collection.description ||
-        "";
-
-    const images = getCollectionImages(collection);
-
-    const image1 =
-        images[0] ||
-        "https://via.placeholder.com/1200x750?text=ELORIA";
-
-    const image2 =
-        images[1] ||
-        "";
-
-    const safeId = "collectionGallery_" + index;
-
-    return `
-
-        <article class="collection-card">
-
-            <div
-                class="collection-gallery"
-                id="${safeId}"
-                ontouchstart="collectionTouchStart(event,this)"
-                ontouchend="collectionTouchEnd(event,this)"
-            >
-
-                <img
-                    class="collection-image collection-image-one"
-                    src="${escapeHTML(image1)}"
-                    alt="${escapeHTML(name)}"
-                    loading="lazy"
-                    onerror="this.src='https://via.placeholder.com/1200x750?text=ELORIA'"
-                >
-
-                ${
-                    image2
-                    ? `
-                    <img
-                        class="collection-image collection-image-two"
-                        src="${escapeHTML(image2)}"
-                        alt="${escapeHTML(name)}"
-                        loading="lazy"
-                        onerror="this.style.display='none'"
-                    >
-                    `
-                    : ""
-                }
-
-                <div class="collection-overlay"></div>
-
-                <div class="collection-info">
-
-                    <div class="collection-name">
-                        ${escapeHTML(name)}
-                    </div>
-
-                    ${
-                        description
-                        ? `
-                            <div class="collection-description">
-                                ${escapeHTML(description)}
-                            </div>
-                        `
-                        : ""
-                    }
-
-                </div>
-
-                ${
-                    image2
-                    ? `
-                    <div class="collection-dots">
-                        <span class="collection-dot active"></span>
-                        <span class="collection-dot"></span>
-                    </div>
-
-                    <div class="collection-swipe-hint">
-                        SWIPE
-                    </div>
-                    `
-                    : ""
-                }
-
-            </div>
-
-        </article>
-
-    `;
-}
-
-
-function collectionTouchStart(event,element){
-
-    element.dataset.touchStartX =
-        event.changedTouches[0].clientX;
-
-}
-
-
-function collectionTouchEnd(event,element){
-
-    const start =
-        parseFloat(element.dataset.touchStartX || 0);
-
-    const end =
-        event.changedTouches[0].clientX;
-
-    if(!start) return;
-
-    const difference = start - end;
-
-    if(Math.abs(difference) < 45) return;
-
-    const images =
-        element.querySelectorAll(".collection-image");
-
-    if(images.length < 2) return;
-
-    const dots =
-        element.querySelectorAll(".collection-dot");
-
-    const current =
-        element.classList.contains("show-second") ? 1 : 0;
-
-    let next =
-        difference > 0 ? current + 1 : current - 1;
-
-    if(next > 1) next = 0;
-    if(next < 0) next = 1;
-
-    if(next === 1){
-
-        element.classList.add("show-second");
-
-    }else{
-
-        element.classList.remove("show-second");
-
-    }
-
-    dots.forEach((dot,index) => {
-        dot.classList.toggle("active",index === next);
-    });
-
-    element.dataset.touchStartX = "";
-}
-
-/* =====================================================
-   PRODUCTS ERROR
-===================================================== */
 
 function showLoadError(message){
 
@@ -1840,10 +1623,6 @@ function showLoadError(message){
 
 }
 
-
-/* =====================================================
-   DISPLAY PRODUCTS
-===================================================== */
 
 function displayProducts(){
 
@@ -1896,55 +1675,42 @@ function displayProducts(){
 }
 
 
-/* =====================================================
-   CREATE PRODUCT
-===================================================== */
-
 function createProduct(product){
 
     const index =
         products.indexOf(product);
 
-
     const id =
         getProductId(product,index);
 
-
     const images =
         getProductImages(product);
-
 
     const image1 =
         images[0] ||
         "https://via.placeholder.com/600x800?text=ELORIA";
 
-
     const image2 =
         images[1] ||
         image1;
-
 
     const name =
         product["Product Name"] ||
         product.name ||
         "ÉLORIA Product";
 
-
     const price =
         product.Price ||
         product.price ||
         "";
-
 
     const oldPrice =
         product["Old Price"] ||
         product.oldPrice ||
         "";
 
-
     const isNew =
         isTrue(product.New);
-
 
     const isSale =
         isTrue(product.Sale);
@@ -2026,9 +1792,123 @@ function createProduct(product){
 }
 
 
-/* =====================================================
-   PRODUCT DETAILS
-===================================================== */
+/* ================= PRODUCT OPTIONS ================= */
+
+function renderProductOptions(){
+
+    const colorGroup =
+        document.getElementById("colorGroup");
+
+    const sizeGroup =
+        document.getElementById("sizeGroup");
+
+    const colorOptions =
+        document.getElementById("colorOptions");
+
+    const sizeOptions =
+        document.getElementById("sizeOptions");
+
+
+    const colors =
+        parseOptions(
+            currentProduct?.Colors ||
+            currentProduct?.colors
+        );
+
+    const sizes =
+        parseOptions(
+            currentProduct?.Sizes ||
+            currentProduct?.sizes
+        );
+
+
+    selectedColor = "";
+    selectedSize = "";
+
+
+    if(colors.length){
+
+        colorGroup.style.display = "block";
+
+        colorOptions.innerHTML =
+            colors.map(color => `
+
+                <button
+                    type="button"
+                    class="option"
+                    onclick="selectColor(this, '${escapeHTML(color)}')"
+                >
+                    ${escapeHTML(color)}
+                </button>
+
+            `).join("");
+
+    }else{
+
+        colorGroup.style.display = "none";
+        colorOptions.innerHTML = "";
+
+    }
+
+
+    if(sizes.length){
+
+        sizeGroup.style.display = "block";
+
+        sizeOptions.innerHTML =
+            sizes.map(size => `
+
+                <button
+                    type="button"
+                    class="option"
+                    onclick="selectSize(this, '${escapeHTML(size)}')"
+                >
+                    ${escapeHTML(size)}
+                </button>
+
+            `).join("");
+
+    }else{
+
+        sizeGroup.style.display = "none";
+        sizeOptions.innerHTML = "";
+
+    }
+
+}
+
+
+function selectColor(button,color){
+
+    selectedColor = color;
+
+    document
+        .querySelectorAll("#colorOptions .option")
+        .forEach(item =>
+            item.classList.remove("selected")
+        );
+
+    button.classList.add("selected");
+
+}
+
+
+function selectSize(button,size){
+
+    selectedSize = size;
+
+    document
+        .querySelectorAll("#sizeOptions .option")
+        .forEach(item =>
+            item.classList.remove("selected")
+        );
+
+    button.classList.add("selected");
+
+}
+
+
+/* ================= PRODUCT DETAILS ================= */
 
 function openProduct(id){
 
@@ -2046,8 +1926,15 @@ function openProduct(id){
 
     detailQuantity = 1;
 
+    selectedColor = "";
+    selectedSize = "";
+
+
     document.getElementById("detailQuantity")
         .textContent = "1";
+
+
+    renderProductOptions();
 
 
     const images =
@@ -2058,7 +1945,6 @@ function openProduct(id){
         images[0] ||
         "https://via.placeholder.com/600x800?text=ELORIA";
 
-
     const image2 =
         images[1] ||
         image1;
@@ -2066,7 +1952,6 @@ function openProduct(id){
 
     document.getElementById("detailImage1").src =
         image1;
-
 
     document.getElementById("detailImage2").src =
         image2;
@@ -2082,7 +1967,6 @@ function openProduct(id){
         currentProduct.Price ||
         currentProduct.price ||
         "";
-
 
     const oldPrice =
         currentProduct["Old Price"] ||
@@ -2115,7 +1999,6 @@ function openProduct(id){
 
     const stockValue =
         parseInt(currentProduct.Stock);
-
 
     const stockElement =
         document.getElementById("detailStock");
@@ -2190,7 +2073,6 @@ function openProduct(id){
     document.getElementById("productModal")
         .classList.add("active");
 
-
     document.body.style.overflow = "hidden";
 
 }
@@ -2236,26 +2118,7 @@ function changeDetailQuantity(change){
 }
 
 
-/* =====================================================
-   CART
-===================================================== */
-
-let cart = [];
-
-
-try{
-
-    cart =
-        JSON.parse(
-            localStorage.getItem("eloria_cart_v1")
-        ) || [];
-
-}catch(error){
-
-    cart = [];
-
-}
-
+/* ================= CART ================= */
 
 function saveCart(){
 
@@ -2285,10 +2148,6 @@ function updateBagCount(){
 }
 
 
-/* =====================================================
-   ADD PRODUCT TO BAG
-===================================================== */
-
 function addCurrentProduct(){
 
     if(!currentProduct){
@@ -2296,9 +2155,39 @@ function addCurrentProduct(){
     }
 
 
+    const colors =
+        parseOptions(
+            currentProduct.Colors ||
+            currentProduct.colors
+        );
+
+    const sizes =
+        parseOptions(
+            currentProduct.Sizes ||
+            currentProduct.sizes
+        );
+
+
+    if(colors.length && !selectedColor){
+
+        alert("Please select a color.");
+
+        return;
+
+    }
+
+
+    if(sizes.length && !selectedSize){
+
+        alert("Please select a size.");
+
+        return;
+
+    }
+
+
     const index =
         products.indexOf(currentProduct);
-
 
     const id =
         getProductId(currentProduct,index);
@@ -2306,7 +2195,15 @@ function addCurrentProduct(){
 
     const existing =
         cart.find(item =>
-            String(item.id) === String(id)
+
+            String(item.id) === String(id) &&
+
+            String(item.color || "") ===
+            String(selectedColor || "") &&
+
+            String(item.size || "") ===
+            String(selectedSize || "")
+
         );
 
 
@@ -2321,7 +2218,8 @@ function addCurrentProduct(){
     if(existing){
 
         const newQuantity =
-            existing.quantity + detailQuantity;
+            Number(existing.quantity) +
+            detailQuantity;
 
 
         if(!isNaN(stock) && newQuantity > stock){
@@ -2353,6 +2251,10 @@ function addCurrentProduct(){
             image:
                 images[0] || "",
 
+            color:selectedColor,
+
+            size:selectedSize,
+
             quantity:detailQuantity
 
         });
@@ -2369,15 +2271,14 @@ function addCurrentProduct(){
 }
 
 
-/* =====================================================
-   BAG
-===================================================== */
+/* ================= BAG ================= */
 
 function openBag(){
 
     renderBag();
 
-    document.getElementById("bagOverlay")
+    document
+        .getElementById("bagOverlay")
         .classList.add("active");
 
     document.body.style.overflow = "hidden";
@@ -2387,7 +2288,8 @@ function openBag(){
 
 function closeBag(){
 
-    document.getElementById("bagOverlay")
+    document
+        .getElementById("bagOverlay")
         .classList.remove("active");
 
     document.body.style.overflow = "";
@@ -2415,7 +2317,6 @@ function renderBag(){
         document.getElementById("subtotal")
             .textContent = "€0.00";
 
-
         return;
 
     }
@@ -2441,6 +2342,26 @@ function renderBag(){
                     <div class="bag-item-price">
                         ${formatPrice(item.price)}
                     </div>
+
+                    ${
+                        item.color
+                        ? `
+                            <div class="bag-variant">
+                                COLOR: ${escapeHTML(item.color)}
+                            </div>
+                        `
+                        : ""
+                    }
+
+                    ${
+                        item.size
+                        ? `
+                            <div class="bag-variant">
+                                SIZE: ${escapeHTML(item.size)}
+                            </div>
+                        `
+                        : ""
+                    }
 
                     <div class="bag-quantity">
 
@@ -2473,7 +2394,11 @@ function renderBag(){
 
                 <div>
                     ${formatPrice(
-                        parseFloat(item.price) *
+                        parseFloat(
+                            String(item.price)
+                            .replace(",",".")
+                            .replace(/[^\d.-]/g,"")
+                        ) *
                         Number(item.quantity)
                     )}
                 </div>
@@ -2485,16 +2410,20 @@ function renderBag(){
 
     const total =
         cart.reduce(
-            (sum,item) =>
-                sum +
-                (
+            (sum,item) => {
+
+                const price =
                     parseFloat(
                         String(item.price)
-                            .replace(",",".")
-                            .replace(/[^\d.-]/g,"")
-                    ) *
-                    Number(item.quantity)
-                ),
+                        .replace(",",".")
+                        .replace(/[^\d.-]/g,"")
+                    ) || 0;
+
+                return sum +
+                    price *
+                    Number(item.quantity || 0);
+
+            },
             0
         );
 
@@ -2513,7 +2442,9 @@ function changeCartQuantity(index,change){
     }
 
 
-    cart[index].quantity += change;
+    cart[index].quantity =
+        Number(cart[index].quantity) +
+        change;
 
 
     if(cart[index].quantity <= 0){
@@ -2541,9 +2472,7 @@ function removeFromCart(index){
 }
 
 
-/* =====================================================
-   CHECKOUT
-===================================================== */
+/* ================= CHECKOUT ================= */
 
 function checkout(){
 
@@ -2556,40 +2485,507 @@ function checkout(){
     }
 
 
-    alert(
-        "Checkout will be connected to your order form next."
-    );
+    window.location.href = "checkout.html";
 
 }
 
 
-/* =====================================================
-   CLOSE MODALS
-===================================================== */
+/* ================= COLLECTIONS ================= */
 
-document.getElementById("productModal")
-.addEventListener("click",function(event){
+function loadCollections(){
 
-    if(event.target === this){
+    const callbackName =
+        "eloriaCollections_" + Date.now();
+
+    const script =
+        document.createElement("script");
+
+
+    const timeout =
+        setTimeout(() => {
+
+            script.remove();
+
+            showCollectionsMessage(
+                "Unable to load collections."
+            );
+
+        },15000);
+
+
+    window[callbackName] = function(data){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        try{
+
+            if(Array.isArray(data)){
+
+                collections = data;
+
+            }else if(
+                data &&
+                Array.isArray(data.collections)
+            ){
+
+                collections = data.collections;
+
+            }else if(
+                data &&
+                Array.isArray(data.data)
+            ){
+
+                collections = data.data;
+
+            }else{
+
+                collections = [];
+
+            }
+
+
+            collections =
+                collections.filter(collection => {
+
+                    const name =
+                        String(
+                            collection["Collection Name"] ||
+                            collection.Name ||
+                            collection.name ||
+                            ""
+                        ).trim();
+
+                    return name !== "";
+
+                });
+
+
+            const seen = new Set();
+
+
+            collections =
+                collections.filter(collection => {
+
+                    const name =
+                        String(
+                            collection["Collection Name"] ||
+                            collection.Name ||
+                            collection.name ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    if(!name || seen.has(name)){
+                        return false;
+                    }
+
+                    seen.add(name);
+
+                    return true;
+
+                });
+
+
+            displayCollections();
+
+        }catch(error){
+
+            console.error(error);
+
+            showCollectionsMessage(
+                "Something went wrong while loading collections."
+            );
+
+        }
+
+        delete window[callbackName];
+
+    };
+
+
+    script.onerror = function(){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        showCollectionsMessage(
+            "Could not connect to the collection database."
+        );
+
+        delete window[callbackName];
+
+    };
+
+
+    script.src =
+        SCRIPT_URL +
+        "?type=collections&callback=" +
+        encodeURIComponent(callbackName) +
+        "&t=" +
+        Date.now();
+
+
+    document.body.appendChild(script);
+
+}
+
+
+function showCollectionsMessage(message){
+
+    document.getElementById("collectionsContainer").innerHTML =
+        `<div class="empty">${escapeHTML(message)}</div>`;
+
+}
+
+
+function getCollectionImages(collection){
+
+    let image1 =
+        collection["Image 1"] ||
+        collection.Image1 ||
+        collection.image1 ||
+        "";
+
+    let image2 =
+        collection["Image 2"] ||
+        collection.Image2 ||
+        collection.image2 ||
+        "";
+
+
+    image1 = normalizeImageURL(image1);
+    image2 = normalizeImageURL(image2);
+
+
+    if(!image1 && !image2){
+
+        const productIds =
+            String(
+                collection["Product IDs"] ||
+                collection.ProductIDs ||
+                collection.productIds ||
+                ""
+            ).trim();
+
+
+        if(productIds){
+
+            const ids =
+                productIds
+                .split(/[,;\n|]+/)
+                .map(id => id.trim())
+                .filter(Boolean);
+
+
+            for(const id of ids){
+
+                const product =
+                    findProductById(id);
+
+
+                if(product){
+
+                    const images =
+                        getProductImages(product);
+
+
+                    image1 =
+                        images[0] || "";
+
+                    image2 =
+                        images[1] || image1;
+
+                    if(image1) break;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    return [
+        image1,
+        image2 || image1
+    ];
+
+}
+
+
+function displayCollections(){
+
+    const container =
+        document.getElementById("collectionsContainer");
+
+
+    if(!collections.length){
+
+        container.innerHTML =
+            `<div class="empty">NO COLLECTIONS AVAILABLE YET.</div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        collections
+        .map((collection,index) =>
+            createCollection(collection,index)
+        )
+        .join("");
+
+}
+
+
+function createCollection(collection,index){
+
+    const name =
+        collection["Collection Name"] ||
+        collection.Name ||
+        collection.name ||
+        "ÉLORIA Collection";
+
+
+    const description =
+        collection.Description ||
+        collection.description ||
+        "";
+
+
+    const images =
+        getCollectionImages(collection);
+
+
+    const image1 =
+        images[0] ||
+        "https://via.placeholder.com/1200x750?text=ELORIA";
+
+
+    const image2 =
+        images[1] ||
+        "";
+
+
+    const safeId =
+        "collectionGallery_" + index;
+
+
+    return `
+
+        <article class="collection-card">
+
+            <div
+                class="collection-gallery"
+                id="${safeId}"
+                ontouchstart="collectionTouchStart(event,this)"
+                ontouchend="collectionTouchEnd(event,this)"
+            >
+
+                <img
+                    class="collection-image collection-image-one"
+                    src="${escapeHTML(image1)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/1200x750?text=ELORIA'"
+                >
+
+                ${
+                    image2
+                    ? `
+                        <img
+                            class="collection-image collection-image-two"
+                            src="${escapeHTML(image2)}"
+                            alt="${escapeHTML(name)}"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
+                    `
+                    : ""
+                }
+
+
+                <div class="collection-overlay"></div>
+
+
+                <div class="collection-info">
+
+                    <div class="collection-name">
+                        ${escapeHTML(name)}
+                    </div>
+
+                    ${
+                        description
+                        ? `
+                            <div class="collection-description">
+                                ${escapeHTML(description)}
+                            </div>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+
+                ${
+                    image2
+                    ? `
+                        <div class="collection-dots">
+
+                            <span class="collection-dot active"></span>
+
+                            <span class="collection-dot"></span>
+
+                        </div>
+
+                        <div class="collection-swipe-hint">
+                            SWIPE
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+function collectionTouchStart(event,element){
+
+    element.dataset.touchStartX =
+        event.changedTouches[0].clientX;
+
+}
+
+
+function collectionTouchEnd(event,element){
+
+    const start =
+        parseFloat(
+            element.dataset.touchStartX || 0
+        );
+
+    const end =
+        event.changedTouches[0].clientX;
+
+
+    if(!start) return;
+
+
+    const difference =
+        start - end;
+
+
+    if(Math.abs(difference) < 45) return;
+
+
+    const images =
+        element.querySelectorAll(".collection-image");
+
+
+    if(images.length < 2) return;
+
+
+    const dots =
+        element.querySelectorAll(".collection-dot");
+
+
+    const current =
+        element.classList.contains("show-second")
+        ? 1
+        : 0;
+
+
+    let next =
+        difference > 0
+        ? current + 1
+        : current - 1;
+
+
+    if(next > 1) next = 0;
+
+    if(next < 0) next = 1;
+
+
+    if(next === 1){
+
+        element.classList.add("show-second");
+
+    }else{
+
+        element.classList.remove("show-second");
+
+    }
+
+
+    dots.forEach((dot,index) => {
+
+        dot.classList.toggle(
+            "active",
+            index === next
+        );
+
+    });
+
+
+    element.dataset.touchStartX = "";
+
+}
+
+
+/* ================= CLOSE ================= */
+
+document
+    .getElementById("productModal")
+    .addEventListener("click",function(event){
+
+        if(event.target === this){
+
+            closeProduct();
+
+        }
+
+    });
+
+
+document
+    .getElementById("bagOverlay")
+    .addEventListener("click",function(event){
+
+        if(event.target === this){
+
+            closeBag();
+
+        }
+
+    });
+
+
+document.addEventListener("keydown",function(event){
+
+    if(event.key === "Escape"){
+
         closeProduct();
-    }
-
-});
-
-
-document.getElementById("bagOverlay")
-.addEventListener("click",function(event){
-
-    if(event.target === this){
         closeBag();
+        closeSearch();
+
     }
 
 });
 
 
-/* =====================================================
-   START
-===================================================== */
+/* ================= START ================= */
 
 updateBagCount();
 
@@ -2601,4 +2997,3 @@ loadCollections();
 
 </body>
 </html>
-```
