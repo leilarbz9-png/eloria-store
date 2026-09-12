@@ -253,6 +253,82 @@ header{
     max-width:500px;
 }
 
+/* ================= COLLECTION GALLERY ================= */
+
+.collection-gallery{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    touch-action:pan-y;
+}
+
+.collection-image{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:opacity .45s ease, transform .7s ease;
+}
+
+.collection-image-one{
+    opacity:1;
+}
+
+.collection-image-two{
+    opacity:0;
+}
+
+.collection-gallery.show-second .collection-image-one{
+    opacity:0;
+}
+
+.collection-gallery.show-second .collection-image-two{
+    opacity:1;
+}
+
+.collection-dots{
+    position:absolute;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    display:flex;
+    gap:7px;
+    z-index:4;
+}
+
+.collection-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.9);
+}
+
+.collection-dot.active{
+    background:white;
+}
+
+.collection-swipe-hint{
+    position:absolute;
+    right:18px;
+    top:18px;
+    z-index:4;
+    padding:7px 9px;
+    background:rgba(0,0,0,.25);
+    color:white;
+    font-size:8px;
+    letter-spacing:1.5px;
+    opacity:.85;
+}
+
+.collection-gallery .collection-overlay,
+.collection-gallery .collection-info{
+    z-index:3;
+    pointer-events:none;
+}
+
 /* ================= PRODUCTS ================= */
 
 .products{
@@ -989,7 +1065,7 @@ footer p{
 
             <h2>Your Bag</h2>
 
-            <button class="bag-close" onclick="closeBag">
+            <button class="bag-close" onclick="closeBag()">
                 ×
             </button>
 
@@ -1047,42 +1123,55 @@ const SCRIPT_URL =
 
 
 /* =====================================================
-   GITHUB PRODUCT IMAGES
+   IMAGE HELPERS
+   Images are now loaded from Google Drive / Google Sheets.
 ===================================================== */
 
-const IMAGE_BASE =
-"https://raw.githubusercontent.com/leilarbz9-png/eloria-store/main/";
+function normalizeImageURL(value){
 
+    let url = String(value || "").trim();
 
-const PRODUCT_IMAGES = {
+    if(!url) return "";
 
-    "Silk Midi Dress":[
-        "1.jpg",
-        "2.jpg"
-    ],
+    /* Old Google Photos share links are not direct images. */
+    if(
+        url.includes("share.google") ||
+        url.includes("photos.app.goo.gl")
+    ){
+        return "";
+    }
 
-    "Soft Knit Top":[
-        "soft-knit-top-1.jpg",
-        "soft-knit-top-2.jpg"
-    ],
+    /* Convert Google Drive file links to a browser-friendly thumbnail. */
+    let match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
 
-    "Satin Blouse":[
-        "satin-blouse-1.jpg",
-        "satin-blouse-2.jpg"
-    ],
+    if(match && match[1]){
+        return "https://drive.google.com/thumbnail?id=" +
+               encodeURIComponent(match[1]) +
+               "&sz=w1600";
+    }
 
-    "Luxe Blazer":[
-        "luxe-blazer-1.jpg",
-        "luxe-blazer-2.jpg"
-    ]
+    match = url.match(/[?&]id=([^&]+)/i);
 
-};
+    if(
+        url.includes("drive.google.com") &&
+        match &&
+        match[1]
+    ){
+        return "https://drive.google.com/thumbnail?id=" +
+               encodeURIComponent(match[1]) +
+               "&sz=w1600";
+    }
+
+    return url;
+}
 
 
 let products = [];
 let collections = [];
 let currentProduct = null;
 let detailQuantity = 1;
+
+
 
 
 /* =====================================================
@@ -1179,32 +1268,6 @@ function getProductId(product,index){
 
 function getProductImages(product){
 
-    const name = String(
-        product["Product Name"] ||
-        product.name ||
-        ""
-    ).trim();
-
-
-    /*
-       First priority:
-       GitHub images already uploaded for ÉLORIA products.
-    */
-
-    if(PRODUCT_IMAGES[name]){
-
-        return PRODUCT_IMAGES[name].map(
-            file => IMAGE_BASE + file
-        );
-
-    }
-
-
-    /*
-       Second priority:
-       Images saved in Google Sheets.
-    */
-
     let image1 =
         product["Image 1"] ||
         product.image1 ||
@@ -1214,36 +1277,17 @@ function getProductImages(product){
     let image2 =
         product["Image 2"] ||
         product.image2 ||
-        image1;
+        image1 ||
+        "";
 
-
-    /*
-       share.google / Google Photos links are not
-       direct image URLs, so do not use them as <img> sources.
-    */
-
-    if(
-        image1.includes("share.google") ||
-        image1.includes("photos.app.goo.gl")
-    ){
-        image1 = "";
-    }
-
-    if(
-        image2.includes("share.google") ||
-        image2.includes("photos.app.goo.gl")
-    ){
-        image2 = "";
-    }
-
+    image1 = normalizeImageURL(image1);
+    image2 = normalizeImageURL(image2);
 
     return [
         image1,
         image2 || image1
     ];
-
 }
-
 
 /* =====================================================
    FIND PRODUCT BY ID
@@ -1513,7 +1557,7 @@ function loadCollections(){
 
     script.src =
         SCRIPT_URL +
-        "?action=collections&callback=" +
+        "?type=collections&callback=" +
         encodeURIComponent(callbackName) +
         "&t=" +
         Date.now();
@@ -1536,96 +1580,62 @@ function showCollectionsMessage(message){
    GET COLLECTION IMAGE
 ===================================================== */
 
-function getCollectionImage(collection){
+function getCollectionImages(collection){
 
     let image1 =
-        String(
-            collection["Image 1"] ||
-            collection.Image1 ||
-            collection.image1 ||
-            ""
-        ).trim();
-
+        collection["Image 1"] ||
+        collection.Image1 ||
+        collection.image1 ||
+        "";
 
     let image2 =
-        String(
-            collection["Image 2"] ||
-            collection.Image2 ||
-            collection.image2 ||
-            ""
-        ).trim();
+        collection["Image 2"] ||
+        collection.Image2 ||
+        collection.image2 ||
+        "";
 
-
-    /*
-       Use a direct collection image if one exists.
-    */
-
-    const invalid1 =
-        image1.includes("share.google") ||
-        image1.includes("photos.app.goo.gl");
-
-    const invalid2 =
-        image2.includes("share.google") ||
-        image2.includes("photos.app.goo.gl");
-
-
-    if(image1 && !invalid1){
-        return image1;
-    }
-
-    if(image2 && !invalid2){
-        return image2;
-    }
-
+    image1 = normalizeImageURL(image1);
+    image2 = normalizeImageURL(image2);
 
     /*
-       If the collection has Product IDs,
-       use the first product's GitHub image.
+       If the collection itself has no images, use the first
+       selected product image as a graceful fallback.
     */
+    if(!image1 && !image2){
 
-    const productIds =
-        String(
-            collection["Product IDs"] ||
-            collection.ProductIDs ||
-            collection.productIds ||
-            ""
-        ).trim();
+        const productIds =
+            String(
+                collection["Product IDs"] ||
+                collection.ProductIDs ||
+                collection.productIds ||
+                ""
+            ).trim();
 
+        if(productIds){
 
-    if(productIds){
+            const ids = productIds
+                .split(/[,;\n|]+/)
+                .map(id => id.trim())
+                .filter(Boolean);
 
-        const ids =
-            productIds
-            .split(/[,;\n|]+/)
-            .map(id => id.trim())
-            .filter(Boolean);
+            for(const id of ids){
 
+                const product = findProductById(id);
 
-        for(const id of ids){
+                if(product){
 
-            const product =
-                findProductById(id);
+                    const images = getProductImages(product);
 
+                    image1 = images[0] || "";
+                    image2 = images[1] || image1;
 
-            if(product){
-
-                const images =
-                    getProductImages(product);
-
-
-                if(images[0]){
-                    return images[0];
+                    if(image1) break;
                 }
-
             }
-
         }
-
     }
 
-
-    return "https://via.placeholder.com/1000x600?text=ELORIA";
-
+    return [image1, image2 || image1];
 }
 
 
@@ -1638,20 +1648,17 @@ function displayCollections(){
     const container =
         document.getElementById("collectionsContainer");
 
-
     if(!collections.length){
 
         container.innerHTML =
             `<div class="empty">NO COLLECTIONS AVAILABLE YET.</div>`;
 
         return;
-
     }
-
 
     container.innerHTML =
         collections
-        .map(collection => createCollection(collection))
+        .map((collection,index) => createCollection(collection,index))
         .join("");
 
 }
@@ -1659,9 +1666,10 @@ function displayCollections(){
 
 /* =====================================================
    CREATE COLLECTION
+   Image 1 + Image 2 work as a swipeable gallery.
 ===================================================== */
 
-function createCollection(collection){
+function createCollection(collection,index){
 
     const name =
         collection["Collection Name"] ||
@@ -1669,42 +1677,87 @@ function createCollection(collection){
         collection.name ||
         "ÉLORIA Collection";
 
-
     const description =
         collection.Description ||
         collection.description ||
         "";
 
+    const images = getCollectionImages(collection);
 
-    const image =
-        getCollectionImage(collection);
+    const image1 =
+        images[0] ||
+        "https://via.placeholder.com/1200x750?text=ELORIA";
 
+    const image2 =
+        images[1] ||
+        "";
+
+    const safeId = "collectionGallery_" + index;
 
     return `
 
         <article class="collection-card">
 
-            <img
-                src="${escapeHTML(image)}"
-                alt="${escapeHTML(name)}"
-                loading="lazy"
-                onerror="this.src='https://via.placeholder.com/1000x600?text=ELORIA'"
+            <div
+                class="collection-gallery"
+                id="${safeId}"
+                ontouchstart="collectionTouchStart(event,this)"
+                ontouchend="collectionTouchEnd(event,this)"
             >
 
-            <div class="collection-overlay"></div>
+                <img
+                    class="collection-image collection-image-one"
+                    src="${escapeHTML(image1)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/1200x750?text=ELORIA'"
+                >
 
-            <div class="collection-info">
+                ${
+                    image2
+                    ? `
+                    <img
+                        class="collection-image collection-image-two"
+                        src="${escapeHTML(image2)}"
+                        alt="${escapeHTML(name)}"
+                        loading="lazy"
+                        onerror="this.style.display='none'"
+                    >
+                    `
+                    : ""
+                }
 
-                <div class="collection-name">
-                    ${escapeHTML(name)}
+                <div class="collection-overlay"></div>
+
+                <div class="collection-info">
+
+                    <div class="collection-name">
+                        ${escapeHTML(name)}
+                    </div>
+
+                    ${
+                        description
+                        ? `
+                            <div class="collection-description">
+                                ${escapeHTML(description)}
+                            </div>
+                        `
+                        : ""
+                    }
+
                 </div>
 
                 ${
-                    description
+                    image2
                     ? `
-                        <div class="collection-description">
-                            ${escapeHTML(description)}
-                        </div>
+                    <div class="collection-dots">
+                        <span class="collection-dot active"></span>
+                        <span class="collection-dot"></span>
+                    </div>
+
+                    <div class="collection-swipe-hint">
+                        SWIPE
+                    </div>
                     `
                     : ""
                 }
@@ -1714,9 +1767,64 @@ function createCollection(collection){
         </article>
 
     `;
+}
+
+
+function collectionTouchStart(event,element){
+
+    element.dataset.touchStartX =
+        event.changedTouches[0].clientX;
 
 }
 
+
+function collectionTouchEnd(event,element){
+
+    const start =
+        parseFloat(element.dataset.touchStartX || 0);
+
+    const end =
+        event.changedTouches[0].clientX;
+
+    if(!start) return;
+
+    const difference = start - end;
+
+    if(Math.abs(difference) < 45) return;
+
+    const images =
+        element.querySelectorAll(".collection-image");
+
+    if(images.length < 2) return;
+
+    const dots =
+        element.querySelectorAll(".collection-dot");
+
+    const current =
+        element.classList.contains("show-second") ? 1 : 0;
+
+    let next =
+        difference > 0 ? current + 1 : current - 1;
+
+    if(next > 1) next = 0;
+    if(next < 0) next = 1;
+
+    if(next === 1){
+
+        element.classList.add("show-second");
+
+    }else{
+
+        element.classList.remove("show-second");
+
+    }
+
+    dots.forEach((dot,index) => {
+        dot.classList.toggle("active",index === next);
+    });
+
+    element.dataset.touchStartX = "";
+}
 
 /* =====================================================
    PRODUCTS ERROR
