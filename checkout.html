@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>ÉLORIA — Checkout</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#fff;
+    color:#242222;
+    font-family:'Montserrat',sans-serif;
+}
+
+header{
+    height:80px;
+    border-bottom:1px solid #eee;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    letter-spacing:5px;
+}
+
+.container{
+    width:min(1100px,90%);
+    margin:60px auto;
+}
+
+.back{
+    border:0;
+    background:none;
+    font-size:11px;
+    letter-spacing:2px;
+    margin-bottom:30px;
+    cursor:pointer;
+}
+
+.title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:55px;
+    font-weight:500;
+    margin-bottom:40px;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+}
+
+h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:35px;
+    font-weight:500;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    font-size:10px;
+    letter-spacing:1.5px;
+    margin-bottom:7px;
+    text-transform:uppercase;
+}
+
+input,
+textarea{
+    width:100%;
+    border:1px solid #ddd;
+    padding:14px;
+    font-family:inherit;
+    outline:none;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.order{
+    background:#f8f6f2;
+    padding:30px;
+}
+
+.order-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    border-bottom:1px solid #ddd;
+    padding:15px 0;
+    font-size:12px;
+}
+
+.variant{
+    color:#777;
+    font-size:10px;
+    margin-top:5px;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+    margin-top:25px;
+    font-size:14px;
+}
+
+.confirm{
+    width:100%;
+    border:0;
+    background:#222;
+    color:#fff;
+    padding:17px;
+    margin-top:25px;
+    letter-spacing:2px;
+    cursor:pointer;
+}
+
+.note{
+    font-size:11px;
+    line-height:1.8;
+    color:#777;
+    margin-top:15px;
+}
+
+.success{
+    display:none;
+    text-align:center;
+    padding:80px 20px;
+}
+
+.success.active{
+    display:block;
+}
+
+.success h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:60px;
+    font-weight:500;
+}
+
+.success p{
+    font-size:13px;
+    line-height:1.8;
+}
+
+.home-btn{
+    display:inline-block;
+    background:#222;
+    color:white;
+    padding:15px 25px;
+    margin-top:20px;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+@media(max-width:800px){
+
+    .layout{
+        grid-template-columns:1fr;
+        gap:35px;
+    }
+
+    .title{
+        font-size:45px;
+    }
+
+    .row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        ÉLORIA
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <button
+        class="back"
+        onclick="history.back()"
+    >
+        ← BACK TO SHOP
+    </button>
+
+    <div id="checkoutContent">
+
+        <h1 class="title">
+            Checkout
+        </h1>
+
+        <div class="layout">
+
+            <!-- CUSTOMER INFORMATION -->
+
+            <div>
+
+                <h2>
+                    Your Information
+                </h2>
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label>
+                            First Name
+                        </label>
+
+                        <input
+                            id="firstName"
+                            type="text"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            Last Name
+                        </label>
+
+                        <input
+                            id="lastName"
+                            type="text"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Phone
+                    </label>
+
+                    <input
+                        id="phone"
+                        type="tel"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Requested Time
+                    </label>
+
+                    <input
+                        id="requestedTime"
+                        type="text"
+                        placeholder="Example: 17:00"
+                    >
+
+                </div>
+
+
+                <button
+                    class="confirm"
+                    onclick="confirmOrder()"
+                >
+                    CONFIRM ORDER
+                </button>
+
+
+                <div class="note">
+
+                    No online payment is required.
+                    After confirming your order,
+                    ÉLORIA will receive your order
+                    information.
+
+                </div>
+
+            </div>
+
+
+            <!-- ORDER -->
+
+            <div>
+
+                <h2>
+                    Your Order
+                </h2>
+
+                <div
+                    id="orderBox"
+                    class="order"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUCCESS -->
+
+    <div
+        id="success"
+        class="success"
+    >
+
+        <h1>
+            Thank You
+        </h1>
+
+        <p>
+            Your order has been received.
+        </p>
+
+        <p>
+            Order number:
+            <strong id="orderNumber"></strong>
+        </p>
+
+        <a
+            class="home-btn"
+            href="index.html"
+        >
+            BACK TO ÉLORIA
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
+
+
+let cart = [];
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadCheckout
+);
+
+
+function loadCheckout(){
+
+    try{
+
+        cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "eloria_cart_v1"
+                ) || "[]"
+            );
+
+    }catch(error){
+
+        cart = [];
+
+    }
+
+
+    renderOrder();
+
+}
+
+
+function formatPrice(value){
+
+    return "€" +
+        Number(value || 0)
+        .toFixed(2);
+
+}
+
+
+function renderOrder(){
+
+    const box =
+        document.getElementById("orderBox");
+
+
+    if(!cart.length){
+
+        box.innerHTML =
+            "<p>Your bag is empty.</p>";
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+
+    let html = "";
+
+
+    cart.forEach(item => {
+
+        const quantity =
+            Number(item.quantity || 0);
+
+        const price =
+            Number(item.price || 0);
+
+        const itemTotal =
+            price * quantity;
+
+        total += itemTotal;
+
+
+        html += `
+
+            <div class="order-item">
+
+                <div>
+
+                    <strong>
+                        ${escapeHTML(item.name)}
+                    </strong>
+
+                    ${
+                        item.color
+                        ?
+                        `<div class="variant">
+                            Color: ${escapeHTML(item.color)}
+                        </div>`
+                        :
+                        ""
+                    }
+
+                    ${
+                        item.size
+                        ?
+                        `<div class="variant">
+                            Size: ${escapeHTML(item.size)}
+                        </div>`
+                        :
+                        ""
+                    }
+
+                    <div class="variant">
+                        Quantity: ${quantity}
+                    </div>
+
+                </div>
+
+                <strong>
+                    ${formatPrice(itemTotal)}
+                </strong>
+
+            </div>
+
+        `;
+
+    });
+
+
+    html += `
+
+        <div class="total">
+
+            <strong>
+                TOTAL
+            </strong>
+
+            <strong>
+                ${formatPrice(total)}
+            </strong>
+
+        </div>
+
+    `;
+
+
+    box.innerHTML = html;
+
+}
+
+
+function generateOrderId(){
+
+    const now =
+        new Date();
+
+    const date =
+        now.getFullYear() +
+        String(now.getMonth()+1).padStart(2,"0") +
+        String(now.getDate()).padStart(2,"0");
+
+
+    const random =
+        Math.floor(
+            1000 +
+            Math.random()*9000
+        );
+
+
+    return "EL-" + date + "-" + random;
+
+}
+
+
+function confirmOrder(){
+
+    if(!cart.length){
+
+        alert("Your bag is empty.");
+
+        return;
+
+    }
+
+
+    const firstName =
+        document
+        .getElementById("firstName")
+        .value
+        .trim();
+
+
+    const lastName =
+        document
+        .getElementById("lastName")
+        .value
+        .trim();
+
+
+    const phone =
+        document
+        .getElementById("phone")
+        .value
+        .trim();
+
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+
+    const requestedTime =
+        document
+        .getElementById("requestedTime")
+        .value
+        .trim();
+
+
+    if(
+        !firstName ||
+        !lastName ||
+        !phone ||
+        !address
+    ){
+
+        alert(
+            "Please complete all required information."
+        );
+
+        return;
+
+    }
+
+
+    const orderId =
+        generateOrderId();
+
+
+    const productsText =
+        cart.map(item => {
+
+            let text =
+                item.name +
+                " x" +
+                item.quantity;
+
+            if(item.color){
+
+                text +=
+                    " | Color: " +
+                    item.color;
+
+            }
+
+            if(item.size){
+
+                text +=
+                    " | Size: " +
+                    item.size;
+
+            }
+
+            return text;
+
+        }).join(" || ");
+
+
+    const quantitiesText =
+        cart.map(item =>
+            item.quantity
+        ).join(", ");
+
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+                sum +
+                (
+                    Number(item.price || 0) *
+                    Number(item.quantity || 0)
+                ),
+            0
+        );
+
+
+    const payload = {
+
+        action:"createOrder",
+
+        orderId:orderId,
+
+        firstName:firstName,
+
+        lastName:lastName,
+
+        customerName:
+            firstName +
+            " " +
+            lastName,
+
+        phone:phone,
+
+        address:address,
+
+        requestedTime:requestedTime,
+
+        products:productsText,
+
+        quantities:quantitiesText,
+
+        total:total,
+
+        status:"New",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    sendOrder(payload,orderId);
+
+}
+
+
+function sendOrder(payload,orderId){
+
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(payload)
+            ],
+            {
+                type:"text/plain;charset=UTF-8"
+            }
+        );
+
+
+    let sent = false;
+
+
+    try{
+
+        if(
+            navigator.sendBeacon
+        ){
+
+            sent =
+                navigator.sendBeacon(
+                    SCRIPT_URL,
+                    blob
+                );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+
+    if(!sent){
+
+        fetch(
+            SCRIPT_URL,
+            {
+                method:"POST",
+                mode:"no-cors",
+                body:JSON.stringify(payload)
+            }
+        ).catch(error =>
+            console.error(error)
+        );
+
+    }
+
+
+    localStorage.removeItem(
+        "eloria_cart_v1"
+    );
+
+
+    document
+        .getElementById("checkoutContent")
+        .style.display = "none";
+
+
+    document
+        .getElementById("orderNumber")
+        .textContent = orderId;
+
+
+    document
+        .getElementById("success")
+        .classList.add("active");
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
