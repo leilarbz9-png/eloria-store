@@ -6,17 +6,17 @@
 
 <title>ÉLORIA — Women's Fashion</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
 
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
@@ -25,233 +25,493 @@ body{
     color:#242222;
 }
 
-button,
-input{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-/* HEADER */
+/* ================= HEADER ================= */
 
 header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:#fff;
-    border-bottom:1px solid #eee;
-}
-
-.nav{
-    height:75px;
+    height:78px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 5%;
+    border-bottom:1px solid #eee;
+    background:#fff;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
 .logo{
     font-family:'Cormorant Garamond',serif;
-    font-size:32px;
-    letter-spacing:4px;
+    font-size:35px;
+    letter-spacing:5px;
     font-weight:600;
 }
 
-.nav-links{
+.nav{
     display:flex;
-    gap:30px;
+    gap:32px;
+    align-items:center;
+}
+
+.nav a{
+    text-decoration:none;
+    color:#242222;
     font-size:12px;
     letter-spacing:2px;
+    font-weight:500;
 }
 
-.nav-links a{
-    cursor:pointer;
+.nav a:hover{
+    opacity:.55;
 }
 
-.nav-right{
+.header-actions{
     display:flex;
     align-items:center;
-    gap:15px;
+    gap:18px;
 }
 
-.icon-btn{
+.search-button,
+.contact-button{
     border:0;
     background:none;
-    font-size:13px;
-    letter-spacing:1px;
+    cursor:pointer;
+    font-family:'Montserrat',sans-serif;
+    font-size:12px;
+    letter-spacing:1.5px;
 }
 
-.bag-btn{
-    display:flex;
-    align-items:center;
-    gap:7px;
+.search-icon{
+    font-size:15px;
+    margin-right:4px;
+}
+
+.bag-button{
+    border:0;
+    background:none;
+    cursor:pointer;
+    font-family:'Montserrat',sans-serif;
+    font-size:12px;
+    letter-spacing:1.5px;
+    position:relative;
 }
 
 .bag-icon{
-    font-size:20px;
+    font-size:15px;
+    margin-right:5px;
 }
 
-#bagCount{
-    font-size:11px;
+.bag-count{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#e85d75;
+    color:white;
+    font-size:10px;
+    margin-left:5px;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 
-.search-area{
+.search-panel{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:3500;
     display:none;
-    padding:12px 5%;
-    border-top:1px solid #eee;
-    background:#fff;
 }
 
-.search-area.active{
-    display:flex;
-    gap:10px;
+.search-panel.active{
+    display:block;
 }
 
-.search-area input{
-    flex:1;
-    border:1px solid #ddd;
-    padding:13px 15px;
+.search-box{
+    background:white;
+    width:min(700px,92%);
+    margin:90px auto 0;
+    padding:30px;
+    position:relative;
+}
+
+.search-close{
+    position:absolute;
+    right:18px;
+    top:12px;
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.search-box h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:38px;
+    font-weight:500;
+    margin-bottom:20px;
+}
+
+.search-input{
+    width:100%;
+    border:0;
+    border-bottom:1px solid #242222;
+    padding:13px 2px;
+    font-family:'Montserrat',sans-serif;
+    font-size:13px;
     outline:none;
 }
 
-.search-clear{
-    border:1px solid #222;
-    background:#222;
-    color:#fff;
-    padding:0 18px;
+.search-results{
+    max-height:55vh;
+    overflow-y:auto;
+    margin-top:20px;
 }
 
-/* HERO */
+.search-result{
+    padding:14px 0;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+    font-family:'Cormorant Garamond',serif;
+    font-size:22px;
+}
+
+.search-result small{
+    display:block;
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;
+    color:#999;
+    margin-top:4px;
+}
+
+.search-empty{
+    padding:30px 0;
+    color:#777;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+/* ================= CONTACT ================= */
+
+.contact-panel{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:3500;
+    display:none;
+}
+
+.contact-panel.active{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.contact-box{
+    width:min(480px,92%);
+    background:white;
+    padding:45px 35px;
+    text-align:center;
+    position:relative;
+}
+
+.contact-box h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    font-weight:500;
+    margin-bottom:12px;
+}
+
+.contact-box p{
+    color:#777;
+    font-size:11px;
+    line-height:1.8;
+    margin-bottom:25px;
+}
+
+.contact-close{
+    position:absolute;
+    right:18px;
+    top:12px;
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.contact-link{
+    display:block;
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    background:#242222;
+    color:white;
+    text-decoration:none;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.contact-link.disabled{
+    background:#eee;
+    color:#999;
+    cursor:default;
+}
+
+/* ================= HERO ================= */
 
 .hero{
-    height:75vh;
-    min-height:500px;
-    background-image:
-        linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.08)),
-        url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1800&q=85');
-    background-size:cover;
-    background-position:center;
+    height:calc(100vh - 78px);
+    min-height:600px;
+    position:relative;
+    overflow:hidden;
     display:flex;
     align-items:flex-end;
-    padding:7%;
+    justify-content:center;
+    background:#f4eeee;
+}
+
+.hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.48),
+        rgba(0,0,0,.04) 65%
+    );
 }
 
 .hero-content{
+    position:absolute;
+    bottom:11%;
+    text-align:center;
     color:white;
-    max-width:550px;
+    padding:20px;
 }
 
-.hero h1{
-    font-family:'Cormorant Garamond',serif;
-    font-size:72px;
-    line-height:.9;
-    font-weight:500;
-    letter-spacing:2px;
-}
-
-.hero p{
-    margin:20px 0;
-    font-size:13px;
-    letter-spacing:2px;
-}
-
-.hero button{
-    background:white;
-    border:0;
-    padding:15px 25px;
-    letter-spacing:2px;
+.hero-content p{
     font-size:11px;
+    letter-spacing:4px;
+    margin-bottom:12px;
 }
 
-/* SECTIONS */
-
-section{
-    padding:80px 5%;
-}
-
-.section-title{
+.hero-content h1{
     font-family:'Cormorant Garamond',serif;
-    font-size:46px;
+    font-size:clamp(65px,12vw,150px);
+    letter-spacing:8px;
     font-weight:500;
-    margin-bottom:35px;
+    line-height:.8;
 }
 
-/* COLLECTIONS */
+.hero-content span{
+    display:block;
+    margin-top:25px;
+    font-size:12px;
+    letter-spacing:4px;
+}
 
-.collections-grid{
+.hero-button{
+    display:inline-block;
+    margin-top:28px;
+    padding:15px 35px;
+    background:white;
+    color:#242222;
+    text-decoration:none;
+    font-size:11px;
+    letter-spacing:2px;
+    transition:.3s;
+}
+
+.hero-button:hover{
+    background:#e85d75;
+    color:white;
+}
+
+/* ================= SECTIONS ================= */
+
+.section{
+    padding:90px 5%;
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.section-heading small{
+    display:block;
+    font-size:10px;
+    letter-spacing:4px;
+    color:#e85d75;
+    margin-bottom:10px;
+}
+
+.section-heading h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:52px;
+    font-weight:500;
+}
+
+/* ================= COLLECTIONS ================= */
+
+.collections{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:25px;
+    gap:28px;
 }
 
 .collection-card{
     position:relative;
-    background:#f7f5f1;
+    cursor:pointer;
     overflow:hidden;
+    background:#f5f3f2;
+    aspect-ratio:16/10;
 }
 
-.collection-images{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    scrollbar-width:none;
-}
-
-.collection-images::-webkit-scrollbar{
-    display:none;
-}
-
-.collection-images img{
-    min-width:100%;
+.collection-card img{
     width:100%;
-    height:430px;
+    height:100%;
     object-fit:cover;
-    scroll-snap-align:start;
+    display:block;
+    transition:transform .7s ease;
+}
+
+.collection-card:hover img{
+    transform:scale(1.04);
+}
+
+.collection-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.58),
+        rgba(0,0,0,.05) 65%
+    );
 }
 
 .collection-info{
-    padding:22px;
+    position:absolute;
+    left:30px;
+    right:30px;
+    bottom:28px;
+    color:white;
 }
 
-.collection-info h3{
+.collection-name{
     font-family:'Cormorant Garamond',serif;
-    font-size:30px;
-    font-weight:500;
+    font-size:38px;
+    margin-bottom:7px;
 }
 
-.collection-info p{
-    margin-top:7px;
-    color:#666;
-    font-size:12px;
-    line-height:1.7;
+.collection-description{
+    font-size:10px;
+    letter-spacing:1.2px;
+    line-height:1.6;
+    max-width:500px;
 }
 
-/* PRODUCTS */
+/* ================= COLLECTION GALLERY ================= */
 
-.product-grid{
+.collection-gallery{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    touch-action:pan-y;
+}
+
+.collection-image{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:opacity .45s ease, transform .7s ease;
+}
+
+.collection-image-one{
+    opacity:1;
+}
+
+.collection-image-two{
+    opacity:0;
+}
+
+.collection-gallery.show-second .collection-image-one{
+    opacity:0;
+}
+
+.collection-gallery.show-second .collection-image-two{
+    opacity:1;
+}
+
+.collection-dots{
+    position:absolute;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    display:flex;
+    gap:7px;
+    z-index:4;
+}
+
+.collection-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.9);
+}
+
+.collection-dot.active{
+    background:white;
+}
+
+.collection-swipe-hint{
+    position:absolute;
+    right:18px;
+    top:18px;
+    z-index:4;
+    padding:7px 9px;
+    background:rgba(0,0,0,.25);
+    color:white;
+    font-size:8px;
+    letter-spacing:1.5px;
+    opacity:.85;
+}
+
+.collection-gallery .collection-overlay,
+.collection-gallery .collection-info{
+    z-index:3;
+    pointer-events:none;
+}
+
+/* ================= PRODUCTS ================= */
+
+.products{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:25px;
+    gap:28px;
 }
 
 .product-card{
     cursor:pointer;
+    position:relative;
 }
 
 .product-image{
     position:relative;
-    overflow:hidden;
-    background:#f7f7f7;
+    width:100%;
     aspect-ratio:3/4;
+    overflow:hidden;
+    background:#f5f3f2;
 }
 
 .product-image img{
@@ -259,207 +519,296 @@ section{
     height:100%;
     object-fit:cover;
     display:block;
-    transition:.4s;
+    transition:opacity .45s ease, transform .6s ease;
 }
 
-.product-card:hover img{
-    transform:scale(1.03);
-}
-
-.badge{
+.product-image .product-image-two{
     position:absolute;
-    top:12px;
-    left:12px;
-    background:#fff;
-    padding:7px 10px;
-    font-size:9px;
-    letter-spacing:1.5px;
+    inset:0;
+    opacity:0;
+}
+
+.product-card:hover .product-image .product-image-one{
+    transform:scale(1.04);
+}
+
+.product-card:hover .product-image .product-image-two{
+    opacity:1;
+    transform:scale(1.04);
+}
+
+.product-badges{
+    position:absolute;
+    top:13px;
+    left:13px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
     z-index:2;
 }
 
+.badge{
+    background:white;
+    padding:7px 10px;
+    font-size:9px;
+    letter-spacing:1.5px;
+}
+
+.badge.new{
+    color:#e85d75;
+}
+
+.badge.sale{
+    color:#222;
+}
+
 .product-info{
-    padding:15px 2px 30px;
+    padding:17px 2px 0;
 }
 
 .product-name{
     font-family:'Cormorant Garamond',serif;
-    font-size:25px;
+    font-size:23px;
+    margin-bottom:7px;
 }
 
-.product-price{
-    margin-top:5px;
+.price-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.price{
     font-size:12px;
+    font-weight:500;
 }
 
 .old-price{
-    text-decoration:line-through;
+    font-size:11px;
     color:#999;
-    margin-right:8px;
+    text-decoration:line-through;
 }
 
-/* EMPTY */
-
+.loading,
 .empty{
-    padding:40px 0;
-    color:#888;
-    font-size:13px;
+    grid-column:1/-1;
+    text-align:center;
+    padding:80px 20px;
+    font-size:11px;
+    letter-spacing:2px;
 }
 
-/* PRODUCT MODAL */
+.error{
+    grid-column:1/-1;
+    text-align:center;
+    padding:60px 20px;
+    color:#c33;
+    font-size:12px;
+}
+
+/* ================= PRODUCT MODAL ================= */
 
 .modal{
-    display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.45);
-    z-index:2000;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+    background:rgba(0,0,0,.55);
+    z-index:3000;
+    display:none;
+    overflow-y:auto;
+    padding:30px;
 }
 
 .modal.active{
     display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.product-modal{
-    background:#fff;
-    max-width:1000px;
-    width:100%;
-    max-height:92vh;
+.product-detail{
+    width:min(1050px,100%);
+    max-height:90vh;
     overflow:auto;
+    background:white;
     display:grid;
     grid-template-columns:1fr 1fr;
     position:relative;
 }
 
-.modal-images{
-    display:flex;
-    overflow-x:auto;
-    scrollbar-width:none;
-}
-
-.modal-images::-webkit-scrollbar{
-    display:none;
-}
-
-.modal-images img{
-    min-width:100%;
-    width:100%;
-    height:650px;
-    object-fit:cover;
-}
-
-.modal-info{
-    padding:50px;
-}
-
 .close{
     position:absolute;
-    top:18px;
-    right:20px;
+    top:15px;
+    right:18px;
+    width:35px;
+    height:35px;
     border:0;
-    background:#fff;
-    font-size:25px;
+    background:white;
+    font-size:22px;
+    cursor:pointer;
     z-index:5;
 }
 
-.modal-category{
-    font-size:10px;
-    letter-spacing:2px;
-    color:#888;
-    margin-bottom:15px;
+.detail-gallery{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#f5f3f2;
 }
 
-.modal-title{
+.detail-gallery img{
+    width:100%;
+    height:100%;
+    min-height:560px;
+    object-fit:cover;
+}
+
+.detail-info{
+    padding:70px 50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.detail-badges{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.detail-name{
     font-family:'Cormorant Garamond',serif;
     font-size:48px;
-    font-weight:500;
+    line-height:1;
+    margin-bottom:20px;
 }
 
-.modal-price{
-    margin:12px 0 25px;
-}
-
-.modal-description{
-    font-size:13px;
-    line-height:1.8;
-    color:#666;
+.detail-price{
+    font-size:16px;
     margin-bottom:25px;
 }
 
-/* OPTIONS */
+.detail-old-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:13px;
+    margin-left:8px;
+}
+
+.detail-description{
+    color:#666;
+    font-size:12px;
+    line-height:1.9;
+    margin-bottom:25px;
+}
+
+.stock{
+    font-size:10px;
+    letter-spacing:1.5px;
+    margin-bottom:25px;
+}
+
+/* ================= OPTIONS ================= */
+
+.option-group{
+    margin-bottom:18px;
+}
 
 .option-title{
+    display:block;
     font-size:10px;
-    letter-spacing:2px;
-    margin-bottom:10px;
+    letter-spacing:1.5px;
+    margin-bottom:9px;
     text-transform:uppercase;
 }
 
-.options{
+.option-list{
     display:flex;
     flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:22px;
+    gap:7px;
 }
 
-.option{
-    background:#fff;
+.option-button{
     border:1px solid #ddd;
-    padding:10px 15px;
-    font-size:11px;
+    background:white;
+    padding:9px 13px;
+    min-width:42px;
+    cursor:pointer;
+    font-family:'Montserrat',sans-serif;
+    font-size:10px;
+    transition:.2s;
 }
 
-.option.selected{
-    background:#222;
-    color:#fff;
-    border-color:#222;
+.option-button:hover{
+    border-color:#242222;
+}
+
+.option-button.selected{
+    background:#242222;
+    color:white;
+    border-color:#242222;
+}
+
+.option-required{
+    color:#e85d75;
+    font-size:9px;
+    margin-top:6px;
+    display:none;
+}
+
+.option-required.show{
+    display:block;
 }
 
 .quantity{
     display:flex;
     align-items:center;
-    gap:15px;
-    margin:20px 0;
+    border:1px solid #ddd;
+    width:max-content;
+    margin-bottom:18px;
 }
 
 .quantity button{
-    width:32px;
-    height:32px;
-    border:1px solid #ddd;
-    background:#fff;
+    width:40px;
+    height:40px;
+    border:0;
+    background:white;
+    cursor:pointer;
+    font-size:16px;
 }
 
 .quantity span{
-    min-width:20px;
+    width:40px;
     text-align:center;
+    font-size:12px;
 }
 
-.add-btn{
+.add-button{
     width:100%;
-    border:0;
-    background:#222;
-    color:white;
     padding:17px;
+    border:0;
+    background:#242222;
+    color:white;
+    cursor:pointer;
     letter-spacing:2px;
     font-size:11px;
+    transition:.3s;
 }
 
-.stock{
-    margin-top:15px;
-    font-size:11px;
-    color:#777;
+.add-button:hover{
+    background:#e85d75;
 }
 
-/* BAG */
+.add-button:disabled{
+    background:#aaa;
+    cursor:not-allowed;
+}
+
+/* ================= BAG ================= */
 
 .bag-overlay{
-    display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:2500;
+    background:rgba(0,0,0,.35);
+    z-index:4000;
+    display:none;
 }
 
 .bag-overlay.active{
@@ -468,280 +817,332 @@ section{
 
 .bag{
     position:absolute;
-    right:0;
     top:0;
+    right:0;
     height:100%;
     width:min(450px,100%);
     background:white;
     padding:30px;
-    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
 }
 
 .bag-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
+    padding-bottom:20px;
+    border-bottom:1px solid #eee;
 }
 
-.bag-title{
+.bag-header h2{
     font-family:'Cormorant Garamond',serif;
-    font-size:38px;
+    font-size:34px;
+    font-weight:500;
 }
 
-.cart-item{
+.bag-close{
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.bag-items{
+    flex:1;
+    overflow-y:auto;
+    padding:20px 0;
+}
+
+.bag-item{
     display:grid;
-    grid-template-columns:80px 1fr auto;
-    gap:15px;
+    grid-template-columns:75px 1fr auto;
+    gap:13px;
     padding:15px 0;
     border-bottom:1px solid #eee;
 }
 
-.cart-item img{
-    width:80px;
-    height:100px;
+.bag-item img{
+    width:75px;
+    height:95px;
     object-fit:cover;
+    background:#f5f3f2;
 }
 
-.cart-name{
+.bag-item-name{
     font-family:'Cormorant Garamond',serif;
-    font-size:22px;
+    font-size:20px;
 }
 
-.cart-variant{
-    font-size:10px;
+.bag-item-variant{
     color:#777;
+    font-size:9px;
+    line-height:1.6;
     margin-top:5px;
 }
 
-.cart-price{
+.bag-item-price{
     font-size:11px;
-    margin-top:8px;
+    margin-top:5px;
 }
 
-.cart-controls{
+.bag-quantity{
     display:flex;
     align-items:center;
-    gap:7px;
-    margin-top:10px;
+    margin-top:12px;
+    border:1px solid #ddd;
+    width:max-content;
 }
 
-.cart-controls button{
-    width:25px;
-    height:25px;
-    border:1px solid #ddd;
-    background:#fff;
+.bag-quantity button{
+    width:28px;
+    height:28px;
+    border:0;
+    background:white;
+    cursor:pointer;
+}
+
+.bag-quantity span{
+    width:28px;
+    text-align:center;
+    font-size:10px;
 }
 
 .remove{
-    margin-top:8px;
     border:0;
     background:none;
-    color:#888;
+    color:#999;
+    cursor:pointer;
     font-size:10px;
-    text-decoration:underline;
+    margin-top:8px;
 }
 
 .bag-footer{
-    margin-top:30px;
+    border-top:1px solid #eee;
+    padding-top:20px;
 }
 
 .subtotal{
     display:flex;
     justify-content:space-between;
+    margin-bottom:18px;
     font-size:13px;
-    margin-bottom:20px;
 }
 
-.checkout-btn{
+.checkout{
     width:100%;
-    background:#222;
-    color:#fff;
-    border:0;
     padding:17px;
+    background:#e85d75;
+    color:white;
+    border:0;
+    cursor:pointer;
     letter-spacing:2px;
-}
-
-/* CONTACT */
-
-.contact-modal{
-    background:white;
-    width:min(450px,100%);
-    padding:40px;
-    position:relative;
-}
-
-.contact-modal h2{
-    font-family:'Cormorant Garamond',serif;
-    font-size:40px;
-    margin-bottom:15px;
-}
-
-.contact-modal p{
-    font-size:12px;
-    line-height:1.8;
-    color:#666;
-}
-
-.contact-setting{
-    margin-top:25px;
-    padding:15px;
-    background:#f7f5f1;
     font-size:11px;
-    line-height:1.7;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 
 footer{
-    background:#222;
-    color:#fff;
-    padding:60px 5%;
+    background:#242222;
+    color:white;
     text-align:center;
+    padding:65px 20px;
 }
 
 .footer-logo{
     font-family:'Cormorant Garamond',serif;
-    font-size:40px;
+    font-size:42px;
     letter-spacing:5px;
 }
 
 footer p{
-    margin-top:12px;
-    color:#aaa;
-    font-size:11px;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-top:15px;
+    color:#ccc;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:900px){
 
-    .nav{
-        padding:0 4%;
+    .products{
+        grid-template-columns:repeat(2,1fr);
+        gap:18px;
     }
 
-    .nav-links{
+    .collections{
+        grid-template-columns:1fr;
+    }
+
+    .nav{
+        gap:14px;
+    }
+
+    .nav a{
+        font-size:9px;
+        letter-spacing:1px;
+    }
+
+    .logo{
+        font-size:27px;
+    }
+
+    .header-actions{
+        gap:9px;
+    }
+
+    .contact-button{
         display:none;
     }
 
-    .product-grid{
+    .product-detail{
+        grid-template-columns:1fr;
+        max-height:94vh;
+    }
+
+    .detail-gallery{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .detail-gallery img{
+        min-height:400px;
+    }
+
+    .detail-info{
+        padding:35px 25px 45px;
+    }
+
+    .detail-name{
+        font-size:38px;
+    }
+}
+
+@media(max-width:600px){
+
+    header{
+        height:68px;
+        padding:0 18px;
+    }
+
+    .logo{
+        font-size:24px;
+        letter-spacing:3px;
+    }
+
+    .nav{
+        gap:10px;
+    }
+
+    .nav a{
+        display:none;
+    }
+
+    .header-actions{
+        gap:7px;
+    }
+
+    .search-button{
+        font-size:0;
+    }
+
+    .search-icon{
+        font-size:15px;
+    }
+
+    .bag-button{
+        font-size:10px;
+    }
+
+    .bag-icon{
+        font-size:14px;
+    }
+
+    .hero{
+        height:calc(100vh - 68px);
+        min-height:550px;
+    }
+
+    .hero-content h1{
+        font-size:65px;
+        letter-spacing:4px;
+    }
+
+    .section{
+        padding:65px 18px;
+    }
+
+    .section-heading h2{
+        font-size:42px;
+    }
+
+    .products{
         grid-template-columns:repeat(2,1fr);
         gap:14px;
     }
 
-    .collections-grid{
-        grid-template-columns:1fr;
-    }
-
-    .hero h1{
-        font-size:55px;
-    }
-
-    section{
-        padding:55px 4%;
-    }
-
-    .section-title{
-        font-size:40px;
-    }
-
-    .product-modal{
-        grid-template-columns:1fr;
-        max-height:95vh;
-    }
-
-    .modal-images img{
-        height:400px;
-    }
-
-    .modal-info{
-        padding:30px;
-    }
-
-    .modal-title{
-        font-size:40px;
-    }
-}
-
-@media(max-width:500px){
-
-    .logo{
-        font-size:25px;
-    }
-
-    .hero{
-        min-height:500px;
-    }
-
-    .hero h1{
-        font-size:48px;
-    }
-
-    .product-grid{
-        gap:10px;
-    }
-
     .product-name{
-        font-size:21px;
+        font-size:19px;
     }
 
-    .product-info{
-        padding-bottom:20px;
+    .collection-card{
+        aspect-ratio:4/3;
     }
 
+    .collection-info{
+        left:20px;
+        right:20px;
+        bottom:20px;
+    }
+
+    .collection-name{
+        font-size:31px;
+    }
+
+    .modal{
+        padding:10px;
+    }
+
+    .detail-gallery img{
+        min-height:300px;
+    }
+
+    .bag{
+        padding:22px;
+    }
 }
-
 </style>
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
-    <div class="nav">
+    <div class="logo">ÉLORIA</div>
 
-        <div class="logo">ÉLORIA</div>
+    <nav class="nav">
+        <a href="#new-arrivals">NEW ARRIVALS</a>
+        <a href="#collections">COLLECTIONS</a>
+        <a href="#all-products">SHOP ALL</a>
+    </nav>
 
-        <nav class="nav-links">
-            <a onclick="scrollToSection('newArrivals')">NEW ARRIVALS</a>
-            <a onclick="scrollToSection('collections')">COLLECTIONS</a>
-            <a onclick="scrollToSection('shopAll')">SHOP ALL</a>
-        </nav>
+    <div class="header-actions">
 
-        <div class="nav-right">
+        <button class="search-button" onclick="openSearch()">
+            <span class="search-icon">⌕</span>
+            SEARCH
+        </button>
 
-            <button class="icon-btn" onclick="toggleSearch()">
-                SEARCH
-            </button>
+        <button class="contact-button" onclick="openContact()">
+            CONTACT
+        </button>
 
-            <button class="icon-btn" onclick="openContact()">
-                CONTACT
-            </button>
-
-            <button class="icon-btn bag-btn" onclick="openBag()">
-                <span class="bag-icon">♡</span>
-                <span>BAG</span>
-                <span id="bagCount">0</span>
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="search-area" id="searchArea">
-
-        <input
-            id="searchInput"
-            type="search"
-            placeholder="Search products..."
-            oninput="performSearch()"
-        >
-
-        <button
-            class="search-clear"
-            onclick="clearSearch()"
-        >
-            CLEAR
+        <button class="bag-button" onclick="openBag()">
+            <span class="bag-icon">🛍️</span>
+            BAG
+            <span class="bag-count" id="bagCount">0</span>
         </button>
 
     </div>
@@ -749,39 +1150,51 @@ footer p{
 </header>
 
 
-<!-- HERO -->
+<!-- ================= HERO ================= -->
 
 <section class="hero">
 
+    <img
+        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=85"
+        alt="ÉLORIA Fashion"
+        onerror="this.style.display='none'"
+    >
+
+    <div class="hero-overlay"></div>
+
     <div class="hero-content">
+
+        <p>WOMEN'S COLLECTION</p>
 
         <h1>ÉLORIA</h1>
 
-        <p>
-            TIMELESS PIECES FOR THE MODERN WOMAN
-        </p>
+        <span>ELEGANCE, REIMAGINED.</span>
 
-        <button onclick="scrollToSection('collections')">
+        <a href="#collections" class="hero-button">
             EXPLORE COLLECTIONS
-        </button>
+        </a>
 
     </div>
 
 </section>
 
 
-<!-- COLLECTIONS -->
+<!-- ================= COLLECTIONS ================= -->
 
-<section id="collections">
+<section class="section" id="collections">
 
-    <h2 class="section-title">
-        Collections
-    </h2>
+    <div class="section-heading">
 
-    <div id="collectionsGrid" class="collections-grid">
+        <small>ÉLORIA EDIT</small>
 
-        <div class="empty">
-            Loading collections...
+        <h2>Collections</h2>
+
+    </div>
+
+    <div class="collections" id="collectionsContainer">
+
+        <div class="loading">
+            LOADING COLLECTIONS...
         </div>
 
     </div>
@@ -789,18 +1202,22 @@ footer p{
 </section>
 
 
-<!-- NEW ARRIVALS -->
+<!-- ================= NEW ARRIVALS ================= -->
 
-<section id="newArrivals">
+<section class="section" id="new-arrivals">
 
-    <h2 class="section-title">
-        New Arrivals
-    </h2>
+    <div class="section-heading">
 
-    <div id="newProducts" class="product-grid">
+        <small>JUST IN</small>
 
-        <div class="empty">
-            Loading products...
+        <h2>New Arrivals</h2>
+
+    </div>
+
+    <div class="products" id="newProducts">
+
+        <div class="loading">
+            LOADING PRODUCTS...
         </div>
 
     </div>
@@ -808,18 +1225,22 @@ footer p{
 </section>
 
 
-<!-- SHOP ALL -->
+<!-- ================= ALL PRODUCTS ================= -->
 
-<section id="shopAll">
+<section class="section" id="all-products">
 
-    <h2 class="section-title">
-        Shop All
-    </h2>
+    <div class="section-heading">
 
-    <div id="allProducts" class="product-grid">
+        <small>ÉLORIA COLLECTION</small>
 
-        <div class="empty">
-            Loading products...
+        <h2>Shop All</h2>
+
+    </div>
+
+    <div class="products" id="allProducts">
+
+        <div class="loading">
+            LOADING PRODUCTS...
         </div>
 
     </div>
@@ -827,90 +1248,37 @@ footer p{
 </section>
 
 
-<!-- FOOTER -->
+<!-- ================= PRODUCT DETAILS ================= -->
 
-<footer>
+<div class="modal" id="productModal">
 
-    <div class="footer-logo">
-        ÉLORIA
-    </div>
+    <div class="product-detail">
 
-    <p>
-        Women's Fashion
-    </p>
-
-</footer>
-
-
-<!-- PRODUCT MODAL -->
-
-<div
-    id="productModal"
-    class="modal"
-    onclick="closeModalOutside(event)"
->
-
-    <div class="product-modal">
-
-        <button
-            class="close"
-            onclick="closeProduct()"
-        >
+        <button class="close" onclick="closeProduct()">
             ×
         </button>
 
-        <div
-            id="modalImages"
-            class="modal-images"
-        ></div>
+        <div class="detail-gallery">
 
-        <div class="modal-info">
+            <img id="detailImage1" src="" alt="Product">
 
-            <div
-                id="modalCategory"
-                class="modal-category"
-            ></div>
+            <img id="detailImage2" src="" alt="Product">
 
-            <h2
-                id="modalTitle"
-                class="modal-title"
-            ></h2>
+        </div>
 
-            <div
-                id="modalPrice"
-                class="modal-price"
-            ></div>
+        <div class="detail-info">
 
-            <div
-                id="modalDescription"
-                class="modal-description"
-            ></div>
+            <div class="detail-badges" id="detailBadges"></div>
 
-            <div id="colorSection">
+            <h2 class="detail-name" id="detailName"></h2>
 
-                <div class="option-title">
-                    Color
-                </div>
+            <div class="detail-price" id="detailPrice"></div>
 
-                <div
-                    id="colorOptions"
-                    class="options"
-                ></div>
+            <div class="detail-description" id="detailDescription"></div>
 
-            </div>
+            <div class="stock" id="detailStock"></div>
 
-            <div id="sizeSection">
-
-                <div class="option-title">
-                    Size
-                </div>
-
-                <div
-                    id="sizeOptions"
-                    class="options"
-                ></div>
-
-            </div>
+            <div id="detailOptions"></div>
 
             <div class="quantity">
 
@@ -918,9 +1286,7 @@ footer p{
                     −
                 </button>
 
-                <span id="detailQuantity">
-                    1
-                </span>
+                <span id="detailQuantity">1</span>
 
                 <button onclick="changeDetailQuantity(1)">
                     +
@@ -929,16 +1295,12 @@ footer p{
             </div>
 
             <button
-                class="add-btn"
+                class="add-button"
+                id="addButton"
                 onclick="addCurrentProduct()"
             >
                 ADD TO BAG
             </button>
-
-            <div
-                id="modalStock"
-                class="stock"
-            ></div>
 
         </div>
 
@@ -947,40 +1309,110 @@ footer p{
 </div>
 
 
-<!-- BAG -->
+<!-- ================= SEARCH ================= -->
 
-<div
-    id="bagOverlay"
-    class="bag-overlay"
-    onclick="closeBagOutside(event)"
->
+<div class="search-panel" id="searchPanel">
+
+    <div class="search-box">
+
+        <button class="search-close" onclick="closeSearch()">
+            ×
+        </button>
+
+        <h2>Search ÉLORIA</h2>
+
+        <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="Search products..."
+            autocomplete="off"
+            oninput="performSearch()"
+        >
+
+        <div class="search-results" id="searchResults">
+
+            <div class="search-empty">
+                START TYPING TO SEARCH.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CONTACT ================= -->
+
+<div class="contact-panel" id="contactPanel">
+
+    <div class="contact-box">
+
+        <button class="contact-close" onclick="closeContact()">
+            ×
+        </button>
+
+        <h2>Contact ÉLORIA</h2>
+
+        <p>
+            For orders, questions or more information,
+            contact ÉLORIA through your official social pages.
+        </p>
+
+        <!--
+            ضع رابط WhatsApp الحقيقي هنا عندما يكون جاهزًا.
+            لا تضع رقمًا غير موجود.
+        -->
+
+        <a
+            id="contactWhatsApp"
+            class="contact-link disabled"
+            href="javascript:void(0)"
+        >
+            WHATSAPP — COMING SOON
+        </a>
+
+        <!--
+            ضع رابط Instagram الحقيقي هنا عندما يكون جاهزًا.
+        -->
+
+        <a
+            id="contactInstagram"
+            class="contact-link disabled"
+            href="javascript:void(0)"
+        >
+            INSTAGRAM — COMING SOON
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= BAG ================= -->
+
+<div class="bag-overlay" id="bagOverlay">
 
     <div class="bag">
 
         <div class="bag-header">
 
-            <div class="bag-title">
-                Your Bag
-            </div>
+            <h2>Your Bag</h2>
 
-            <button
-                class="close"
-                onclick="closeBag()"
-            >
+            <button class="bag-close" onclick="closeBag()">
                 ×
             </button>
 
         </div>
 
-        <div id="cartItems"></div>
+        <div class="bag-items" id="bagItems"></div>
 
         <div class="bag-footer">
 
             <div class="subtotal">
 
-                <span>
-                    SUBTOTAL
-                </span>
+                <span>SUBTOTAL</span>
 
                 <strong id="subtotal">
                     €0.00
@@ -988,10 +1420,7 @@ footer p{
 
             </div>
 
-            <button
-                class="checkout-btn"
-                onclick="checkout()"
-            >
+            <button class="checkout" onclick="checkout()">
                 CHECKOUT
             </button>
 
@@ -1002,285 +1431,177 @@ footer p{
 </div>
 
 
-<!-- CONTACT -->
+<!-- ================= FOOTER ================= -->
 
-<div
-    id="contactModal"
-    class="modal"
-    onclick="closeContactOutside(event)"
->
+<footer>
 
-    <div class="contact-modal">
-
-        <button
-            class="close"
-            onclick="closeContact()"
-        >
-            ×
-        </button>
-
-        <h2>
-            Contact ÉLORIA
-        </h2>
-
-        <p>
-            We'd love to hear from you.
-            Contact details can be added here
-            when your official ÉLORIA contact
-            information is ready.
-        </p>
-
-        <div class="contact-setting">
-
-            <strong>
-                Important:
-            </strong>
-
-            <br>
-
-            To activate WhatsApp or Instagram,
-            add your official contact information
-            in the JavaScript settings at the bottom
-            of this file.
-
-        </div>
-
+    <div class="footer-logo">
+        ÉLORIA
     </div>
 
-</div>
+    <p>
+        WOMEN'S FASHION · ELEGANCE · STYLE
+    </p>
+
+</footer>
 
 
 <script>
 
-/* =========================================================
-   ÉLORIA SETTINGS
-========================================================= */
+/* =====================================================
+   ÉLORIA
+   GOOGLE SHEETS CONNECTION
+===================================================== */
 
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzAYBy46FwQm_znbR7wzPb9rtzj6phhQXDJPTNX3dCDDc0kysevoo9ksiQEgjBqpi2Qjw/exec";
 
 
-/*
-   Leave these empty until you have the official
-   ÉLORIA contact information.
-*/
+/* =====================================================
+   IMAGE HELPERS
+===================================================== */
 
-const CONTACT_WHATSAPP = "";
-const CONTACT_INSTAGRAM = "";
+function normalizeImageURL(value){
 
+    let url = String(value || "").trim();
 
-/* =========================================================
-   GLOBAL DATA
-========================================================= */
+    if(!url) return "";
 
-let products = [];
-let collections = [];
-
-let currentProduct = null;
-
-let detailQuantity = 1;
-
-let selectedColor = "";
-let selectedSize = "";
-
-let cart = loadCart();
-
-
-/* =========================================================
-   INITIALIZATION
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    loadProducts();
-
-    loadCollections();
-
-    renderCart();
-
-});
-
-
-/* =========================================================
-   IMAGE URL
-========================================================= */
-
-function normalizeImageURL(url){
-
-    if(!url){
+    if(
+        url.includes("share.google") ||
+        url.includes("photos.app.goo.gl")
+    ){
         return "";
     }
 
-    url = String(url).trim();
+    let match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
 
-    if(!url){
-        return "";
+    if(match && match[1]){
+        return "https://drive.google.com/thumbnail?id=" +
+               encodeURIComponent(match[1]) +
+               "&sz=w1600";
     }
 
-    if(url.includes("drive.google.com")){
+    match = url.match(/[?&]id=([^&]+)/i);
 
-        const match =
-            url.match(/\/d\/([^/]+)/);
-
-        if(match){
-
-            return
-                "https://drive.google.com/uc?export=view&id=" +
-                match[1];
-
-        }
-
-        const idMatch =
-            url.match(/[?&]id=([^&]+)/);
-
-        if(idMatch){
-
-            return
-                "https://drive.google.com/uc?export=view&id=" +
-                idMatch[1];
-
-        }
-
+    if(
+        url.includes("drive.google.com") &&
+        match &&
+        match[1]
+    ){
+        return "https://drive.google.com/thumbnail?id=" +
+               encodeURIComponent(match[1]) +
+               "&sz=w1600";
     }
 
     return url;
 }
 
 
-/* =========================================================
-   JSONP
-========================================================= */
+let products = [];
+let collections = [];
+let currentProduct = null;
+let detailQuantity = 1;
 
-function jsonp(url){
-
-    return new Promise((resolve,reject) => {
-
-        const callbackName =
-            "eloriaCallback_" +
-            Date.now() +
-            "_" +
-            Math.floor(Math.random()*10000);
-
-        const script =
-            document.createElement("script");
-
-        window[callbackName] =
-            function(data){
-
-                delete window[callbackName];
-
-                script.remove();
-
-                resolve(data);
-
-            };
-
-        script.onerror =
-            function(){
-
-                delete window[callbackName];
-
-                script.remove();
-
-                reject(
-                    new Error("Request failed")
-                );
-
-            };
-
-        script.src =
-            url +
-            (url.includes("?") ? "&" : "?") +
-            "callback=" +
-            callbackName;
-
-        document.body.appendChild(script);
-
-    });
-
-}
+let selectedColor = "";
+let selectedSize = "";
 
 
-/* =========================================================
-   LOAD PRODUCTS
-========================================================= */
+/* =====================================================
+   HELPERS
+===================================================== */
 
-async function loadProducts(){
+function escapeHTML(value){
 
-    try{
-
-        const data =
-            await jsonp(
-                SCRIPT_URL +
-                "?type=products"
-            );
-
-        products =
-            Array.isArray(data)
-            ? data
-            : [];
-
-        renderProducts();
-
-    }catch(error){
-
-        console.error(error);
-
-        document.getElementById("newProducts").innerHTML =
-            '<div class="empty">Unable to load products.</div>';
-
-        document.getElementById("allProducts").innerHTML =
-            '<div class="empty">Unable to load products.</div>';
-
-    }
-
-}
-
-
-/* =========================================================
-   LOAD COLLECTIONS
-========================================================= */
-
-async function loadCollections(){
-
-    try{
-
-        const data =
-            await jsonp(
-                SCRIPT_URL +
-                "?type=collections"
-            );
-
-        collections =
-            Array.isArray(data)
-            ? data
-            : [];
-
-        renderCollections();
-
-    }catch(error){
-
-        console.error(error);
-
-        document.getElementById("collectionsGrid").innerHTML =
-            '<div class="empty">Unable to load collections.</div>';
-
-    }
-
-}
-
-
-/* =========================================================
-   PARSE OPTIONS
-========================================================= */
-
-function parseOptions(value){
-
-    if(!value){
-        return [];
+    if(value === undefined || value === null){
+        return "";
     }
 
     return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function isTrue(value){
+
+    if(value === true){
+        return true;
+    }
+
+    const v = String(value || "")
+        .trim()
+        .toLowerCase();
+
+    return (
+        v === "true" ||
+        v === "1" ||
+        v === "yes" ||
+        v === "نعم"
+    );
+
+}
+
+
+function isAvailable(product){
+
+    const status = String(product.Status || "")
+        .trim()
+        .toLowerCase();
+
+    if(!status){
+        return true;
+    }
+
+    return (
+        status === "available" ||
+        status === "متوفر" ||
+        status === "true" ||
+        status === "yes"
+    );
+
+}
+
+
+function formatPrice(value){
+
+    const number = parseFloat(
+        String(value || "")
+        .replace(",", ".")
+        .replace(/[^\d.-]/g,"")
+    );
+
+    if(isNaN(number)){
+        return escapeHTML(value || "—");
+    }
+
+    return "€" + number.toFixed(2);
+
+}
+
+
+function getProductId(product,index){
+
+    return String(
+        product.ID ||
+        product.id ||
+        ("product-" + index)
+    );
+
+}
+
+
+/* =====================================================
+   OPTIONS HELPERS
+===================================================== */
+
+function parseOptions(value){
+
+    return String(value || "")
         .split(/[,;|\n]+/)
         .map(item => item.trim())
         .filter(Boolean);
@@ -1288,82 +1609,674 @@ function parseOptions(value){
 }
 
 
-/* =========================================================
-   PRICE
-========================================================= */
+function getProductColors(product){
 
-function priceNumber(value){
+    return parseOptions(
+        product.Colors ||
+        product.colors ||
+        product.Color ||
+        product.color ||
+        ""
+    );
 
-    const n =
-        parseFloat(
-            String(value)
-            .replace(/[^\d.-]/g,"")
+}
+
+
+function getProductSizes(product){
+
+    return parseOptions(
+        product.Sizes ||
+        product.sizes ||
+        product.Size ||
+        product.size ||
+        ""
+    );
+
+}
+
+
+/* =====================================================
+   PRODUCT IMAGES
+===================================================== */
+
+function getProductImages(product){
+
+    let image1 =
+        product["Image 1"] ||
+        product.image1 ||
+        product.image ||
+        "";
+
+    let image2 =
+        product["Image 2"] ||
+        product.image2 ||
+        image1 ||
+        "";
+
+    image1 = normalizeImageURL(image1);
+    image2 = normalizeImageURL(image2);
+
+    return [
+        image1,
+        image2 || image1
+    ];
+}
+
+
+/* =====================================================
+   FIND PRODUCT
+===================================================== */
+
+function findProductById(id){
+
+    if(!id){
+        return null;
+    }
+
+    const cleanId =
+        String(id)
+        .trim()
+        .replace(/^["']|["']$/g,"");
+
+    return products.find((product,index) => {
+
+        return (
+            String(getProductId(product,index)).trim()
+            === cleanId
         );
 
-    return isNaN(n) ? 0 : n;
+    }) || null;
 
 }
 
 
-function formatPrice(value){
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
 
-    return "€" +
-        priceNumber(value)
-        .toFixed(2);
+function loadProducts(){
+
+    const callbackName =
+        "eloriaProducts_" + Date.now();
+
+    const script = document.createElement("script");
+
+    const timeout = setTimeout(() => {
+
+        script.remove();
+
+        showLoadError(
+            "Unable to load products. Please refresh the page."
+        );
+
+    },15000);
+
+
+    window[callbackName] = function(data){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        try{
+
+            if(Array.isArray(data)){
+
+                products = data;
+
+            }else if(data && Array.isArray(data.data)){
+
+                products = data.data;
+
+            }else{
+
+                products = [];
+
+            }
+
+            products =
+                products.filter(isAvailable);
+
+            displayProducts();
+
+            displayCollections();
+
+        }catch(error){
+
+            console.error(error);
+
+            showLoadError(
+                "Something went wrong while loading products."
+            );
+
+        }
+
+        delete window[callbackName];
+
+    };
+
+
+    script.onerror = function(){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        showLoadError(
+            "Could not connect to the product database."
+        );
+
+        delete window[callbackName];
+
+    };
+
+
+    script.src =
+        SCRIPT_URL +
+        "?callback=" +
+        encodeURIComponent(callbackName) +
+        "&t=" +
+        Date.now();
+
+
+    document.body.appendChild(script);
 
 }
 
 
-/* =========================================================
-   PRODUCT IMAGE
-========================================================= */
+/* =====================================================
+   LOAD COLLECTIONS
+===================================================== */
 
-function productImage(product){
+function loadCollections(){
+
+    const callbackName =
+        "eloriaCollections_" + Date.now();
+
+    const script = document.createElement("script");
+
+    const timeout = setTimeout(() => {
+
+        script.remove();
+
+        showCollectionsMessage(
+            "Unable to load collections."
+        );
+
+    },15000);
+
+
+    window[callbackName] = function(data){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        try{
+
+            if(Array.isArray(data)){
+
+                collections = data;
+
+            }else if(
+                data &&
+                Array.isArray(data.collections)
+            ){
+
+                collections = data.collections;
+
+            }else if(
+                data &&
+                Array.isArray(data.data)
+            ){
+
+                collections = data.data;
+
+            }else{
+
+                collections = [];
+
+            }
+
+
+            collections =
+                collections.filter(collection => {
+
+                    const name =
+                        String(
+                            collection["Collection Name"] ||
+                            collection.Name ||
+                            collection.name ||
+                            ""
+                        ).trim();
+
+                    return name !== "";
+
+                });
+
+
+            const seen = new Set();
+
+            collections =
+                collections.filter(collection => {
+
+                    const name =
+                        String(
+                            collection["Collection Name"] ||
+                            collection.Name ||
+                            collection.name ||
+                            ""
+                        ).trim()
+                        .toLowerCase();
+
+                    if(!name || seen.has(name)){
+                        return false;
+                    }
+
+                    seen.add(name);
+
+                    return true;
+
+                });
+
+
+            displayCollections();
+
+        }catch(error){
+
+            console.error(error);
+
+            showCollectionsMessage(
+                "Something went wrong while loading collections."
+            );
+
+        }
+
+        delete window[callbackName];
+
+    };
+
+
+    script.onerror = function(){
+
+        clearTimeout(timeout);
+
+        script.remove();
+
+        showCollectionsMessage(
+            "Could not connect to the collection database."
+        );
+
+        delete window[callbackName];
+
+    };
+
+
+    script.src =
+        SCRIPT_URL +
+        "?type=collections&callback=" +
+        encodeURIComponent(callbackName) +
+        "&t=" +
+        Date.now();
+
+
+    document.body.appendChild(script);
+
+}
+
+
+function showCollectionsMessage(message){
+
+    document.getElementById("collectionsContainer").innerHTML =
+        `<div class="empty">${escapeHTML(message)}</div>`;
+
+}
+
+
+/* =====================================================
+   COLLECTION IMAGES
+===================================================== */
+
+function getCollectionImages(collection){
+
+    let image1 =
+        collection["Image 1"] ||
+        collection.Image1 ||
+        collection.image1 ||
+        "";
+
+    let image2 =
+        collection["Image 2"] ||
+        collection.Image2 ||
+        collection.image2 ||
+        "";
+
+    image1 = normalizeImageURL(image1);
+    image2 = normalizeImageURL(image2);
+
+    if(!image1 && !image2){
+
+        const productIds =
+            String(
+                collection["Product IDs"] ||
+                collection.ProductIDs ||
+                collection.productIds ||
+                ""
+            ).trim();
+
+        if(productIds){
+
+            const ids = productIds
+                .split(/[,;\n|]+/)
+                .map(id => id.trim())
+                .filter(Boolean);
+
+            for(const id of ids){
+
+                const product = findProductById(id);
+
+                if(product){
+
+                    const images = getProductImages(product);
+
+                    image1 = images[0] || "";
+                    image2 = images[1] || image1;
+
+                    if(image1) break;
+                }
+            }
+        }
+    }
+
+    return [image1, image2 || image1];
+}
+
+
+/* =====================================================
+   DISPLAY COLLECTIONS
+===================================================== */
+
+function displayCollections(){
+
+    const container =
+        document.getElementById("collectionsContainer");
+
+    if(!collections.length){
+
+        container.innerHTML =
+            `<div class="empty">NO COLLECTIONS AVAILABLE YET.</div>`;
+
+        return;
+    }
+
+    container.innerHTML =
+        collections
+        .map((collection,index) => createCollection(collection,index))
+        .join("");
+
+}
+
+
+/* =====================================================
+   CREATE COLLECTION
+===================================================== */
+
+function createCollection(collection,index){
+
+    const name =
+        collection["Collection Name"] ||
+        collection.Name ||
+        collection.name ||
+        "ÉLORIA Collection";
+
+    const description =
+        collection.Description ||
+        collection.description ||
+        "";
+
+    const images = getCollectionImages(collection);
 
     const image1 =
-        normalizeImageURL(
-            product["Image 1"] ||
-            product.image1 ||
-            ""
-        );
+        images[0] ||
+        "https://via.placeholder.com/1200x750?text=ELORIA";
 
     const image2 =
-        normalizeImageURL(
-            product["Image 2"] ||
-            product.image2 ||
-            ""
-        );
+        images[1] ||
+        "";
 
-    return image1 || image2 || "";
+    const safeId = "collectionGallery_" + index;
+
+    return `
+
+        <article class="collection-card">
+
+            <div
+                class="collection-gallery"
+                id="${safeId}"
+                ontouchstart="collectionTouchStart(event,this)"
+                ontouchend="collectionTouchEnd(event,this)"
+            >
+
+                <img
+                    class="collection-image collection-image-one"
+                    src="${escapeHTML(image1)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/1200x750?text=ELORIA'"
+                >
+
+                ${
+                    image2
+                    ? `
+                    <img
+                        class="collection-image collection-image-two"
+                        src="${escapeHTML(image2)}"
+                        alt="${escapeHTML(name)}"
+                        loading="lazy"
+                        onerror="this.style.display='none'"
+                    >
+                    `
+                    : ""
+                }
+
+                <div class="collection-overlay"></div>
+
+                <div class="collection-info">
+
+                    <div class="collection-name">
+                        ${escapeHTML(name)}
+                    </div>
+
+                    ${
+                        description
+                        ? `
+                            <div class="collection-description">
+                                ${escapeHTML(description)}
+                            </div>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+                ${
+                    image2
+                    ? `
+                    <div class="collection-dots">
+                        <span class="collection-dot active"></span>
+                        <span class="collection-dot"></span>
+                    </div>
+
+                    <div class="collection-swipe-hint">
+                        SWIPE
+                    </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+function collectionTouchStart(event,element){
+
+    element.dataset.touchStartX =
+        event.changedTouches[0].clientX;
 
 }
 
 
-/* =========================================================
-   PRODUCT CARD
-========================================================= */
+function collectionTouchEnd(event,element){
 
-function productCard(product){
+    const start =
+        parseFloat(element.dataset.touchStartX || 0);
+
+    const end =
+        event.changedTouches[0].clientX;
+
+    if(!start) return;
+
+    const difference = start - end;
+
+    if(Math.abs(difference) < 45) return;
+
+    const images =
+        element.querySelectorAll(".collection-image");
+
+    if(images.length < 2) return;
+
+    const dots =
+        element.querySelectorAll(".collection-dot");
+
+    const current =
+        element.classList.contains("show-second") ? 1 : 0;
+
+    let next =
+        difference > 0 ? current + 1 : current - 1;
+
+    if(next > 1) next = 0;
+    if(next < 0) next = 1;
+
+    if(next === 1){
+        element.classList.add("show-second");
+    }else{
+        element.classList.remove("show-second");
+    }
+
+    dots.forEach((dot,index) => {
+        dot.classList.toggle("active",index === next);
+    });
+
+    element.dataset.touchStartX = "";
+}
+
+
+/* =====================================================
+   PRODUCTS ERROR
+===================================================== */
+
+function showLoadError(message){
+
+    document.getElementById("newProducts").innerHTML =
+        `<div class="error">${escapeHTML(message)}</div>`;
+
+    document.getElementById("allProducts").innerHTML =
+        `<div class="error">${escapeHTML(message)}</div>`;
+
+}
+
+
+/* =====================================================
+   DISPLAY PRODUCTS
+===================================================== */
+
+function displayProducts(){
+
+    const newContainer =
+        document.getElementById("newProducts");
+
+    const allContainer =
+        document.getElementById("allProducts");
+
+
+    if(!products.length){
+
+        newContainer.innerHTML =
+            `<div class="empty">NO PRODUCTS AVAILABLE YET.</div>`;
+
+        allContainer.innerHTML =
+            `<div class="empty">NO PRODUCTS AVAILABLE YET.</div>`;
+
+        return;
+
+    }
+
+
+    const newProducts =
+        products.filter(product =>
+            isTrue(product.New)
+        );
+
+
+    if(!newProducts.length){
+
+        newContainer.innerHTML =
+            `<div class="empty">NEW ARRIVALS COMING SOON.</div>`;
+
+    }else{
+
+        newContainer.innerHTML =
+            newProducts
+            .map(product => createProduct(product))
+            .join("");
+
+    }
+
+
+    allContainer.innerHTML =
+        products
+        .map(product => createProduct(product))
+        .join("");
+
+}
+
+
+/* =====================================================
+   CREATE PRODUCT
+===================================================== */
+
+function createProduct(product){
+
+    const index =
+        products.indexOf(product);
 
     const id =
-        String(
-            product.ID ||
-            product.id ||
-            ""
-        );
+        getProductId(product,index);
+
+    const images =
+        getProductImages(product);
+
+    const image1 =
+        images[0] ||
+        "https://via.placeholder.com/600x800?text=ELORIA";
+
+    const image2 =
+        images[1] ||
+        image1;
 
     const name =
         product["Product Name"] ||
         product.name ||
-        "Product";
-
-    const image =
-        productImage(product);
+        "ÉLORIA Product";
 
     const price =
         product.Price ||
         product.price ||
-        0;
+        "";
 
     const oldPrice =
         product["Old Price"] ||
@@ -1371,55 +2284,51 @@ function productCard(product){
         "";
 
     const isNew =
-        String(
-            product.New ||
-            product.newProduct ||
-            ""
-        ).toLowerCase() === "true";
+        isTrue(product.New);
 
     const isSale =
-        String(
-            product.Sale ||
-            product.sale ||
-            ""
-        ).toLowerCase() === "true";
-
-    let badge = "";
-
-    if(isNew){
-        badge = "NEW";
-    }
-
-    if(isSale){
-        badge = "SALE";
-    }
+        isTrue(product.Sale);
 
     return `
 
-        <div
+        <article
             class="product-card"
-            onclick="openProduct(decodeURIComponent('${encodeURIComponent(id)}'))"
+            onclick="openProduct('${escapeHTML(id)}')"
         >
 
             <div class="product-image">
 
-                ${
-                    badge
-                    ? `<div class="badge">${badge}</div>`
-                    : ""
-                }
+                <img
+                    class="product-image-one"
+                    src="${escapeHTML(image1)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.src='https://via.placeholder.com/600x800?text=ELORIA'"
+                >
 
-                ${
-                    image
-                    ?
-                    `<img
-                        src="${escapeAttribute(image)}"
-                        alt="${escapeAttribute(name)}"
-                        onerror="this.style.display='none'"
-                    >`
-                    :
-                    ""
-                }
+                <img
+                    class="product-image-two"
+                    src="${escapeHTML(image2)}"
+                    alt="${escapeHTML(name)}"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
+                >
+
+                <div class="product-badges">
+
+                    ${
+                        isNew
+                        ? `<span class="badge new">NEW</span>`
+                        : ""
+                    }
+
+                    ${
+                        isSale
+                        ? `<span class="badge sale">SALE</span>`
+                        : ""
+                    }
+
+                </div>
 
             </div>
 
@@ -1429,244 +2338,165 @@ function productCard(product){
                     ${escapeHTML(name)}
                 </div>
 
-                <div class="product-price">
+                <div class="price-row">
+
+                    <span class="price">
+                        ${formatPrice(price)}
+                    </span>
 
                     ${
-                        oldPrice
-                        ?
-                        `<span class="old-price">
-                            ${formatPrice(oldPrice)}
-                        </span>`
-                        :
-                        ""
+                        isSale && oldPrice
+                        ? `
+                            <span class="old-price">
+                                ${formatPrice(oldPrice)}
+                            </span>
+                        `
+                        : ""
                     }
-
-                    ${formatPrice(price)}
 
                 </div>
 
             </div>
 
-        </div>
+        </article>
 
     `;
 
 }
 
 
-/* =========================================================
-   RENDER PRODUCTS
-========================================================= */
+/* =====================================================
+   PRODUCT OPTIONS HTML
+===================================================== */
 
-function renderProducts(){
+function renderProductOptions(){
 
-    const query =
-        document
-        .getElementById("searchInput")
-        .value
-        .trim()
-        .toLowerCase();
-
-    let filtered =
-        products.filter(product => {
-
-            if(!query){
-                return true;
-            }
-
-            const text = [
-
-                product["Product Name"],
-                product["Category"],
-                product["Description"],
-                product["Colors"],
-                product["Sizes"]
-
-            ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-
-            return text.includes(query);
-
-        });
-
-
-    const newProducts =
-        filtered.filter(product => {
-
-            const value =
-                String(
-                    product.New ||
-                    product.newProduct ||
-                    ""
-                ).toLowerCase();
-
-            return (
-                value === "true" ||
-                value === "yes" ||
-                value === "1"
-            );
-
-        });
-
-
-    const newContainer =
-        document.getElementById("newProducts");
-
-    const allContainer =
-        document.getElementById("allProducts");
-
-
-    if(newProducts.length){
-
-        newContainer.innerHTML =
-            newProducts
-            .map(productCard)
-            .join("");
-
-    }else{
-
-        newContainer.innerHTML =
-            '<div class="empty">No new arrivals found.</div>';
-
-    }
-
-
-    if(filtered.length){
-
-        allContainer.innerHTML =
-            filtered
-            .map(productCard)
-            .join("");
-
-    }else{
-
-        allContainer.innerHTML =
-            '<div class="empty">No products found.</div>';
-
-    }
-
-}
-
-
-/* =========================================================
-   COLLECTIONS
-========================================================= */
-
-function renderCollections(){
-
-    const container =
-        document.getElementById("collectionsGrid");
-
-
-    if(!collections.length){
-
-        container.innerHTML =
-            '<div class="empty">No collections yet.</div>';
-
+    if(!currentProduct){
         return;
-
     }
 
+    const colors =
+        getProductColors(currentProduct);
 
-    container.innerHTML =
-        collections.map(collection => {
+    const sizes =
+        getProductSizes(currentProduct);
 
-            const image1 =
-                normalizeImageURL(
-                    collection["Image 1"] ||
-                    collection.image1 ||
-                    ""
-                );
+    let html = "";
 
-            const image2 =
-                normalizeImageURL(
-                    collection["Image 2"] ||
-                    collection.image2 ||
-                    ""
-                );
+    if(colors.length){
 
-            const name =
-                collection.Name ||
-                collection.name ||
-                "ÉLORIA Collection";
+        html += `
 
-            const description =
-                collection.Description ||
-                collection.description ||
-                "";
+            <div class="option-group">
 
+                <span class="option-title">
+                    Color
+                </span>
 
-            let images = "";
+                <div class="option-list">
 
-            if(image1){
+                    ${colors.map(color => `
 
-                images +=
-                    `<img
-                        src="${escapeAttribute(image1)}"
-                        alt="${escapeAttribute(name)}"
-                        onerror="this.style.display='none'"
-                    >`;
+                        <button
+                            type="button"
+                            class="option-button ${selectedColor === color ? "selected" : ""}"
+                            onclick="selectColor('${escapeHTML(color)}')"
+                        >
+                            ${escapeHTML(color)}
+                        </button>
 
-            }
-
-            if(image2){
-
-                images +=
-                    `<img
-                        src="${escapeAttribute(image2)}"
-                        alt="${escapeAttribute(name)}"
-                        onerror="this.style.display='none'"
-                    >`;
-
-            }
-
-
-            return `
-
-                <div class="collection-card">
-
-                    <div class="collection-images">
-
-                        ${images}
-
-                    </div>
-
-                    <div class="collection-info">
-
-                        <h3>
-                            ${escapeHTML(name)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(description)}
-                        </p>
-
-                    </div>
+                    `).join("")}
 
                 </div>
 
-            `;
+                <div
+                    id="colorRequired"
+                    class="option-required"
+                >
+                    PLEASE SELECT A COLOR.
+                </div>
 
-        }).join("");
+            </div>
+
+        `;
+
+    }
+
+
+    if(sizes.length){
+
+        html += `
+
+            <div class="option-group">
+
+                <span class="option-title">
+                    Size
+                </span>
+
+                <div class="option-list">
+
+                    ${sizes.map(size => `
+
+                        <button
+                            type="button"
+                            class="option-button ${selectedSize === size ? "selected" : ""}"
+                            onclick="selectSize('${escapeHTML(size)}')"
+                        >
+                            ${escapeHTML(size)}
+                        </button>
+
+                    `).join("")}
+
+                </div>
+
+                <div
+                    id="sizeRequired"
+                    class="option-required"
+                >
+                    PLEASE SELECT A SIZE.
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    document.getElementById("detailOptions").innerHTML =
+        html;
 
 }
 
 
-/* =========================================================
-   OPEN PRODUCT
-========================================================= */
+function selectColor(color){
+
+    selectedColor = color;
+
+    renderProductOptions();
+
+}
+
+
+function selectSize(size){
+
+    selectedSize = size;
+
+    renderProductOptions();
+
+}
+
+
+/* =====================================================
+   PRODUCT DETAILS
+===================================================== */
 
 function openProduct(id){
 
     currentProduct =
-        products.find(product =>
-            String(
-                product.ID ||
-                product.id ||
-                ""
-            ) === String(id)
+        products.find(
+            (product,index) =>
+                getProductId(product,index) === String(id)
         );
 
 
@@ -1681,254 +2511,181 @@ function openProduct(id){
     selectedSize = "";
 
 
-    const name =
+    document.getElementById("detailQuantity")
+        .textContent = "1";
+
+
+    const images =
+        getProductImages(currentProduct);
+
+
+    const image1 =
+        images[0] ||
+        "https://via.placeholder.com/600x800?text=ELORIA";
+
+
+    const image2 =
+        images[1] ||
+        image1;
+
+
+    document.getElementById("detailImage1").src =
+        image1;
+
+
+    document.getElementById("detailImage2").src =
+        image2;
+
+
+    document.getElementById("detailName").textContent =
         currentProduct["Product Name"] ||
         currentProduct.name ||
-        "Product";
-
-
-    const category =
-        currentProduct.Category ||
-        currentProduct.category ||
-        "";
+        "ÉLORIA Product";
 
 
     const price =
         currentProduct.Price ||
         currentProduct.price ||
-        0;
+        "";
 
 
-    const description =
+    const oldPrice =
+        currentProduct["Old Price"] ||
+        currentProduct.oldPrice ||
+        "";
+
+
+    document.getElementById("detailPrice").innerHTML = `
+
+        ${formatPrice(price)}
+
+        ${
+            isTrue(currentProduct.Sale) && oldPrice
+            ? `
+                <span class="detail-old-price">
+                    ${formatPrice(oldPrice)}
+                </span>
+            `
+            : ""
+        }
+
+    `;
+
+
+    document.getElementById("detailDescription").textContent =
         currentProduct.Description ||
         currentProduct.description ||
-        "";
+        "A beautiful piece from the ÉLORIA collection.";
 
 
-    const stock =
-        currentProduct.Stock ||
-        currentProduct.stock ||
-        "";
+    const stockValue =
+        parseInt(currentProduct.Stock);
 
 
-    document.getElementById("modalTitle")
-        .textContent = name;
+    const stockElement =
+        document.getElementById("detailStock");
 
 
-    document.getElementById("modalCategory")
-        .textContent = category;
+    if(!isNaN(stockValue)){
+
+        if(stockValue <= 0){
+
+            stockElement.textContent =
+                "OUT OF STOCK";
+
+        }else{
+
+            stockElement.textContent =
+                stockValue + " PIECES AVAILABLE";
+
+        }
+
+    }else{
+
+        stockElement.textContent =
+            "AVAILABLE";
+
+    }
 
 
-    document.getElementById("modalPrice")
-        .innerHTML = formatPrice(price);
+    let badges = "";
 
 
-    document.getElementById("modalDescription")
-        .textContent = description;
+    if(isTrue(currentProduct.New)){
+
+        badges +=
+            `<span class="badge new">NEW</span>`;
+
+    }
 
 
-    document.getElementById("detailQuantity")
-        .textContent = detailQuantity;
+    if(isTrue(currentProduct.Sale)){
+
+        badges +=
+            `<span class="badge sale">SALE</span>`;
+
+    }
 
 
-    document.getElementById("modalStock")
-        .textContent =
-            stock !== ""
-            ? `${stock} available`
-            : "";
+    document.getElementById("detailBadges").innerHTML =
+        badges;
 
 
-    renderModalImages();
-
-    renderOptions();
+    renderProductOptions();
 
 
-    document
-        .getElementById("productModal")
+    const addButton =
+        document.getElementById("addButton");
+
+
+    if(!isNaN(stockValue) && stockValue <= 0){
+
+        addButton.disabled = true;
+
+        addButton.textContent =
+            "OUT OF STOCK";
+
+    }else{
+
+        addButton.disabled = false;
+
+        addButton.textContent =
+            "ADD TO BAG";
+
+    }
+
+
+    document.getElementById("productModal")
         .classList.add("active");
 
-}
 
-
-/* =========================================================
-   MODAL IMAGES
-========================================================= */
-
-function renderModalImages(){
-
-    const container =
-        document.getElementById("modalImages");
-
-    const image1 =
-        normalizeImageURL(
-            currentProduct["Image 1"] ||
-            currentProduct.image1 ||
-            ""
-        );
-
-    const image2 =
-        normalizeImageURL(
-            currentProduct["Image 2"] ||
-            currentProduct.image2 ||
-            ""
-        );
-
-
-    const images =
-        [image1,image2]
-        .filter(Boolean);
-
-
-    if(!images.length){
-
-        container.innerHTML =
-            "";
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        images.map(image => `
-
-            <img
-                src="${escapeAttribute(image)}"
-                alt=""
-                onerror="this.style.display='none'"
-            >
-
-        `).join("");
+    document.body.style.overflow = "hidden";
 
 }
 
 
-/* =========================================================
-   RENDER COLOR / SIZE
-========================================================= */
+function closeProduct(){
 
-function renderOptions(){
+    document.getElementById("productModal")
+        .classList.remove("active");
 
-    const colors =
-        parseOptions(
-            currentProduct["Colors"] ||
-            currentProduct.colors ||
-            ""
-        );
-
-
-    const sizes =
-        parseOptions(
-            currentProduct["Sizes"] ||
-            currentProduct.sizes ||
-            ""
-        );
-
-
-    const colorSection =
-        document.getElementById("colorSection");
-
-    const sizeSection =
-        document.getElementById("sizeSection");
-
-
-    if(colors.length){
-
-        colorSection.style.display = "block";
-
-        document.getElementById("colorOptions")
-            .innerHTML =
-                colors.map(color => `
-
-                    <button
-                        class="option ${selectedColor === color ? "selected" : ""}"
-                        onclick="selectColor('${escapeJS(color)}')"
-                    >
-                        ${escapeHTML(color)}
-                    </button>
-
-                `).join("");
-
-    }else{
-
-        colorSection.style.display = "none";
-
-    }
-
-
-    if(sizes.length){
-
-        sizeSection.style.display = "block";
-
-        document.getElementById("sizeOptions")
-            .innerHTML =
-                sizes.map(size => `
-
-                    <button
-                        class="option ${selectedSize === size ? "selected" : ""}"
-                        onclick="selectSize('${escapeJS(size)}')"
-                    >
-                        ${escapeHTML(size)}
-                    </button>
-
-                `).join("");
-
-    }else{
-
-        sizeSection.style.display = "none";
-
-    }
+    document.body.style.overflow = "";
 
 }
 
 
-/* =========================================================
-   SELECT VARIANT
-========================================================= */
-
-function selectColor(color){
-
-    selectedColor = color;
-
-    renderOptions();
-
-}
-
-
-function selectSize(size){
-
-    selectedSize = size;
-
-    renderOptions();
-
-}
-
-
-/* =========================================================
-   QUANTITY
-========================================================= */
-
-function changeDetailQuantity(amount){
+function changeDetailQuantity(change){
 
     if(!currentProduct){
         return;
     }
 
 
-    let stock =
-        parseInt(
-            currentProduct.Stock ||
-            currentProduct.stock ||
-            "999999"
-        );
+    const stock =
+        parseInt(currentProduct.Stock);
 
 
-    if(isNaN(stock)){
-        stock = 999999;
-    }
-
-
-    detailQuantity += amount;
+    detailQuantity += change;
 
 
     if(detailQuantity < 1){
@@ -1936,7 +2693,7 @@ function changeDetailQuantity(amount){
     }
 
 
-    if(detailQuantity > stock){
+    if(!isNaN(stock) && detailQuantity > stock){
         detailQuantity = stock;
     }
 
@@ -1947,155 +2704,23 @@ function changeDetailQuantity(amount){
 }
 
 
-/* =========================================================
-   ADD TO BAG
-========================================================= */
+/* =====================================================
+   CART
+===================================================== */
 
-function addCurrentProduct(){
-
-    if(!currentProduct){
-        return;
-    }
+let cart = [];
 
 
-    const colors =
-        parseOptions(
-            currentProduct["Colors"] ||
-            currentProduct.colors ||
-            ""
-        );
+try{
 
+    cart =
+        JSON.parse(
+            localStorage.getItem("eloria_cart_v1")
+        ) || [];
 
-    const sizes =
-        parseOptions(
-            currentProduct["Sizes"] ||
-            currentProduct.sizes ||
-            ""
-        );
+}catch(error){
 
-
-    if(colors.length && !selectedColor){
-
-        alert("Please select a color.");
-
-        return;
-
-    }
-
-
-    if(sizes.length && !selectedSize){
-
-        alert("Please select a size.");
-
-        return;
-
-    }
-
-
-    const id =
-        String(
-            currentProduct.ID ||
-            currentProduct.id ||
-            ""
-        );
-
-
-    const name =
-        currentProduct["Product Name"] ||
-        currentProduct.name ||
-        "Product";
-
-
-    const price =
-        priceNumber(
-            currentProduct.Price ||
-            currentProduct.price ||
-            0
-        );
-
-
-    const image =
-        productImage(currentProduct);
-
-
-    const key =
-        id +
-        "__" +
-        selectedColor +
-        "__" +
-        selectedSize;
-
-
-    const existing =
-        cart.find(item =>
-            item.key === key
-        );
-
-
-    if(existing){
-
-        existing.quantity += detailQuantity;
-
-    }else{
-
-        cart.push({
-
-            key:key,
-
-            id:id,
-
-            name:name,
-
-            price:price,
-
-            image:image,
-
-            color:selectedColor,
-
-            size:selectedSize,
-
-            quantity:detailQuantity
-
-        });
-
-    }
-
-
-    saveCart();
-
-    renderCart();
-
-    closeProduct();
-
-    openBag();
-
-}
-
-
-/* =========================================================
-   CART STORAGE
-========================================================= */
-
-function loadCart(){
-
-    try{
-
-        const saved =
-            localStorage.getItem(
-                "eloria_cart_v1"
-            );
-
-        if(!saved){
-            return [];
-        }
-
-        return JSON.parse(saved);
-
-    }catch(error){
-
-        return [];
-
-    }
+    cart = [];
 
 }
 
@@ -2107,23 +2732,17 @@ function saveCart(){
         JSON.stringify(cart)
     );
 
+    updateBagCount();
+
 }
 
 
-/* =========================================================
-   RENDER CART
-========================================================= */
-
-function renderCart(){
-
-    const container =
-        document.getElementById("cartItems");
-
+function updateBagCount(){
 
     const count =
         cart.reduce(
-            (sum,item) =>
-                sum + Number(item.quantity || 0),
+            (total,item) =>
+                total + Number(item.quantity || 0),
             0
         );
 
@@ -2131,14 +2750,198 @@ function renderCart(){
     document.getElementById("bagCount")
         .textContent = count;
 
+}
+
+
+/* =====================================================
+   ADD PRODUCT TO BAG
+===================================================== */
+
+function addCurrentProduct(){
+
+    if(!currentProduct){
+        return;
+    }
+
+
+    const index =
+        products.indexOf(currentProduct);
+
+
+    const id =
+        getProductId(currentProduct,index);
+
+
+    const colors =
+        getProductColors(currentProduct);
+
+    const sizes =
+        getProductSizes(currentProduct);
+
+
+    /*
+       If the product has colors,
+       the customer must choose one.
+    */
+
+    if(colors.length && !selectedColor){
+
+        const element =
+            document.getElementById("colorRequired");
+
+        if(element){
+            element.classList.add("show");
+        }
+
+        return;
+
+    }
+
+
+    /*
+       If the product has sizes,
+       the customer must choose one.
+    */
+
+    if(sizes.length && !selectedSize){
+
+        const element =
+            document.getElementById("sizeRequired");
+
+        if(element){
+            element.classList.add("show");
+        }
+
+        return;
+
+    }
+
+
+    const cartKey =
+        String(id) +
+        "__" +
+        String(selectedColor || "") +
+        "__" +
+        String(selectedSize || "");
+
+
+    const existing =
+        cart.find(item =>
+            item.cartKey === cartKey
+        );
+
+
+    const stock =
+        parseInt(currentProduct.Stock);
+
+
+    const images =
+        getProductImages(currentProduct);
+
+
+    if(existing){
+
+        const newQuantity =
+            existing.quantity + detailQuantity;
+
+
+        if(!isNaN(stock) && newQuantity > stock){
+
+            existing.quantity = stock;
+
+        }else{
+
+            existing.quantity = newQuantity;
+
+        }
+
+    }else{
+
+        cart.push({
+
+            cartKey:cartKey,
+
+            id:id,
+
+            name:
+                currentProduct["Product Name"] ||
+                currentProduct.name ||
+                "ÉLORIA Product",
+
+            price:
+                currentProduct.Price ||
+                currentProduct.price ||
+                0,
+
+            image:
+                images[0] || "",
+
+            color:selectedColor || "",
+
+            size:selectedSize || "",
+
+            quantity:detailQuantity
+
+        });
+
+    }
+
+
+    saveCart();
+
+    closeProduct();
+
+    openBag();
+
+}
+
+
+/* =====================================================
+   BAG
+===================================================== */
+
+function openBag(){
+
+    renderBag();
+
+    document.getElementById("bagOverlay")
+        .classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeBag(){
+
+    document.getElementById("bagOverlay")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+function renderBag(){
+
+    const container =
+        document.getElementById("bagItems");
+
 
     if(!cart.length){
 
-        container.innerHTML =
-            '<div class="empty">Your bag is empty.</div>';
+        container.innerHTML = `
+
+            <div class="empty-bag">
+                YOUR BAG IS EMPTY.
+            </div>
+
+        `;
+
 
         document.getElementById("subtotal")
             .textContent = "€0.00";
+
 
         return;
 
@@ -2148,53 +2951,57 @@ function renderCart(){
     container.innerHTML =
         cart.map((item,index) => `
 
-            <div class="cart-item">
+            <div class="bag-item">
 
-                ${
-                    item.image
-                    ?
-                    `<img
-                        src="${escapeAttribute(item.image)}"
-                        alt=""
-                        onerror="this.style.display='none'"
-                    >`
-                    :
-                    `<div></div>`
-                }
+                <img
+                    src="${escapeHTML(item.image)}"
+                    alt="${escapeHTML(item.name)}"
+                    onerror="this.src='https://via.placeholder.com/200x250?text=ELORIA'"
+                >
 
                 <div>
 
-                    <div class="cart-name">
+                    <div class="bag-item-name">
                         ${escapeHTML(item.name)}
                     </div>
 
                     ${
-                        item.color
-                        ?
-                        `<div class="cart-variant">
-                            Color: ${escapeHTML(item.color)}
-                        </div>`
-                        :
-                        ""
+                        item.color || item.size
+                        ? `
+                            <div class="bag-item-variant">
+
+                                ${
+                                    item.color
+                                    ? `COLOR: ${escapeHTML(item.color)}`
+                                    : ""
+                                }
+
+                                ${
+                                    item.color && item.size
+                                    ? " · "
+                                    : ""
+                                }
+
+                                ${
+                                    item.size
+                                    ? `SIZE: ${escapeHTML(item.size)}`
+                                    : ""
+                                }
+
+                            </div>
+                        `
+                        : ""
                     }
 
-                    ${
-                        item.size
-                        ?
-                        `<div class="cart-variant">
-                            Size: ${escapeHTML(item.size)}
-                        </div>`
-                        :
-                        ""
-                    }
-
-                    <div class="cart-price">
+                    <div class="bag-item-price">
                         ${formatPrice(item.price)}
                     </div>
 
-                    <div class="cart-controls">
+                    <div class="bag-quantity">
 
-                        <button onclick="changeCartQuantity(${index},-1)">
+                        <button
+                            onclick="changeCartQuantity(${index},-1)"
+                        >
                             −
                         </button>
 
@@ -2202,7 +3009,9 @@ function renderCart(){
                             ${item.quantity}
                         </span>
 
-                        <button onclick="changeCartQuantity(${index},1)">
+                        <button
+                            onclick="changeCartQuantity(${index},1)"
+                        >
                             +
                         </button>
 
@@ -2210,17 +3019,17 @@ function renderCart(){
 
                     <button
                         class="remove"
-                        onclick="removeCartItem(${index})"
+                        onclick="removeFromCart(${index})"
                     >
-                        Remove
+                        REMOVE
                     </button>
 
                 </div>
 
                 <div>
                     ${formatPrice(
-                        item.price *
-                        item.quantity
+                        parseFloat(item.price) *
+                        Number(item.quantity)
                     )}
                 </div>
 
@@ -2234,7 +3043,11 @@ function renderCart(){
             (sum,item) =>
                 sum +
                 (
-                    priceNumber(item.price) *
+                    parseFloat(
+                        String(item.price)
+                            .replace(",",".")
+                            .replace(/[^\d.-]/g,"")
+                    ) *
                     Number(item.quantity)
                 ),
             0
@@ -2243,266 +3056,49 @@ function renderCart(){
 
     document.getElementById("subtotal")
         .textContent =
-            formatPrice(total);
+        "€" + total.toFixed(2);
 
 }
 
 
-/* =========================================================
-   CART QUANTITY
-========================================================= */
-
-function changeCartQuantity(index,amount){
+function changeCartQuantity(index,change){
 
     if(!cart[index]){
         return;
     }
 
 
-    cart[index].quantity += amount;
+    cart[index].quantity += change;
 
 
-    if(cart[index].quantity < 1){
+    if(cart[index].quantity <= 0){
 
-        cart[index].quantity = 1;
-
-    }
-
-
-    const product =
-        products.find(product =>
-            String(
-                product.ID ||
-                product.id ||
-                ""
-            ) === String(cart[index].id)
-        );
-
-
-    if(product){
-
-        let stock =
-            parseInt(
-                product.Stock ||
-                product.stock ||
-                ""
-            );
-
-
-        if(!isNaN(stock) && stock > 0){
-
-            if(cart[index].quantity > stock){
-
-                cart[index].quantity = stock;
-
-            }
-
-        }
+        cart.splice(index,1);
 
     }
 
 
     saveCart();
 
-    renderCart();
+    renderBag();
 
 }
 
 
-/* =========================================================
-   REMOVE
-========================================================= */
-
-function removeCartItem(index){
+function removeFromCart(index){
 
     cart.splice(index,1);
 
     saveCart();
 
-    renderCart();
+    renderBag();
 
 }
 
 
-/* =========================================================
-   BAG
-========================================================= */
-
-function openBag(){
-
-    document
-        .getElementById("bagOverlay")
-        .classList.add("active");
-
-}
-
-
-function closeBag(){
-
-    document
-        .getElementById("bagOverlay")
-        .classList.remove("active");
-
-}
-
-
-function closeBagOutside(event){
-
-    if(event.target.id === "bagOverlay"){
-
-        closeBag();
-
-    }
-
-}
-
-
-/* =========================================================
-   PRODUCT MODAL CLOSE
-========================================================= */
-
-function closeProduct(){
-
-    document
-        .getElementById("productModal")
-        .classList.remove("active");
-
-}
-
-
-function closeModalOutside(event){
-
-    if(event.target.id === "productModal"){
-
-        closeProduct();
-
-    }
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function toggleSearch(){
-
-    document
-        .getElementById("searchArea")
-        .classList.toggle("active");
-
-    document
-        .getElementById("searchInput")
-        .focus();
-
-}
-
-
-function performSearch(){
-
-    renderProducts();
-
-}
-
-
-function clearSearch(){
-
-    document
-        .getElementById("searchInput")
-        .value = "";
-
-    renderProducts();
-
-}
-
-
-/* =========================================================
-   CONTACT
-========================================================= */
-
-function openContact(){
-
-    const modal =
-        document.getElementById("contactModal");
-
-    const box =
-        modal.querySelector(".contact-setting");
-
-
-    let html = "";
-
-
-    if(CONTACT_WHATSAPP){
-
-        html += `
-
-            <p>
-                <a
-                    href="https://wa.me/${CONTACT_WHATSAPP}"
-                    target="_blank"
-                >
-                    WhatsApp
-                </a>
-            </p>
-
-        `;
-
-    }
-
-
-    if(CONTACT_INSTAGRAM){
-
-        html += `
-
-            <p>
-                <a
-                    href="${CONTACT_INSTAGRAM}"
-                    target="_blank"
-                >
-                    Instagram
-                </a>
-            </p>
-
-        `;
-
-    }
-
-
-    if(html){
-
-        box.innerHTML = html;
-
-    }
-
-
-    modal.classList.add("active");
-
-}
-
-
-function closeContact(){
-
-    document
-        .getElementById("contactModal")
-        .classList.remove("active");
-
-}
-
-
-function closeContactOutside(event){
-
-    if(event.target.id === "contactModal"){
-
-        closeContact();
-
-    }
-
-}
-
-
-/* =========================================================
+/* =====================================================
    CHECKOUT
-========================================================= */
+===================================================== */
 
 function checkout(){
 
@@ -2515,64 +3111,247 @@ function checkout(){
     }
 
 
+    localStorage.setItem(
+        "eloria_cart_v1",
+        JSON.stringify(cart)
+    );
+
+
     window.location.href =
         "checkout.html";
 
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* =====================================================
+   SEARCH
+===================================================== */
 
-function scrollToSection(id){
+function openSearch(){
 
-    const element =
-        document.getElementById(id);
+    document.getElementById("searchPanel")
+        .classList.add("active");
 
-    if(element){
+    document.body.style.overflow = "hidden";
 
-        element.scrollIntoView({
-            behavior:"smooth"
-        });
+    setTimeout(() => {
+
+        document.getElementById("searchInput")
+            .focus();
+
+    },100);
+
+}
+
+
+function closeSearch(){
+
+    document.getElementById("searchPanel")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+function performSearch(){
+
+    const query =
+        document.getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const container =
+        document.getElementById("searchResults");
+
+
+    if(!query){
+
+        container.innerHTML = `
+            <div class="search-empty">
+                START TYPING TO SEARCH.
+            </div>
+        `;
+
+        return;
 
     }
 
+
+    const results =
+        products.filter(product => {
+
+            const searchable = [
+
+                product["Product Name"],
+                product.name,
+
+                product.Category,
+                product.category,
+
+                product.Description,
+                product.description,
+
+                product.Colors,
+                product.colors,
+
+                product.Sizes,
+                product.sizes
+
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+            return searchable.includes(query);
+
+        });
+
+
+    if(!results.length){
+
+        container.innerHTML = `
+            <div class="search-empty">
+                NO PRODUCTS FOUND.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        results.map(product => {
+
+            const index =
+                products.indexOf(product);
+
+            const id =
+                getProductId(product,index);
+
+            const name =
+                product["Product Name"] ||
+                product.name ||
+                "ÉLORIA Product";
+
+            const price =
+                product.Price ||
+                product.price ||
+                "";
+
+
+            return `
+
+                <div
+                    class="search-result"
+                    onclick="openSearchProduct('${escapeHTML(id)}')"
+                >
+
+                    ${escapeHTML(name)}
+
+                    <small>
+                        ${formatPrice(price)}
+                    </small>
+
+                </div>
+
+            `;
+
+        }).join("");
+
 }
 
 
-/* =========================================================
-   SECURITY HELPERS
-========================================================= */
+function openSearchProduct(id){
 
-function escapeHTML(value){
+    closeSearch();
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    openProduct(id);
 
 }
 
 
-function escapeAttribute(value){
+/* =====================================================
+   CONTACT
+===================================================== */
 
-    return escapeHTML(value);
+function openContact(){
+
+    document.getElementById("contactPanel")
+        .classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeContact(){
+
+    document.getElementById("contactPanel")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
 
 }
 
 
-function escapeJS(value){
+/* =====================================================
+   CLOSE MODALS
+===================================================== */
 
-    return String(value ?? "")
-        .replace(/\\/g,"\\\\")
-        .replace(/'/g,"\\'")
-        .replace(/\n/g,"\\n")
-        .replace(/\r/g,"\\r");
+document.getElementById("productModal")
+.addEventListener("click",function(event){
 
-}
+    if(event.target === this){
+        closeProduct();
+    }
+
+});
+
+
+document.getElementById("bagOverlay")
+.addEventListener("click",function(event){
+
+    if(event.target === this){
+        closeBag();
+    }
+
+});
+
+
+document.getElementById("searchPanel")
+.addEventListener("click",function(event){
+
+    if(event.target === this){
+        closeSearch();
+    }
+
+});
+
+
+document.getElementById("contactPanel")
+.addEventListener("click",function(event){
+
+    if(event.target === this){
+        closeContact();
+    }
+
+});
+
+
+/* =====================================================
+   START
+===================================================== */
+
+updateBagCount();
+
+loadProducts();
+
+loadCollections();
 
 </script>
 
