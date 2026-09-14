@@ -248,14 +248,24 @@ header{
     background:#242222;
     color:white;
     text-decoration:none;
+    border:0;
+    font-family:'Montserrat',sans-serif;
     font-size:10px;
     letter-spacing:2px;
+    cursor:pointer;
+    transition:.3s;
 }
 
-.contact-link.disabled{
-    background:#eee;
+.contact-link:hover{
+    background:#e85d75;
+}
+
+.demo-contact-note{
+    margin-top:14px;
     color:#999;
-    cursor:default;
+    font-size:8px;
+    letter-spacing:1px;
+    line-height:1.6;
 }
 
 /* ================= HERO ================= */
@@ -356,6 +366,24 @@ header{
     font-family:'Cormorant Garamond',serif;
     font-size:52px;
     font-weight:500;
+}
+
+.collection-filter-clear{
+    margin-top:12px;
+    border:1px solid #242222;
+    background:white;
+    color:#242222;
+    padding:9px 14px;
+    font-family:'Montserrat',sans-serif;
+    font-size:9px;
+    letter-spacing:1.5px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.collection-filter-clear:hover{
+    background:#242222;
+    color:white;
 }
 
 /* ================= COLLECTIONS ================= */
@@ -962,6 +990,30 @@ footer p{
     color:#ccc;
 }
 
+.footer-contact{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:24px;
+}
+
+.footer-contact button{
+    border:1px solid #555;
+    background:transparent;
+    color:white;
+    padding:10px 14px;
+    font-family:'Montserrat',sans-serif;
+    font-size:9px;
+    letter-spacing:1px;
+    cursor:pointer;
+}
+
+.footer-contact button:hover{
+    background:white;
+    color:#242222;
+}
+
 /* ================= MOBILE ================= */
 
 @media(max-width:900px){
@@ -1360,30 +1412,27 @@ footer p{
             contact ÉLORIA through your official social pages.
         </p>
 
-        <!--
-            ضع رابط WhatsApp الحقيقي هنا عندما يكون جاهزًا.
-            لا تضع رقمًا غير موجود.
-        -->
-
-        <a
+        <button
             id="contactWhatsApp"
-            class="contact-link disabled"
-            href="javascript:void(0)"
+            class="contact-link"
+            type="button"
+            onclick="showDemoContact('WhatsApp')"
         >
-            WHATSAPP — COMING SOON
-        </a>
+            WHATSAPP · +213 550 000 000
+        </button>
 
-        <!--
-            ضع رابط Instagram الحقيقي هنا عندما يكون جاهزًا.
-        -->
-
-        <a
+        <button
             id="contactInstagram"
-            class="contact-link disabled"
-            href="javascript:void(0)"
+            class="contact-link"
+            type="button"
+            onclick="showDemoContact('Instagram')"
         >
-            INSTAGRAM — COMING SOON
-        </a>
+            INSTAGRAM · @eloria.demo
+        </button>
+
+        <div class="demo-contact-note">
+            DEMO CONTACT — REPLACE WITH YOUR REAL DETAILS LATER.
+        </div>
 
     </div>
 
@@ -1548,22 +1597,15 @@ function isTrue(value){
 
 
 function isAvailable(product){
-
-    const status = String(product.Status || "")
-        .trim()
-        .toLowerCase();
-
-    if(!status){
-        return true;
-    }
-
-    return (
-        status === "available" ||
-        status === "متوفر" ||
-        status === "true" ||
-        status === "yes"
-    );
-
+    const status = normalizeText(getField(product,[
+        "Status","status","Availability","availability","الحالة","التوفر"
+    ]));
+    if(!status) return true;
+    const unavailable = [
+        "unavailable","inactive","disabled","hidden","draft",
+        "out of stock","غير متوفر","غير متاح","مخفي","معطل"
+    ];
+    return !unavailable.includes(status);
 }
 
 
@@ -1585,13 +1627,10 @@ function formatPrice(value){
 
 
 function getProductId(product,index){
-
-    return String(
-        product.ID ||
-        product.id ||
-        ("product-" + index)
-    );
-
+    const value = getField(product,[
+        "ID","Id","id","Product ID","ProductID","productId","معرف المنتج"
+    ]);
+    return String(value || ("product-" + index)).trim();
 }
 
 
@@ -1599,12 +1638,44 @@ function getProductId(product,index){
    OPTIONS HELPERS
 ===================================================== */
 
+function normalizeText(value){
+    return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s+/g," ")
+        .trim();
+}
+
+
+function getField(object, names){
+    if(!object) return "";
+
+    const wanted = names.map(name => normalizeText(name));
+
+    for(const key of Object.keys(object)){
+        if(wanted.includes(normalizeText(key))){
+            const value = object[key];
+            if(value !== undefined && value !== null && String(value).trim() !== ""){
+                return value;
+            }
+        }
+    }
+
+    return "";
+}
+
+
 function parseOptions(value){
 
     return String(value || "")
-        .split(/[,;|\n]+/)
+        .replace(/\r/g,"")
+        .split(/[,;|/\n]+/)
         .map(item => item.trim())
-        .filter(Boolean);
+        .filter(Boolean)
+        .filter((item,index,array) =>
+            array.findIndex(x => normalizeText(x) === normalizeText(item)) === index
+        );
 
 }
 
@@ -1612,11 +1683,14 @@ function parseOptions(value){
 function getProductColors(product){
 
     return parseOptions(
-        product.Colors ||
-        product.colors ||
-        product.Color ||
-        product.color ||
-        ""
+        getField(product,[
+            "Colors",
+            "Color",
+            "Couleurs",
+            "Couleur",
+            "الألوان",
+            "اللون"
+        ])
     );
 
 }
@@ -1625,11 +1699,14 @@ function getProductColors(product){
 function getProductSizes(product){
 
     return parseOptions(
-        product.Sizes ||
-        product.sizes ||
-        product.Size ||
-        product.size ||
-        ""
+        getField(product,[
+            "Sizes",
+            "Size",
+            "Tailles",
+            "Taille",
+            "المقاسات",
+            "المقاس"
+        ])
     );
 
 }
@@ -2018,6 +2095,121 @@ function displayCollections(){
 
 
 /* =====================================================
+   COLLECTION FILTER
+===================================================== */
+
+function getCollectionProductIds(collection){
+
+    const raw = getField(collection,[
+        "Product IDs",
+        "ProductIDs",
+        "productIds",
+        "Products",
+        "Product IDs",
+        "IDs"
+    ]);
+
+    return String(raw || "")
+        .split(/[,;|/\\n]+/)
+        .map(id => id.trim().replace(/^["']|["']$/g,""))
+        .filter(Boolean);
+}
+
+
+function openCollection(index){
+
+    const collection = collections[index];
+
+    if(!collection){
+        return;
+    }
+
+    const ids = getCollectionProductIds(collection);
+
+    let filtered = [];
+
+    if(ids.length){
+        filtered = products.filter((product,productIndex) =>
+            ids.includes(getProductId(product,productIndex))
+        );
+    }
+
+    /* Fallback: if the collection stores a category/name instead of IDs */
+    if(!filtered.length){
+        const collectionName = String(
+            getField(collection,[
+                "Collection Name",
+                "Name",
+                "name"
+            ]) || ""
+        ).trim();
+
+        if(collectionName){
+            const target = normalizeText(collectionName);
+
+            filtered = products.filter(product => {
+                const category = normalizeText(
+                    getField(product,[
+                        "Category",
+                        "category",
+                        "Collection",
+                        "Group",
+                        "المجموعة",
+                        "الفئة"
+                    ])
+                );
+
+                return category === target || category.includes(target);
+            });
+        }
+    }
+
+    const title = document.getElementById("shopAllTitle");
+    const clearButton = document.getElementById("clearCollectionFilter");
+    const allContainer = document.getElementById("allProducts");
+
+    const name =
+        getField(collection,[
+            "Collection Name",
+            "Name",
+            "name"
+        ]) || "Collection";
+
+    if(!filtered.length){
+        title.textContent = name;
+        clearButton.style.display = "inline-block";
+        allContainer.innerHTML = `
+            <div class="empty">
+                NO PRODUCTS FOUND IN THIS COLLECTION.
+            </div>
+        `;
+    }else{
+        title.textContent = name;
+        clearButton.style.display = "inline-block";
+        allContainer.innerHTML =
+            filtered.map(product => createProduct(product)).join("");
+    }
+
+    document.getElementById("all-products")
+        .scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+
+function clearCollectionFilter(){
+
+    const title = document.getElementById("shopAllTitle");
+    const clearButton = document.getElementById("clearCollectionFilter");
+    const allContainer = document.getElementById("allProducts");
+
+    title.textContent = "Shop All";
+    clearButton.style.display = "none";
+
+    allContainer.innerHTML =
+        products.map(product => createProduct(product)).join("");
+}
+
+
+/* =====================================================
    CREATE COLLECTION
 ===================================================== */
 
@@ -2048,7 +2240,10 @@ function createCollection(collection,index){
 
     return `
 
-        <article class="collection-card">
+        <article
+            class="collection-card"
+            onclick="openCollection(${index})"
+        >
 
             <div
                 class="collection-gallery"
@@ -2274,13 +2469,17 @@ function createProduct(product){
         "ÉLORIA Product";
 
     const price =
-        product.Price ||
-        product.price ||
+        getField(product,["Price","price","السعر"]) ||
         "";
 
     const oldPrice =
-        product["Old Price"] ||
-        product.oldPrice ||
+        getField(product,[
+            "Old Price",
+            "oldPrice",
+            "Previous Price",
+            "السعر القديم",
+            "السعر قبل التخفيض"
+        ]) ||
         "";
 
     const isNew =
@@ -2345,7 +2544,7 @@ function createProduct(product){
                     </span>
 
                     ${
-                        isSale && oldPrice
+                        oldPrice && parseFloat(String(oldPrice).replace(",","." ).replace(/[^\d.-]/g,"")) > parseFloat(String(price).replace(",","." ).replace(/[^\d.-]/g,""))
                         ? `
                             <span class="old-price">
                                 ${formatPrice(oldPrice)}
@@ -2560,7 +2759,7 @@ function openProduct(id){
         ${formatPrice(price)}
 
         ${
-            isTrue(currentProduct.Sale) && oldPrice
+            oldPrice && parseFloat(String(oldPrice).replace(",","." ).replace(/[^\d.-]/g,"")) > parseFloat(String(price).replace(",","." ).replace(/[^\d.-]/g,""))
             ? `
                 <span class="detail-old-price">
                     ${formatPrice(oldPrice)}
@@ -3156,73 +3355,51 @@ function closeSearch(){
 
 function performSearch(){
 
-    const query =
+    const rawQuery =
         document.getElementById("searchInput")
         .value
-        .trim()
-        .toLowerCase();
+        .trim();
 
+    const query = normalizeText(rawQuery);
 
     const container =
         document.getElementById("searchResults");
 
-
     if(!query){
-
         container.innerHTML = `
             <div class="search-empty">
                 START TYPING TO SEARCH.
             </div>
         `;
-
         return;
-
     }
-
 
     const results =
         products.filter(product => {
 
-            const searchable = [
+            const fields = [
+                getField(product,["Product Name","Name","name","Nom","اسم المنتج"]),
+                getField(product,["Category","category","Category Name","الفئة"]),
+                getField(product,["Description","description","الوصف"]),
+                getProductColors(product).join(" "),
+                getProductSizes(product).join(" ")
+            ];
 
-                product["Product Name"],
-                product.name,
-
-                product.Category,
-                product.category,
-
-                product.Description,
-                product.description,
-
-                product.Colors,
-                product.colors,
-
-                product.Sizes,
-                product.sizes
-
-            ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-
+            const searchable = normalizeText(
+                fields.filter(Boolean).join(" ")
+            );
 
             return searchable.includes(query);
-
         });
 
-
     if(!results.length){
-
         container.innerHTML = `
             <div class="search-empty">
                 NO PRODUCTS FOUND.
             </div>
         `;
-
         return;
-
     }
-
 
     container.innerHTML =
         results.map(product => {
@@ -3234,37 +3411,33 @@ function performSearch(){
                 getProductId(product,index);
 
             const name =
-                product["Product Name"] ||
-                product.name ||
+                getField(product,[
+                    "Product Name",
+                    "Name",
+                    "name",
+                    "Nom",
+                    "اسم المنتج"
+                ]) ||
                 "ÉLORIA Product";
 
             const price =
-                product.Price ||
-                product.price ||
+                getField(product,["Price","price","السعر"]) ||
                 "";
 
-
             return `
-
                 <div
                     class="search-result"
-                    onclick="openSearchProduct('${escapeHTML(id)}')"
+                    onclick="openSearchProduct(${JSON.stringify(String(id))})"
                 >
-
                     ${escapeHTML(name)}
-
                     <small>
                         ${formatPrice(price)}
                     </small>
-
                 </div>
-
             `;
 
         }).join("");
-
 }
-
 
 function openSearchProduct(id){
 
@@ -3295,6 +3468,25 @@ function closeContact(){
         .classList.remove("active");
 
     document.body.style.overflow = "";
+
+}
+
+
+function showDemoContact(type){
+
+    if(type === "WhatsApp"){
+        alert(
+            "ÉLORIA WhatsApp (DEMO)\\n\\n" +
+            "+213 550 000 000\\n\\n" +
+            "This is a temporary demo contact."
+        );
+    }else{
+        alert(
+            "ÉLORIA Instagram (DEMO)\\n\\n" +
+            "@eloria.demo\\n\\n" +
+            "This is a temporary demo account."
+        );
+    }
 
 }
 
