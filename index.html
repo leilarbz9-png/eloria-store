@@ -3325,7 +3325,9 @@ function createProduct(product){
         getField(product,[
             "Product Name",
             "Name",
-            "name"
+            "name",
+            "Nom",
+            "اسم المنتج"
         ]) ||
         "ÉLORIA Product";
 
@@ -3350,6 +3352,7 @@ function createProduct(product){
             getField(product,[
                 "New",
                 "new",
+                "Nouveau",
                 "جديد"
             ])
         );
@@ -3359,6 +3362,7 @@ function createProduct(product){
             getField(product,[
                 "Sale",
                 "sale",
+                "Sold",
                 "تخفيض"
             ])
         );
@@ -3386,11 +3390,23 @@ function createProduct(product){
         oldPriceNumber > priceNumber;
 
 
+    /*
+       IMPORTANT:
+       We use single quotes around the ID
+       so the onclick HTML attribute remains valid.
+    */
+
+    const safeId =
+        String(id)
+            .replace(/\\/g,"\\\\")
+            .replace(/'/g,"\\'");
+
+
     return `
 
         <article
             class="product-card"
-            onclick="openProduct(${JSON.stringify(String(id))})"
+            onclick="openProduct('${safeId}')"
         >
 
             <div class="product-image">
