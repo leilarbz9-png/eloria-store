@@ -9,6 +9,16 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
 
+:root{
+    --cream:#f8f6f1;
+    --paper:#fff;
+    --ink:#191817;
+    --muted:#77716b;
+    --line:#e8e4dd;
+    --accent:#a77d61;
+    --soft:#eee9e1;
+}
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -21,20 +31,27 @@ html{
 
 body{
     font-family:'Montserrat',sans-serif;
-    background:#fff;
-    color:#242222;
+    background:var(--paper);
+    color:var(--ink);
 }
 
-/* ================= HEADER ================= */
+button,
+input{
+    font-family:inherit;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 header{
-    height:78px;
-    display:flex;
+    height:76px;
+    padding:0 4.5%;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
     align-items:center;
-    justify-content:space-between;
-    padding:0 5%;
-    border-bottom:1px solid #eee;
-    background:#fff;
+    background:rgba(255,255,255,.97);
+    border-bottom:1px solid var(--line);
     position:sticky;
     top:0;
     z-index:1000;
@@ -42,410 +59,281 @@ header{
 
 .logo{
     font-family:'Cormorant Garamond',serif;
-    font-size:35px;
-    letter-spacing:5px;
+    font-size:36px;
+    letter-spacing:7px;
     font-weight:600;
+    line-height:1;
 }
 
 .nav{
     display:flex;
-    gap:32px;
     align-items:center;
+    justify-content:center;
+    gap:30px;
 }
 
 .nav a{
+    color:var(--ink);
     text-decoration:none;
-    color:#242222;
-    font-size:12px;
-    letter-spacing:2px;
+    font-size:9px;
+    letter-spacing:2.2px;
     font-weight:500;
+    position:relative;
 }
 
-.nav a:hover{
-    opacity:.55;
+.nav a:after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-7px;
+    width:0;
+    height:1px;
+    background:var(--ink);
+    transition:.3s;
+}
+
+.nav a:hover:after{
+    width:100%;
 }
 
 .header-actions{
     display:flex;
+    justify-content:flex-end;
     align-items:center;
     gap:18px;
 }
 
-.search-button,
-.contact-button{
+.header-action{
     border:0;
     background:none;
+    color:var(--ink);
     cursor:pointer;
-    font-family:'Montserrat',sans-serif;
-    font-size:12px;
-    letter-spacing:1.5px;
-}
-
-.search-icon{
-    font-size:15px;
-    margin-right:4px;
+    font-size:9px;
+    letter-spacing:1.8px;
 }
 
 .bag-button{
-    border:0;
-    background:none;
-    cursor:pointer;
-    font-family:'Montserrat',sans-serif;
-    font-size:12px;
-    letter-spacing:1.5px;
-    position:relative;
+    display:flex;
+    align-items:center;
+    gap:7px;
 }
 
 .bag-icon{
-    font-size:15px;
-    margin-right:5px;
+    font-size:13px;
 }
 
 .bag-count{
+    width:19px;
+    height:19px;
     display:inline-flex;
     justify-content:center;
     align-items:center;
-    width:20px;
-    height:20px;
     border-radius:50%;
-    background:#e85d75;
+    background:var(--ink);
     color:white;
-    font-size:10px;
-    margin-left:5px;
-}
-
-/* ================= SEARCH ================= */
-
-.search-panel{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    z-index:3500;
-    display:none;
-}
-
-.search-panel.active{
-    display:block;
-}
-
-.search-box{
-    background:white;
-    width:min(700px,92%);
-    margin:90px auto 0;
-    padding:30px;
-    position:relative;
-}
-
-.search-close{
-    position:absolute;
-    right:18px;
-    top:12px;
-    border:0;
-    background:none;
-    font-size:25px;
-    cursor:pointer;
-}
-
-.search-box h2{
-    font-family:'Cormorant Garamond',serif;
-    font-size:38px;
-    font-weight:500;
-    margin-bottom:20px;
-}
-
-.search-input{
-    width:100%;
-    border:0;
-    border-bottom:1px solid #242222;
-    padding:13px 2px;
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    outline:none;
-}
-
-.search-results{
-    max-height:55vh;
-    overflow-y:auto;
-    margin-top:20px;
-}
-
-.search-result{
-    padding:14px 0;
-    border-bottom:1px solid #eee;
-    cursor:pointer;
-    font-family:'Cormorant Garamond',serif;
-    font-size:22px;
-}
-
-.search-result small{
-    display:block;
-    font-family:'Montserrat',sans-serif;
-    font-size:10px;
-    color:#999;
-    margin-top:4px;
-}
-
-.search-empty{
-    padding:30px 0;
-    color:#777;
-    font-size:11px;
-    letter-spacing:1px;
-}
-
-/* ================= CONTACT ================= */
-
-.contact-panel{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    z-index:3500;
-    display:none;
-}
-
-.contact-panel.active{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.contact-box{
-    width:min(480px,92%);
-    background:white;
-    padding:45px 35px;
-    text-align:center;
-    position:relative;
-}
-
-.contact-box h2{
-    font-family:'Cormorant Garamond',serif;
-    font-size:42px;
-    font-weight:500;
-    margin-bottom:12px;
-}
-
-.contact-box p{
-    color:#777;
-    font-size:11px;
-    line-height:1.8;
-    margin-bottom:25px;
-}
-
-.contact-close{
-    position:absolute;
-    right:18px;
-    top:12px;
-    border:0;
-    background:none;
-    font-size:25px;
-    cursor:pointer;
-}
-
-.contact-link{
-    display:block;
-    width:100%;
-    padding:14px;
-    margin-top:10px;
-    background:#242222;
-    color:white;
-    text-decoration:none;
-    border:0;
-    font-family:'Montserrat',sans-serif;
-    font-size:10px;
-    letter-spacing:2px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.contact-link:hover{
-    background:#e85d75;
-}
-
-.demo-contact-note{
-    margin-top:14px;
-    color:#999;
     font-size:8px;
-    letter-spacing:1px;
-    line-height:1.6;
 }
 
-/* ================= HERO ================= */
+/* =====================================================
+   HERO
+===================================================== */
 
 .hero{
-    height:calc(100vh - 78px);
-    min-height:600px;
     position:relative;
+    min-height:calc(100vh - 76px);
+    height:760px;
     overflow:hidden;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    background:#f4eeee;
+    background:#e9e4dc;
 }
 
-.hero img{
+.hero-image{
+    position:absolute;
+    inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-.hero-overlay{
+.hero:after{
+    content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(
-        to top,
-        rgba(0,0,0,.48),
-        rgba(0,0,0,.04) 65%
-    );
+    background:
+        linear-gradient(
+            to top,
+            rgba(15,13,11,.62),
+            rgba(15,13,11,.08) 62%,
+            rgba(15,13,11,.08)
+        );
 }
 
 .hero-content{
     position:absolute;
-    bottom:11%;
-    text-align:center;
+    z-index:2;
+    left:6%;
+    bottom:9%;
     color:white;
-    padding:20px;
+    max-width:760px;
 }
 
-.hero-content p{
-    font-size:11px;
+.hero-kicker{
+    font-size:9px;
     letter-spacing:4px;
-    margin-bottom:12px;
+    margin-bottom:18px;
 }
 
-.hero-content h1{
+.hero-title{
     font-family:'Cormorant Garamond',serif;
-    font-size:clamp(65px,12vw,150px);
-    letter-spacing:8px;
+    font-size:clamp(80px,13vw,180px);
     font-weight:500;
-    line-height:.8;
+    letter-spacing:7px;
+    line-height:.78;
 }
 
-.hero-content span{
-    display:block;
-    margin-top:25px;
-    font-size:12px;
+.hero-subtitle{
+    margin-top:28px;
+    font-size:10px;
     letter-spacing:4px;
+}
+
+.hero-actions{
+    display:flex;
+    gap:10px;
+    margin-top:30px;
 }
 
 .hero-button{
-    display:inline-block;
-    margin-top:28px;
-    padding:15px 35px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:190px;
+    padding:15px 25px;
     background:white;
-    color:#242222;
+    color:var(--ink);
     text-decoration:none;
-    font-size:11px;
+    font-size:9px;
     letter-spacing:2px;
     transition:.3s;
 }
 
 .hero-button:hover{
-    background:#e85d75;
+    background:var(--ink);
     color:white;
 }
 
-/* ================= SECTIONS ================= */
+.hero-note{
+    position:absolute;
+    z-index:2;
+    right:5%;
+    bottom:9%;
+    color:white;
+    font-size:8px;
+    letter-spacing:2px;
+    writing-mode:vertical-rl;
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro{
+    padding:120px 8%;
+    background:var(--cream);
+    display:grid;
+    grid-template-columns:1fr 1.4fr;
+    gap:90px;
+    align-items:end;
+}
+
+.intro-label{
+    font-size:9px;
+    letter-spacing:3px;
+    color:var(--accent);
+}
+
+.intro h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(45px,6vw,80px);
+    font-weight:500;
+    line-height:.95;
+    margin-top:15px;
+}
+
+.intro-text{
+    max-width:580px;
+    font-size:11px;
+    line-height:2;
+    color:var(--muted);
+}
+
+/* =====================================================
+   SECTION
+===================================================== */
 
 .section{
-    padding:90px 5%;
+    padding:110px 5%;
 }
 
 .section-heading{
-    text-align:center;
-    margin-bottom:45px;
+    margin-bottom:48px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:30px;
 }
 
-.section-heading small{
+.section-heading-left small{
     display:block;
-    font-size:10px;
-    letter-spacing:4px;
-    color:#e85d75;
-    margin-bottom:10px;
+    color:var(--accent);
+    font-size:8px;
+    letter-spacing:3px;
+    margin-bottom:9px;
 }
 
 .section-heading h2{
     font-family:'Cormorant Garamond',serif;
-    font-size:52px;
+    font-size:58px;
+    line-height:.9;
     font-weight:500;
 }
 
-.collection-filter-clear{
-    margin-top:12px;
-    border:1px solid #242222;
-    background:white;
-    color:#242222;
-    padding:9px 14px;
-    font-family:'Montserrat',sans-serif;
+.section-heading p{
+    max-width:330px;
+    color:var(--muted);
     font-size:9px;
-    letter-spacing:1.5px;
-    cursor:pointer;
-    transition:.25s;
+    line-height:1.8;
 }
 
-.collection-filter-clear:hover{
-    background:#242222;
-    color:white;
-}
-
-/* ================= COLLECTIONS ================= */
+/* =====================================================
+   COLLECTIONS
+===================================================== */
 
 .collections{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:28px;
+    grid-template-columns:repeat(12,1fr);
+    gap:18px;
 }
 
 .collection-card{
     position:relative;
-    cursor:pointer;
     overflow:hidden;
-    background:#f5f3f2;
-    aspect-ratio:16/10;
+    cursor:pointer;
+    background:#eae6df;
+    min-height:460px;
+    grid-column:span 6;
 }
 
-.collection-card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition:transform .7s ease;
+.collection-card:nth-child(3n+1){
+    grid-column:span 7;
 }
 
-.collection-card:hover img{
-    transform:scale(1.04);
+.collection-card:nth-child(3n+2){
+    grid-column:span 5;
 }
 
-.collection-overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-        to top,
-        rgba(0,0,0,.58),
-        rgba(0,0,0,.05) 65%
-    );
+.collection-card:nth-child(3n+3){
+    grid-column:span 5;
 }
-
-.collection-info{
-    position:absolute;
-    left:30px;
-    right:30px;
-    bottom:28px;
-    color:white;
-}
-
-.collection-name{
-    font-family:'Cormorant Garamond',serif;
-    font-size:38px;
-    margin-bottom:7px;
-}
-
-.collection-description{
-    font-size:10px;
-    letter-spacing:1.2px;
-    line-height:1.6;
-    max-width:500px;
-}
-
-/* ================= COLLECTION GALLERY ================= */
 
 .collection-gallery{
     position:absolute;
@@ -460,8 +348,7 @@ header{
     width:100%;
     height:100%;
     object-fit:cover;
-    display:block;
-    transition:opacity .45s ease, transform .7s ease;
+    transition:opacity .45s,transform .8s;
 }
 
 .collection-image-one{
@@ -480,22 +367,69 @@ header{
     opacity:1;
 }
 
+.collection-card:hover .collection-image{
+    transform:scale(1.035);
+}
+
+.collection-overlay{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(15,13,11,.7),
+            rgba(15,13,11,.03) 68%
+        );
+    z-index:2;
+}
+
+.collection-info{
+    position:absolute;
+    z-index:4;
+    left:30px;
+    right:30px;
+    bottom:30px;
+    color:white;
+}
+
+.collection-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    line-height:1;
+    margin-bottom:9px;
+}
+
+.collection-description{
+    max-width:500px;
+    font-size:9px;
+    letter-spacing:1px;
+    line-height:1.7;
+    opacity:.88;
+}
+
+.collection-discover{
+    display:inline-block;
+    margin-top:17px;
+    padding-bottom:5px;
+    border-bottom:1px solid rgba(255,255,255,.75);
+    font-size:8px;
+    letter-spacing:2px;
+}
+
 .collection-dots{
     position:absolute;
-    left:50%;
-    bottom:18px;
-    transform:translateX(-50%);
+    z-index:5;
+    right:25px;
+    bottom:25px;
     display:flex;
-    gap:7px;
-    z-index:4;
+    gap:6px;
 }
 
 .collection-dot{
-    width:7px;
-    height:7px;
+    width:6px;
+    height:6px;
+    border:1px solid white;
     border-radius:50%;
-    background:rgba(255,255,255,.55);
-    border:1px solid rgba(255,255,255,.9);
 }
 
 .collection-dot.active{
@@ -504,42 +438,35 @@ header{
 
 .collection-swipe-hint{
     position:absolute;
-    right:18px;
+    z-index:5;
     top:18px;
-    z-index:4;
+    right:18px;
     padding:7px 9px;
-    background:rgba(0,0,0,.25);
+    background:rgba(0,0,0,.2);
     color:white;
-    font-size:8px;
+    font-size:7px;
     letter-spacing:1.5px;
-    opacity:.85;
 }
 
-.collection-gallery .collection-overlay,
-.collection-gallery .collection-info{
-    z-index:3;
-    pointer-events:none;
-}
-
-/* ================= PRODUCTS ================= */
+/* =====================================================
+   PRODUCTS
+===================================================== */
 
 .products{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:28px;
+    gap:30px 18px;
 }
 
 .product-card{
     cursor:pointer;
-    position:relative;
 }
 
 .product-image{
     position:relative;
-    width:100%;
     aspect-ratio:3/4;
     overflow:hidden;
-    background:#f5f3f2;
+    background:#eeeae3;
 }
 
 .product-image img{
@@ -547,114 +474,261 @@ header{
     height:100%;
     object-fit:cover;
     display:block;
-    transition:opacity .45s ease, transform .6s ease;
+    transition:opacity .45s,transform .7s;
 }
 
-.product-image .product-image-two{
+.product-image-two{
     position:absolute;
     inset:0;
     opacity:0;
 }
 
-.product-card:hover .product-image .product-image-one{
-    transform:scale(1.04);
+.product-card:hover .product-image-one{
+    transform:scale(1.035);
 }
 
-.product-card:hover .product-image .product-image-two{
+.product-card:hover .product-image-two{
     opacity:1;
-    transform:scale(1.04);
+    transform:scale(1.035);
+}
+
+.product-hover{
+    position:absolute;
+    left:50%;
+    bottom:18px;
+    transform:translate(-50%,10px);
+    padding:11px 17px;
+    background:white;
+    color:var(--ink);
+    font-size:8px;
+    letter-spacing:2px;
+    opacity:0;
+    transition:.3s;
+    z-index:4;
+    white-space:nowrap;
+}
+
+.product-card:hover .product-hover{
+    opacity:1;
+    transform:translate(-50%,0);
 }
 
 .product-badges{
     position:absolute;
-    top:13px;
-    left:13px;
+    top:12px;
+    left:12px;
     display:flex;
     flex-direction:column;
-    gap:6px;
-    z-index:2;
+    gap:5px;
+    z-index:5;
 }
 
 .badge{
     background:white;
-    padding:7px 10px;
-    font-size:9px;
+    padding:7px 9px;
+    font-size:7px;
     letter-spacing:1.5px;
 }
 
 .badge.new{
-    color:#e85d75;
-}
-
-.badge.sale{
-    color:#222;
+    color:var(--accent);
 }
 
 .product-info{
-    padding:17px 2px 0;
+    padding:15px 2px 0;
 }
 
 .product-name{
     font-family:'Cormorant Garamond',serif;
-    font-size:23px;
-    margin-bottom:7px;
+    font-size:22px;
+    line-height:1;
+    margin-bottom:8px;
 }
 
 .price-row{
     display:flex;
-    gap:10px;
     align-items:center;
+    gap:9px;
 }
 
 .price{
-    font-size:12px;
-    font-weight:500;
+    font-size:10px;
 }
 
 .old-price{
-    font-size:11px;
+    font-size:9px;
     color:#999;
     text-decoration:line-through;
 }
 
 .loading,
-.empty{
+.empty,
+.error{
     grid-column:1/-1;
     text-align:center;
     padding:80px 20px;
-    font-size:11px;
+    font-size:9px;
     letter-spacing:2px;
 }
 
 .error{
-    grid-column:1/-1;
-    text-align:center;
-    padding:60px 20px;
-    color:#c33;
-    font-size:12px;
+    color:#b33;
 }
 
-/* ================= PRODUCT MODAL ================= */
+/* =====================================================
+   FILTER
+===================================================== */
 
-.modal{
+.collection-filter{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    margin-top:-20px;
+    margin-bottom:40px;
+}
+
+.collection-filter span{
+    font-size:9px;
+    letter-spacing:2px;
+    color:var(--accent);
+}
+
+.collection-filter-clear{
+    display:none;
+    border:1px solid var(--ink);
+    background:white;
+    padding:8px 14px;
+    font-size:8px;
+    letter-spacing:1.5px;
+    cursor:pointer;
+}
+
+.collection-filter-clear:hover{
+    background:var(--ink);
+    color:white;
+}
+
+/* =====================================================
+   EDITORIAL
+===================================================== */
+
+.editorial{
+    background:var(--cream);
+    padding:100px 8%;
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    min-height:700px;
+}
+
+.editorial-image{
+    min-height:580px;
+    background:
+        url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=85")
+        center/cover;
+}
+
+.editorial-copy{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:70px;
+}
+
+.editorial-copy small{
+    color:var(--accent);
+    font-size:8px;
+    letter-spacing:3px;
+}
+
+.editorial-copy h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:70px;
+    line-height:.88;
+    font-weight:500;
+    margin:20px 0 25px;
+}
+
+.editorial-copy p{
+    max-width:390px;
+    color:var(--muted);
+    font-size:10px;
+    line-height:2;
+}
+
+.editorial-link{
+    width:max-content;
+    margin-top:30px;
+    padding-bottom:7px;
+    border-bottom:1px solid var(--ink);
+    color:var(--ink);
+    text-decoration:none;
+    font-size:8px;
+    letter-spacing:2px;
+}
+
+/* =====================================================
+   NEWSLETTER
+===================================================== */
+
+.newsletter{
+    padding:100px 20px;
+    text-align:center;
+    background:white;
+}
+
+.newsletter small{
+    color:var(--accent);
+    font-size:8px;
+    letter-spacing:3px;
+}
+
+.newsletter h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:60px;
+    font-weight:500;
+    margin:12px 0;
+}
+
+.newsletter p{
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.8;
+}
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+.modal,
+.search-panel,
+.contact-panel{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
     z-index:3000;
     display:none;
-    overflow-y:auto;
-    padding:30px;
 }
 
-.modal.active{
+.modal{
+    background:rgba(0,0,0,.58);
+    padding:25px;
+    overflow-y:auto;
+}
+
+.modal.active,
+.search-panel.active,
+.contact-panel.active{
     display:flex;
+}
+
+.modal{
     justify-content:center;
     align-items:center;
 }
 
 .product-detail{
-    width:min(1050px,100%);
-    max-height:90vh;
+    width:min(1100px,100%);
+    max-height:92vh;
     overflow:auto;
     background:white;
     display:grid;
@@ -662,34 +736,36 @@ header{
     position:relative;
 }
 
-.close{
+.close,
+.search-close,
+.contact-close{
     position:absolute;
-    top:15px;
+    z-index:10;
     right:18px;
+    top:15px;
     width:35px;
     height:35px;
     border:0;
     background:white;
-    font-size:22px;
     cursor:pointer;
-    z-index:5;
+    font-size:23px;
 }
 
 .detail-gallery{
     display:grid;
     grid-template-columns:1fr 1fr;
-    background:#f5f3f2;
+    background:#eeeae3;
 }
 
 .detail-gallery img{
     width:100%;
     height:100%;
-    min-height:560px;
+    min-height:600px;
     object-fit:cover;
 }
 
 .detail-info{
-    padding:70px 50px;
+    padding:70px 55px;
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -697,88 +773,80 @@ header{
 
 .detail-badges{
     display:flex;
-    gap:8px;
+    gap:7px;
     margin-bottom:20px;
 }
 
 .detail-name{
     font-family:'Cormorant Garamond',serif;
-    font-size:48px;
-    line-height:1;
+    font-size:52px;
+    line-height:.9;
+    font-weight:500;
     margin-bottom:20px;
 }
 
 .detail-price{
-    font-size:16px;
+    font-size:15px;
     margin-bottom:25px;
 }
 
 .detail-old-price{
     color:#999;
     text-decoration:line-through;
-    font-size:13px;
+    font-size:12px;
     margin-left:8px;
 }
 
 .detail-description{
-    color:#666;
-    font-size:12px;
-    line-height:1.9;
+    color:var(--muted);
+    font-size:10px;
+    line-height:2;
     margin-bottom:25px;
 }
 
 .stock{
-    font-size:10px;
-    letter-spacing:1.5px;
+    font-size:8px;
+    letter-spacing:2px;
     margin-bottom:25px;
 }
 
-/* ================= OPTIONS ================= */
-
 .option-group{
-    margin-bottom:18px;
+    margin-bottom:17px;
 }
 
 .option-title{
     display:block;
-    font-size:10px;
-    letter-spacing:1.5px;
-    margin-bottom:9px;
+    font-size:8px;
+    letter-spacing:2px;
+    margin-bottom:8px;
     text-transform:uppercase;
 }
 
 .option-list{
     display:flex;
     flex-wrap:wrap;
-    gap:7px;
+    gap:6px;
 }
 
 .option-button{
     border:1px solid #ddd;
     background:white;
     padding:9px 13px;
-    min-width:42px;
     cursor:pointer;
-    font-family:'Montserrat',sans-serif;
-    font-size:10px;
-    transition:.2s;
-}
-
-.option-button:hover{
-    border-color:#242222;
+    font-size:9px;
 }
 
 .option-button.selected{
-    background:#242222;
+    background:var(--ink);
     color:white;
-    border-color:#242222;
+    border-color:var(--ink);
 }
 
 .option-required{
-    color:#e85d75;
-    font-size:9px;
-    margin-top:6px;
     display:none;
+    color:#b44;
+    font-size:8px;
+    margin-top:6px;
 }
 
 .option-required.show{
@@ -788,9 +856,9 @@ header{
 .quantity{
     display:flex;
     align-items:center;
-    border:1px solid #ddd;
     width:max-content;
-    margin-bottom:18px;
+    border:1px solid #ddd;
+    margin:4px 0 18px;
 }
 
 .quantity button{
@@ -799,42 +867,150 @@ header{
     border:0;
     background:white;
     cursor:pointer;
-    font-size:16px;
 }
 
 .quantity span{
     width:40px;
     text-align:center;
-    font-size:12px;
+    font-size:11px;
 }
 
 .add-button{
     width:100%;
     padding:17px;
     border:0;
-    background:#242222;
+    background:var(--ink);
     color:white;
     cursor:pointer;
-    letter-spacing:2px;
-    font-size:11px;
+    font-size:9px;
+    letter-spacing:2.5px;
     transition:.3s;
 }
 
 .add-button:hover{
-    background:#e85d75;
+    background:var(--accent);
 }
 
 .add-button:disabled{
     background:#aaa;
-    cursor:not-allowed;
 }
 
-/* ================= BAG ================= */
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-panel{
+    background:rgba(20,18,16,.55);
+    justify-content:center;
+    align-items:flex-start;
+}
+
+.search-box{
+    width:min(760px,94%);
+    margin-top:80px;
+    background:white;
+    padding:45px;
+    position:relative;
+}
+
+.search-box h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:48px;
+    font-weight:500;
+    margin-bottom:25px;
+}
+
+.search-input{
+    width:100%;
+    border:0;
+    border-bottom:1px solid var(--ink);
+    padding:12px 0;
+    outline:none;
+    font-size:11px;
+}
+
+.search-results{
+    max-height:55vh;
+    overflow-y:auto;
+    margin-top:15px;
+}
+
+.search-result{
+    padding:15px 0;
+    border-bottom:1px solid var(--line);
+    font-family:'Cormorant Garamond',serif;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.search-result small{
+    display:block;
+    font-family:'Montserrat',sans-serif;
+    font-size:8px;
+    color:#999;
+    margin-top:5px;
+}
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact-panel{
+    background:rgba(20,18,16,.55);
+    justify-content:center;
+    align-items:center;
+}
+
+.contact-box{
+    width:min(480px,92%);
+    background:white;
+    padding:55px 40px;
+    text-align:center;
+    position:relative;
+}
+
+.contact-box h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:50px;
+    font-weight:500;
+    margin-bottom:12px;
+}
+
+.contact-box p{
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.9;
+    margin-bottom:25px;
+}
+
+.contact-link{
+    width:100%;
+    padding:15px;
+    margin-top:8px;
+    border:0;
+    background:var(--ink);
+    color:white;
+    cursor:pointer;
+    font-size:8px;
+    letter-spacing:2px;
+}
+
+.demo-contact-note{
+    color:#aaa;
+    font-size:7px;
+    letter-spacing:1px;
+    line-height:1.6;
+    margin-top:14px;
+}
+
+/* =====================================================
+   BAG
+===================================================== */
 
 .bag-overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.35);
+    background:rgba(0,0,0,.38);
     z-index:4000;
     display:none;
 }
@@ -845,10 +1021,10 @@ header{
 
 .bag{
     position:absolute;
-    top:0;
     right:0;
+    top:0;
+    width:min(470px,100%);
     height:100%;
-    width:min(450px,100%);
     background:white;
     padding:30px;
     display:flex;
@@ -859,13 +1035,13 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    border-bottom:1px solid var(--line);
     padding-bottom:20px;
-    border-bottom:1px solid #eee;
 }
 
 .bag-header h2{
     font-family:'Cormorant Garamond',serif;
-    font-size:34px;
+    font-size:38px;
     font-weight:500;
 }
 
@@ -879,22 +1055,22 @@ header{
 .bag-items{
     flex:1;
     overflow-y:auto;
-    padding:20px 0;
+    padding:15px 0;
 }
 
 .bag-item{
     display:grid;
-    grid-template-columns:75px 1fr auto;
+    grid-template-columns:70px 1fr auto;
     gap:13px;
-    padding:15px 0;
-    border-bottom:1px solid #eee;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
 }
 
 .bag-item img{
-    width:75px;
-    height:95px;
+    width:70px;
+    height:90px;
     object-fit:cover;
-    background:#f5f3f2;
+    background:#eeeae3;
 }
 
 .bag-item-name{
@@ -903,141 +1079,180 @@ header{
 }
 
 .bag-item-variant{
-    color:#777;
-    font-size:9px;
-    line-height:1.6;
-    margin-top:5px;
+    color:#888;
+    font-size:8px;
+    line-height:1.7;
+    margin-top:4px;
 }
 
 .bag-item-price{
-    font-size:11px;
+    font-size:9px;
     margin-top:5px;
 }
 
 .bag-quantity{
     display:flex;
-    align-items:center;
-    margin-top:12px;
     border:1px solid #ddd;
     width:max-content;
+    margin-top:10px;
 }
 
 .bag-quantity button{
-    width:28px;
-    height:28px;
+    width:27px;
+    height:27px;
     border:0;
     background:white;
     cursor:pointer;
 }
 
 .bag-quantity span{
-    width:28px;
-    text-align:center;
-    font-size:10px;
+    width:27px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
 }
 
 .remove{
     border:0;
     background:none;
     color:#999;
-    cursor:pointer;
-    font-size:10px;
+    font-size:8px;
     margin-top:8px;
+    cursor:pointer;
 }
 
 .bag-footer{
-    border-top:1px solid #eee;
+    border-top:1px solid var(--line);
     padding-top:20px;
 }
 
 .subtotal{
     display:flex;
     justify-content:space-between;
+    font-size:10px;
     margin-bottom:18px;
-    font-size:13px;
 }
 
 .checkout{
     width:100%;
     padding:17px;
-    background:#e85d75;
-    color:white;
     border:0;
+    background:var(--ink);
+    color:white;
     cursor:pointer;
     letter-spacing:2px;
-    font-size:11px;
+    font-size:9px;
 }
 
-/* ================= FOOTER ================= */
+/* =====================================================
+   FOOTER
+===================================================== */
 
 footer{
-    background:#242222;
+    background:var(--ink);
     color:white;
+    padding:80px 30px 35px;
     text-align:center;
-    padding:65px 20px;
 }
 
 .footer-logo{
     font-family:'Cormorant Garamond',serif;
-    font-size:42px;
-    letter-spacing:5px;
+    font-size:55px;
+    letter-spacing:7px;
 }
 
 footer p{
-    font-size:10px;
+    color:#aaa;
+    font-size:8px;
     letter-spacing:2px;
-    margin-top:15px;
-    color:#ccc;
+    margin-top:14px;
 }
 
-.footer-contact{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:24px;
+.footer-line{
+    width:60px;
+    height:1px;
+    background:#555;
+    margin:30px auto;
 }
 
-.footer-contact button{
-    border:1px solid #555;
-    background:transparent;
-    color:white;
-    padding:10px 14px;
-    font-family:'Montserrat',sans-serif;
-    font-size:9px;
+.footer-copy{
+    color:#777;
+    font-size:7px;
     letter-spacing:1px;
-    cursor:pointer;
 }
 
-.footer-contact button:hover{
-    background:white;
-    color:#242222;
-}
-
-/* ================= MOBILE ================= */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:900px){
 
-    .products{
-        grid-template-columns:repeat(2,1fr);
-        gap:18px;
-    }
-
-    .collections{
-        grid-template-columns:1fr;
-    }
-
-    .nav{
-        gap:14px;
-    }
-
-    .nav a{
-        font-size:9px;
-        letter-spacing:1px;
+    header{
+        grid-template-columns:auto 1fr auto;
+        height:68px;
     }
 
     .logo{
         font-size:27px;
+        letter-spacing:4px;
+    }
+
+    .nav{
+        display:none;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .collections{
+        display:grid;
+        grid-template-columns:1fr;
+    }
+
+    .collection-card,
+    .collection-card:nth-child(3n+1),
+    .collection-card:nth-child(3n+2),
+    .collection-card:nth-child(3n+3){
+        grid-column:span 1;
+        min-height:440px;
+    }
+
+    .intro{
+        grid-template-columns:1fr;
+        gap:30px;
+        padding:80px 7%;
+    }
+
+    .editorial{
+        grid-template-columns:1fr;
+        padding:60px 7%;
+    }
+
+    .editorial-image{
+        min-height:500px;
+    }
+
+    .editorial-copy{
+        padding:55px 0 10px;
+    }
+
+    .product-detail{
+        grid-template-columns:1fr;
+        max-height:95vh;
+    }
+
+    .detail-gallery img{
+        min-height:400px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:0 18px;
     }
 
     .header-actions{
@@ -1048,127 +1263,133 @@ footer p{
         display:none;
     }
 
-    .product-detail{
-        grid-template-columns:1fr;
-        max-height:94vh;
-    }
-
-    .detail-gallery{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .detail-gallery img{
-        min-height:400px;
-    }
-
-    .detail-info{
-        padding:35px 25px 45px;
-    }
-
-    .detail-name{
-        font-size:38px;
-    }
-}
-
-@media(max-width:600px){
-
-    header{
-        height:68px;
-        padding:0 18px;
-    }
-
-    .logo{
-        font-size:24px;
-        letter-spacing:3px;
-    }
-
-    .nav{
-        gap:10px;
-    }
-
-    .nav a{
-        display:none;
-    }
-
-    .header-actions{
-        gap:7px;
-    }
-
     .search-button{
         font-size:0;
     }
 
     .search-icon{
-        font-size:15px;
-    }
-
-    .bag-button{
-        font-size:10px;
-    }
-
-    .bag-icon{
-        font-size:14px;
+        font-size:16px;
     }
 
     .hero{
-        height:calc(100vh - 68px);
-        min-height:550px;
+        height:650px;
+        min-height:650px;
     }
 
-    .hero-content h1{
-        font-size:65px;
-        letter-spacing:4px;
+    .hero-content{
+        left:20px;
+        bottom:9%;
+    }
+
+    .hero-title{
+        font-size:75px;
+        letter-spacing:3px;
+    }
+
+    .hero-subtitle{
+        font-size:8px;
+        letter-spacing:3px;
+    }
+
+    .hero-note{
+        display:none;
     }
 
     .section{
-        padding:65px 18px;
+        padding:75px 18px;
+    }
+
+    .section-heading{
+        display:block;
+        margin-bottom:35px;
     }
 
     .section-heading h2{
-        font-size:42px;
+        font-size:46px;
+    }
+
+    .section-heading p{
+        margin-top:18px;
     }
 
     .products{
-        grid-template-columns:repeat(2,1fr);
-        gap:14px;
+        gap:25px 12px;
     }
 
     .product-name{
         font-size:19px;
     }
 
-    .collection-card{
-        aspect-ratio:4/3;
+    .product-hover{
+        display:none;
     }
 
-    .collection-info{
-        left:20px;
-        right:20px;
-        bottom:20px;
+    .collection-card{
+        min-height:390px !important;
     }
 
     .collection-name{
-        font-size:31px;
+        font-size:36px;
+    }
+
+    .editorial{
+        padding:55px 18px;
+    }
+
+    .editorial-image{
+        min-height:440px;
+    }
+
+    .editorial-copy{
+        padding-top:45px;
+    }
+
+    .editorial-copy h2{
+        font-size:57px;
+    }
+
+    .newsletter{
+        padding:80px 20px;
+    }
+
+    .newsletter h2{
+        font-size:48px;
     }
 
     .modal{
-        padding:10px;
+        padding:8px;
     }
 
     .detail-gallery img{
         min-height:300px;
     }
 
+    .detail-info{
+        padding:35px 22px 40px;
+    }
+
+    .detail-name{
+        font-size:42px;
+    }
+
+    .search-box{
+        margin-top:60px;
+        padding:35px 25px;
+    }
+
     .bag{
         padding:22px;
     }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header>
 
@@ -1182,18 +1403,27 @@ footer p{
 
     <div class="header-actions">
 
-        <button class="search-button" onclick="openSearch()">
+        <button
+            class="header-action search-button"
+            onclick="openSearch()"
+        >
             <span class="search-icon">⌕</span>
             SEARCH
         </button>
 
-        <button class="contact-button" onclick="openContact()">
+        <button
+            class="header-action contact-button"
+            onclick="openContact()"
+        >
             CONTACT
         </button>
 
-        <button class="bag-button" onclick="openBag()">
-            <span class="bag-icon">🛍️</span>
-            BAG
+        <button
+            class="header-action bag-button"
+            onclick="openBag()"
+        >
+            <span class="bag-icon">🛍</span>
+            <span>BAG</span>
             <span class="bag-count" id="bagCount">0</span>
         </button>
 
@@ -1202,48 +1432,123 @@ footer p{
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section class="hero">
 
     <img
-        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=85"
-        alt="ÉLORIA Fashion"
+        class="hero-image"
+        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1900&q=90"
+        alt="ÉLORIA Women's Fashion"
         onerror="this.style.display='none'"
     >
 
-    <div class="hero-overlay"></div>
-
     <div class="hero-content">
 
-        <p>WOMEN'S COLLECTION</p>
+        <div class="hero-kicker">
+            THE ÉLORIA EDIT · 2026
+        </div>
 
-        <h1>ÉLORIA</h1>
+        <div class="hero-title">
+            ÉLORIA
+        </div>
 
-        <span>ELEGANCE, REIMAGINED.</span>
+        <div class="hero-subtitle">
+            ELEGANCE, REIMAGINED.
+        </div>
 
-        <a href="#collections" class="hero-button">
-            EXPLORE COLLECTIONS
-        </a>
+        <div class="hero-actions">
+
+            <a
+                href="#new-arrivals"
+                class="hero-button"
+            >
+                DISCOVER THE NEW EDIT
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-note">
+        WOMEN'S FASHION · PARISIAN SPIRIT
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section class="intro">
+
+    <div>
+
+        <div class="intro-label">
+            THE HOUSE OF ÉLORIA
+        </div>
+
+        <h2>
+            Quiet luxury,<br>
+            made personal.
+        </h2>
+
+    </div>
+
+    <div class="intro-text">
+
+        ÉLORIA is a contemporary women's fashion house
+        built around refined silhouettes, thoughtful details
+        and effortless elegance.
+
+        <br><br>
+
+        Each edit is designed to feel timeless,
+        feminine and distinctly your own.
 
     </div>
 
 </section>
 
 
-<!-- ================= COLLECTIONS ================= -->
+<!-- =====================================================
+     COLLECTIONS
+===================================================== -->
 
-<section class="section" id="collections">
+<section
+    class="section"
+    id="collections"
+>
 
     <div class="section-heading">
 
-        <small>ÉLORIA EDIT</small>
+        <div class="section-heading-left">
 
-        <h2>Collections</h2>
+            <small>
+                THE EDITS
+            </small>
+
+            <h2>
+                Collections
+            </h2>
+
+        </div>
+
+        <p>
+            Explore the worlds of ÉLORIA.
+            Select a collection to discover
+            the pieces created within it.
+        </p>
 
     </div>
 
-    <div class="collections" id="collectionsContainer">
+    <div
+        class="collections"
+        id="collectionsContainer"
+    >
 
         <div class="loading">
             LOADING COLLECTIONS...
@@ -1254,19 +1559,40 @@ footer p{
 </section>
 
 
-<!-- ================= NEW ARRIVALS ================= -->
+<!-- =====================================================
+     NEW ARRIVALS
+===================================================== -->
 
-<section class="section" id="new-arrivals">
+<section
+    class="section"
+    id="new-arrivals"
+>
 
     <div class="section-heading">
 
-        <small>JUST IN</small>
+        <div class="section-heading-left">
 
-        <h2>New Arrivals</h2>
+            <small>
+                JUST IN
+            </small>
+
+            <h2>
+                New Arrivals
+            </h2>
+
+        </div>
+
+        <p>
+            The latest pieces selected for
+            the ÉLORIA woman.
+        </p>
 
     </div>
 
-    <div class="products" id="newProducts">
+    <div
+        class="products"
+        id="newProducts"
+    >
 
         <div class="loading">
             LOADING PRODUCTS...
@@ -1277,19 +1603,99 @@ footer p{
 </section>
 
 
-<!-- ================= ALL PRODUCTS ================= -->
+<!-- =====================================================
+     EDITORIAL
+===================================================== -->
 
-<section class="section" id="all-products">
+<section class="editorial">
 
-    <div class="section-heading">
+    <div class="editorial-image"></div>
 
-        <small>ÉLORIA COLLECTION</small>
+    <div class="editorial-copy">
 
-        <h2>Shop All</h2>
+        <small>
+            THE ÉLORIA WOMAN
+        </small>
+
+        <h2>
+            Less noise.<br>
+            More presence.
+        </h2>
+
+        <p>
+            She does not dress for attention.
+            She dresses with intention.
+
+            <br><br>
+
+            ÉLORIA creates pieces for the moments
+            when confidence speaks quietly —
+            through silhouette, movement and detail.
+        </p>
+
+        <a
+            href="#all-products"
+            class="editorial-link"
+        >
+            SHOP THE COLLECTION
+        </a>
 
     </div>
 
-    <div class="products" id="allProducts">
+</section>
+
+
+<!-- =====================================================
+     SHOP ALL
+===================================================== -->
+
+<section
+    class="section"
+    id="all-products"
+>
+
+    <div class="section-heading">
+
+        <div class="section-heading-left">
+
+            <small>
+                ÉLORIA
+            </small>
+
+            <h2 id="shopAllTitle">
+                Shop All
+            </h2>
+
+        </div>
+
+        <p>
+            Discover the complete ÉLORIA selection.
+        </p>
+
+    </div>
+
+    <div
+        class="collection-filter"
+        id="collectionFilter"
+        style="display:none;"
+    >
+
+        <span id="collectionFilterName"></span>
+
+        <button
+            id="clearCollectionFilter"
+            class="collection-filter-clear"
+            onclick="clearCollectionFilter()"
+        >
+            VIEW ALL
+        </button>
+
+    </div>
+
+    <div
+        class="products"
+        id="allProducts"
+    >
 
         <div class="loading">
             LOADING PRODUCTS...
@@ -1300,35 +1706,87 @@ footer p{
 </section>
 
 
-<!-- ================= PRODUCT DETAILS ================= -->
+<!-- =====================================================
+     NEWSLETTER
+===================================================== -->
 
-<div class="modal" id="productModal">
+<section class="newsletter">
+
+    <small>
+        ÉLORIA JOURNAL
+    </small>
+
+    <h2>
+        Enter the world of ÉLORIA.
+    </h2>
+
+    <p>
+        New collections, selected pieces and stories from the house.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCT MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="productModal"
+>
 
     <div class="product-detail">
 
-        <button class="close" onclick="closeProduct()">
+        <button
+            class="close"
+            onclick="closeProduct()"
+        >
             ×
         </button>
 
         <div class="detail-gallery">
 
-            <img id="detailImage1" src="" alt="Product">
+            <img
+                id="detailImage1"
+                src=""
+                alt="Product"
+            >
 
-            <img id="detailImage2" src="" alt="Product">
+            <img
+                id="detailImage2"
+                src=""
+                alt="Product"
+            >
 
         </div>
 
         <div class="detail-info">
 
-            <div class="detail-badges" id="detailBadges"></div>
+            <div
+                class="detail-badges"
+                id="detailBadges"
+            ></div>
 
-            <h2 class="detail-name" id="detailName"></h2>
+            <h2
+                class="detail-name"
+                id="detailName"
+            ></h2>
 
-            <div class="detail-price" id="detailPrice"></div>
+            <div
+                class="detail-price"
+                id="detailPrice"
+            ></div>
 
-            <div class="detail-description" id="detailDescription"></div>
+            <div
+                class="detail-description"
+                id="detailDescription"
+            ></div>
 
-            <div class="stock" id="detailStock"></div>
+            <div
+                class="stock"
+                id="detailStock"
+            ></div>
 
             <div id="detailOptions"></div>
 
@@ -1338,7 +1796,9 @@ footer p{
                     −
                 </button>
 
-                <span id="detailQuantity">1</span>
+                <span id="detailQuantity">
+                    1
+                </span>
 
                 <button onclick="changeDetailQuantity(1)">
                     +
@@ -1361,17 +1821,27 @@ footer p{
 </div>
 
 
-<!-- ================= SEARCH ================= -->
+<!-- =====================================================
+     SEARCH
+===================================================== -->
 
-<div class="search-panel" id="searchPanel">
+<div
+    class="search-panel"
+    id="searchPanel"
+>
 
     <div class="search-box">
 
-        <button class="search-close" onclick="closeSearch()">
+        <button
+            class="search-close"
+            onclick="closeSearch()"
+        >
             ×
         </button>
 
-        <h2>Search ÉLORIA</h2>
+        <h2>
+            Search ÉLORIA
+        </h2>
 
         <input
             id="searchInput"
@@ -1382,7 +1852,10 @@ footer p{
             oninput="performSearch()"
         >
 
-        <div class="search-results" id="searchResults">
+        <div
+            class="search-results"
+            id="searchResults"
+        >
 
             <div class="search-empty">
                 START TYPING TO SEARCH.
@@ -1395,17 +1868,27 @@ footer p{
 </div>
 
 
-<!-- ================= CONTACT ================= -->
+<!-- =====================================================
+     CONTACT
+===================================================== -->
 
-<div class="contact-panel" id="contactPanel">
+<div
+    class="contact-panel"
+    id="contactPanel"
+>
 
     <div class="contact-box">
 
-        <button class="contact-close" onclick="closeContact()">
+        <button
+            class="contact-close"
+            onclick="closeContact()"
+        >
             ×
         </button>
 
-        <h2>Contact ÉLORIA</h2>
+        <h2>
+            Contact ÉLORIA
+        </h2>
 
         <p>
             For orders, questions or more information,
@@ -1413,18 +1896,14 @@ footer p{
         </p>
 
         <button
-            id="contactWhatsApp"
             class="contact-link"
-            type="button"
             onclick="showDemoContact('WhatsApp')"
         >
             WHATSAPP · +213 550 000 000
         </button>
 
         <button
-            id="contactInstagram"
             class="contact-link"
-            type="button"
             onclick="showDemoContact('Instagram')"
         >
             INSTAGRAM · @eloria.demo
@@ -1439,29 +1918,44 @@ footer p{
 </div>
 
 
-<!-- ================= BAG ================= -->
+<!-- =====================================================
+     BAG
+===================================================== -->
 
-<div class="bag-overlay" id="bagOverlay">
+<div
+    class="bag-overlay"
+    id="bagOverlay"
+>
 
     <div class="bag">
 
         <div class="bag-header">
 
-            <h2>Your Bag</h2>
+            <h2>
+                Your Bag
+            </h2>
 
-            <button class="bag-close" onclick="closeBag()">
+            <button
+                class="bag-close"
+                onclick="closeBag()"
+            >
                 ×
             </button>
 
         </div>
 
-        <div class="bag-items" id="bagItems"></div>
+        <div
+            class="bag-items"
+            id="bagItems"
+        ></div>
 
         <div class="bag-footer">
 
             <div class="subtotal">
 
-                <span>SUBTOTAL</span>
+                <span>
+                    SUBTOTAL
+                </span>
 
                 <strong id="subtotal">
                     €0.00
@@ -1469,7 +1963,10 @@ footer p{
 
             </div>
 
-            <button class="checkout" onclick="checkout()">
+            <button
+                class="checkout"
+                onclick="checkout()"
+            >
                 CHECKOUT
             </button>
 
@@ -1480,7 +1977,9 @@ footer p{
 </div>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
@@ -1491,6 +1990,12 @@ footer p{
     <p>
         WOMEN'S FASHION · ELEGANCE · STYLE
     </p>
+
+    <div class="footer-line"></div>
+
+    <div class="footer-copy">
+        © 2026 ÉLORIA. ALL RIGHTS RESERVED.
+    </div>
 
 </footer>
 
@@ -1507,6 +2012,30 @@ const SCRIPT_URL =
 
 
 /* =====================================================
+   FALLBACK IMAGES
+===================================================== */
+
+const PRODUCT_PLACEHOLDER =
+"https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80";
+
+const COLLECTION_PLACEHOLDER =
+"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85";
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let products = [];
+let collections = [];
+let currentProduct = null;
+let detailQuantity = 1;
+let selectedColor = "";
+let selectedSize = "";
+let cart = [];
+
+
+/* =====================================================
    IMAGE HELPERS
 ===================================================== */
 
@@ -1514,7 +2043,9 @@ function normalizeImageURL(value){
 
     let url = String(value || "").trim();
 
-    if(!url) return "";
+    if(!url){
+        return "";
+    }
 
     if(
         url.includes("share.google") ||
@@ -1523,42 +2054,82 @@ function normalizeImageURL(value){
         return "";
     }
 
-    let match = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+    let match =
+        url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
 
     if(match && match[1]){
+
         return "https://drive.google.com/thumbnail?id=" +
-               encodeURIComponent(match[1]) +
-               "&sz=w1600";
+            encodeURIComponent(match[1]) +
+            "&sz=w1600";
+
     }
 
-    match = url.match(/[?&]id=([^&]+)/i);
+    match =
+        url.match(/[?&]id=([^&]+)/i);
 
     if(
         url.includes("drive.google.com") &&
         match &&
         match[1]
     ){
+
         return "https://drive.google.com/thumbnail?id=" +
-               encodeURIComponent(match[1]) +
-               "&sz=w1600";
+            encodeURIComponent(match[1]) +
+            "&sz=w1600";
+
     }
 
     return url;
 }
 
 
-let products = [];
-let collections = [];
-let currentProduct = null;
-let detailQuantity = 1;
-
-let selectedColor = "";
-let selectedSize = "";
-
-
 /* =====================================================
-   HELPERS
+   GENERAL HELPERS
 ===================================================== */
+
+function normalizeText(value){
+
+    return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s+/g," ")
+        .trim();
+
+}
+
+
+function getField(object,names){
+
+    if(!object){
+        return "";
+    }
+
+    const wanted =
+        names.map(name => normalizeText(name));
+
+    for(const key of Object.keys(object)){
+
+        if(wanted.includes(normalizeText(key))){
+
+            const value = object[key];
+
+            if(
+                value !== undefined &&
+                value !== null &&
+                String(value).trim() !== ""
+            ){
+                return value;
+            }
+
+        }
+
+    }
+
+    return "";
+}
+
 
 function escapeHTML(value){
 
@@ -1582,40 +2153,28 @@ function isTrue(value){
         return true;
     }
 
-    const v = String(value || "")
-        .trim()
-        .toLowerCase();
+    const v =
+        normalizeText(value);
 
-    return (
-        v === "true" ||
-        v === "1" ||
-        v === "yes" ||
-        v === "نعم"
-    );
+    return [
+        "true",
+        "1",
+        "yes",
+        "y",
+        "نعم"
+    ].includes(v);
 
-}
-
-
-function isAvailable(product){
-    const status = normalizeText(getField(product,[
-        "Status","status","Availability","availability","الحالة","التوفر"
-    ]));
-    if(!status) return true;
-    const unavailable = [
-        "unavailable","inactive","disabled","hidden","draft",
-        "out of stock","غير متوفر","غير متاح","مخفي","معطل"
-    ];
-    return !unavailable.includes(status);
 }
 
 
 function formatPrice(value){
 
-    const number = parseFloat(
-        String(value || "")
-        .replace(",", ".")
-        .replace(/[^\d.-]/g,"")
-    );
+    const number =
+        parseFloat(
+            String(value || "")
+                .replace(",",".")
+                .replace(/[^\d.-]/g,"")
+        );
 
     if(isNaN(number)){
         return escapeHTML(value || "—");
@@ -1626,43 +2185,79 @@ function formatPrice(value){
 }
 
 
-function getProductId(product,index){
-    const value = getField(product,[
-        "ID","Id","id","Product ID","ProductID","productId","معرف المنتج"
-    ]);
-    return String(value || ("product-" + index)).trim();
+function isAvailable(product){
+
+    const status =
+        normalizeText(
+            getField(product,[
+                "Status",
+                "Availability",
+                "الحالة",
+                "التوفر"
+            ])
+        );
+
+    if(!status){
+        return true;
+    }
+
+    return ![
+        "unavailable",
+        "inactive",
+        "disabled",
+        "hidden",
+        "draft",
+        "out of stock",
+        "غير متوفر",
+        "غير متاح",
+        "مخفي",
+        "معطل"
+    ].includes(status);
+
 }
 
 
 /* =====================================================
-   OPTIONS HELPERS
+   PRODUCT HELPERS
 ===================================================== */
 
-function normalizeText(value){
-    return String(value || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g,"")
-        .replace(/\s+/g," ")
-        .trim();
+function getProductId(product,index){
+
+    const value =
+        getField(product,[
+            "ID",
+            "Id",
+            "id",
+            "Product ID",
+            "ProductID",
+            "productId",
+            "معرف المنتج"
+        ]);
+
+    return String(
+        value || ("product-" + index)
+    ).trim();
+
 }
 
 
-function getField(object, names){
-    if(!object) return "";
+function findProductById(id){
 
-    const wanted = names.map(name => normalizeText(name));
-
-    for(const key of Object.keys(object)){
-        if(wanted.includes(normalizeText(key))){
-            const value = object[key];
-            if(value !== undefined && value !== null && String(value).trim() !== ""){
-                return value;
-            }
-        }
+    if(!id){
+        return null;
     }
 
-    return "";
+    const cleanId =
+        String(id)
+            .trim()
+            .replace(/^["'\[\]]|["'\[\]]$/g,"");
+
+    return products.find((product,index) =>
+        normalizeText(
+            getProductId(product,index)
+        ) === normalizeText(cleanId)
+    ) || null;
+
 }
 
 
@@ -1670,11 +2265,15 @@ function parseOptions(value){
 
     return String(value || "")
         .replace(/\r/g,"")
-        .split(/[,;|/\n]+/)
+        .split(/[,;|\/\n]+/)
         .map(item => item.trim())
         .filter(Boolean)
-        .filter((item,index,array) =>
-            array.findIndex(x => normalizeText(x) === normalizeText(item)) === index
+        .filter(
+            (item,index,array) =>
+                array.findIndex(
+                    x =>
+                        normalizeText(x) === normalizeText(item)
+                ) === index
         );
 
 }
@@ -1712,23 +2311,22 @@ function getProductSizes(product){
 }
 
 
-/* =====================================================
-   PRODUCT IMAGES
-===================================================== */
-
 function getProductImages(product){
 
     let image1 =
-        product["Image 1"] ||
-        product.image1 ||
-        product.image ||
-        "";
+        getField(product,[
+            "Image 1",
+            "Image1",
+            "image1",
+            "image"
+        ]);
 
     let image2 =
-        product["Image 2"] ||
-        product.image2 ||
-        image1 ||
-        "";
+        getField(product,[
+            "Image 2",
+            "Image2",
+            "image2"
+        ]);
 
     image1 = normalizeImageURL(image1);
     image2 = normalizeImageURL(image2);
@@ -1737,32 +2335,6 @@ function getProductImages(product){
         image1,
         image2 || image1
     ];
-}
-
-
-/* =====================================================
-   FIND PRODUCT
-===================================================== */
-
-function findProductById(id){
-
-    if(!id){
-        return null;
-    }
-
-    const cleanId =
-        String(id)
-        .trim()
-        .replace(/^["']|["']$/g,"");
-
-    return products.find((product,index) => {
-
-        return (
-            String(getProductId(product,index)).trim()
-            === cleanId
-        );
-
-    }) || null;
 
 }
 
@@ -1776,17 +2348,19 @@ function loadProducts(){
     const callbackName =
         "eloriaProducts_" + Date.now();
 
-    const script = document.createElement("script");
+    const script =
+        document.createElement("script");
 
-    const timeout = setTimeout(() => {
+    const timeout =
+        setTimeout(() => {
 
-        script.remove();
+            script.remove();
 
-        showLoadError(
-            "Unable to load products. Please refresh the page."
-        );
+            showLoadError(
+                "Unable to load products. Please refresh the page."
+            );
 
-    },15000);
+        },15000);
 
 
     window[callbackName] = function(data){
@@ -1801,7 +2375,10 @@ function loadProducts(){
 
                 products = data;
 
-            }else if(data && Array.isArray(data.data)){
+            }else if(
+                data &&
+                Array.isArray(data.data)
+            ){
 
                 products = data.data;
 
@@ -1855,7 +2432,6 @@ function loadProducts(){
         "&t=" +
         Date.now();
 
-
     document.body.appendChild(script);
 
 }
@@ -1870,17 +2446,19 @@ function loadCollections(){
     const callbackName =
         "eloriaCollections_" + Date.now();
 
-    const script = document.createElement("script");
+    const script =
+        document.createElement("script");
 
-    const timeout = setTimeout(() => {
+    const timeout =
+        setTimeout(() => {
 
-        script.remove();
+            script.remove();
 
-        showCollectionsMessage(
-            "Unable to load collections."
-        );
+            showCollectionsMessage(
+                "Unable to load collections."
+            );
 
-    },15000);
+        },15000);
 
 
     window[callbackName] = function(data){
@@ -1920,14 +2498,13 @@ function loadCollections(){
                 collections.filter(collection => {
 
                     const name =
-                        String(
-                            collection["Collection Name"] ||
-                            collection.Name ||
-                            collection.name ||
-                            ""
-                        ).trim();
+                        getField(collection,[
+                            "Collection Name",
+                            "Name",
+                            "name"
+                        ]);
 
-                    return name !== "";
+                    return String(name || "").trim() !== "";
 
                 });
 
@@ -1938,13 +2515,13 @@ function loadCollections(){
                 collections.filter(collection => {
 
                     const name =
-                        String(
-                            collection["Collection Name"] ||
-                            collection.Name ||
-                            collection.name ||
-                            ""
-                        ).trim()
-                        .toLowerCase();
+                        normalizeText(
+                            getField(collection,[
+                                "Collection Name",
+                                "Name",
+                                "name"
+                            ])
+                        );
 
                     if(!name || seen.has(name)){
                         return false;
@@ -1996,16 +2573,202 @@ function loadCollections(){
         "&t=" +
         Date.now();
 
-
     document.body.appendChild(script);
 
 }
 
 
-function showCollectionsMessage(message){
+/* =====================================================
+   COLLECTION HELPERS
+===================================================== */
 
-    document.getElementById("collectionsContainer").innerHTML =
-        `<div class="empty">${escapeHTML(message)}</div>`;
+function getCollectionName(collection){
+
+    return String(
+        getField(collection,[
+            "Collection Name",
+            "Name",
+            "name"
+        ]) ||
+        "ÉLORIA Collection"
+    ).trim();
+
+}
+
+
+function getCollectionProductIds(collection){
+
+    const raw =
+        getField(collection,[
+            "Product IDs",
+            "ProductIDs",
+            "productIds",
+            "Product ID",
+            "Products IDs",
+            "IDs",
+            "IDs of Products"
+        ]);
+
+    if(!raw){
+        return [];
+    }
+
+    let text =
+        String(raw)
+            .trim()
+            .replace(/^\[/,"")
+            .replace(/\]$/,"");
+
+    return text
+        .split(/[,;|\/\n]+/)
+        .map(value =>
+            value
+                .trim()
+                .replace(/^["']|["']$/g,"")
+        )
+        .filter(Boolean);
+
+}
+
+
+function getCollectionProductNames(collection){
+
+    const raw =
+        getField(collection,[
+            "Product Names",
+            "Products Names",
+            "Product Name",
+            "Products",
+            "Product List"
+        ]);
+
+    if(!raw){
+        return [];
+    }
+
+    return String(raw)
+        .replace(/^\[/,"")
+        .replace(/\]$/,"")
+        .split(/[,;|\/\n]+/)
+        .map(value =>
+            value
+                .trim()
+                .replace(/^["']|["']$/g,"")
+        )
+        .filter(Boolean);
+
+}
+
+
+function productBelongsToCollection(product,collection){
+
+    const productIndex =
+        products.indexOf(product);
+
+    const productId =
+        normalizeText(
+            getProductId(product,productIndex)
+        );
+
+
+    /* ---------------------------------------------
+       1. Product IDs
+    --------------------------------------------- */
+
+    const ids =
+        getCollectionProductIds(collection)
+            .map(id => normalizeText(id));
+
+    if(
+        ids.length &&
+        ids.includes(productId)
+    ){
+        return true;
+    }
+
+
+    /* ---------------------------------------------
+       2. Product names
+    --------------------------------------------- */
+
+    const names =
+        getCollectionProductNames(collection)
+            .map(name => normalizeText(name));
+
+    const productName =
+        normalizeText(
+            getField(product,[
+                "Product Name",
+                "Name",
+                "name"
+            ])
+        );
+
+    if(
+        productName &&
+        names.some(name =>
+            name === productName ||
+            name.includes(productName) ||
+            productName.includes(name)
+        )
+    ){
+        return true;
+    }
+
+
+    /* ---------------------------------------------
+       3. Category / Collection / Group
+    --------------------------------------------- */
+
+    const collectionName =
+        normalizeText(
+            getCollectionName(collection)
+        );
+
+    const productGroups = [
+
+        getField(product,[
+            "Collection",
+            "Collection Name",
+            "Collections",
+            "Group",
+            "Group Name",
+            "Category",
+            "Category Name",
+            "المجموعة",
+            "الفئة"
+        ]),
+
+        getField(product,[
+            "Product Collection",
+            "Product Group"
+        ])
+
+    ]
+    .join(" ");
+
+
+    const groupText =
+        normalizeText(productGroups);
+
+
+    if(
+        collectionName &&
+        groupText
+    ){
+
+        if(
+            groupText === collectionName ||
+            groupText.includes(collectionName) ||
+            collectionName.includes(groupText)
+        ){
+            return true;
+        }
+
+    }
+
+
+    return false;
 
 }
 
@@ -2017,55 +2780,63 @@ function showCollectionsMessage(message){
 function getCollectionImages(collection){
 
     let image1 =
-        collection["Image 1"] ||
-        collection.Image1 ||
-        collection.image1 ||
-        "";
+        normalizeImageURL(
+            getField(collection,[
+                "Image 1",
+                "Image1",
+                "image1"
+            ])
+        );
 
     let image2 =
-        collection["Image 2"] ||
-        collection.Image2 ||
-        collection.image2 ||
-        "";
+        normalizeImageURL(
+            getField(collection,[
+                "Image 2",
+                "Image2",
+                "image2"
+            ])
+        );
 
-    image1 = normalizeImageURL(image1);
-    image2 = normalizeImageURL(image2);
 
-    if(!image1 && !image2){
+    if(!image1 || !image2){
 
-        const productIds =
-            String(
-                collection["Product IDs"] ||
-                collection.ProductIDs ||
-                collection.productIds ||
-                ""
-            ).trim();
+        const ids =
+            getCollectionProductIds(collection);
 
-        if(productIds){
+        for(const id of ids){
 
-            const ids = productIds
-                .split(/[,;\n|]+/)
-                .map(id => id.trim())
-                .filter(Boolean);
+            const product =
+                findProductById(id);
 
-            for(const id of ids){
+            if(product){
 
-                const product = findProductById(id);
+                const images =
+                    getProductImages(product);
 
-                if(product){
-
-                    const images = getProductImages(product);
-
-                    image1 = images[0] || "";
-                    image2 = images[1] || image1;
-
-                    if(image1) break;
+                if(!image1){
+                    image1 = images[0];
                 }
+
+                if(!image2){
+                    image2 = images[1];
+                }
+
+                if(image1){
+                    break;
+                }
+
             }
+
         }
+
     }
 
-    return [image1, image2 || image1];
+
+    return [
+        image1 || COLLECTION_PLACEHOLDER,
+        image2 || image1 || COLLECTION_PLACEHOLDER
+    ];
+
 }
 
 
@@ -2076,136 +2847,28 @@ function getCollectionImages(collection){
 function displayCollections(){
 
     const container =
-        document.getElementById("collectionsContainer");
+        document.getElementById(
+            "collectionsContainer"
+        );
 
     if(!collections.length){
 
         container.innerHTML =
-            `<div class="empty">NO COLLECTIONS AVAILABLE YET.</div>`;
+            `<div class="empty">
+                NO COLLECTIONS AVAILABLE YET.
+            </div>`;
 
         return;
     }
 
     container.innerHTML =
         collections
-        .map((collection,index) => createCollection(collection,index))
-        .join("");
+            .map(
+                (collection,index) =>
+                    createCollection(collection,index)
+            )
+            .join("");
 
-}
-
-
-/* =====================================================
-   COLLECTION FILTER
-===================================================== */
-
-function getCollectionProductIds(collection){
-
-    const raw = getField(collection,[
-        "Product IDs",
-        "ProductIDs",
-        "productIds",
-        "Products",
-        "Product IDs",
-        "IDs"
-    ]);
-
-    return String(raw || "")
-        .split(/[,;|/\\n]+/)
-        .map(id => id.trim().replace(/^["']|["']$/g,""))
-        .filter(Boolean);
-}
-
-
-function openCollection(index){
-
-    const collection = collections[index];
-
-    if(!collection){
-        return;
-    }
-
-    const ids = getCollectionProductIds(collection);
-
-    let filtered = [];
-
-    if(ids.length){
-        filtered = products.filter((product,productIndex) =>
-            ids.includes(getProductId(product,productIndex))
-        );
-    }
-
-    /* Fallback: if the collection stores a category/name instead of IDs */
-    if(!filtered.length){
-        const collectionName = String(
-            getField(collection,[
-                "Collection Name",
-                "Name",
-                "name"
-            ]) || ""
-        ).trim();
-
-        if(collectionName){
-            const target = normalizeText(collectionName);
-
-            filtered = products.filter(product => {
-                const category = normalizeText(
-                    getField(product,[
-                        "Category",
-                        "category",
-                        "Collection",
-                        "Group",
-                        "المجموعة",
-                        "الفئة"
-                    ])
-                );
-
-                return category === target || category.includes(target);
-            });
-        }
-    }
-
-    const title = document.getElementById("shopAllTitle");
-    const clearButton = document.getElementById("clearCollectionFilter");
-    const allContainer = document.getElementById("allProducts");
-
-    const name =
-        getField(collection,[
-            "Collection Name",
-            "Name",
-            "name"
-        ]) || "Collection";
-
-    if(!filtered.length){
-        title.textContent = name;
-        clearButton.style.display = "inline-block";
-        allContainer.innerHTML = `
-            <div class="empty">
-                NO PRODUCTS FOUND IN THIS COLLECTION.
-            </div>
-        `;
-    }else{
-        title.textContent = name;
-        clearButton.style.display = "inline-block";
-        allContainer.innerHTML =
-            filtered.map(product => createProduct(product)).join("");
-    }
-
-    document.getElementById("all-products")
-        .scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-
-function clearCollectionFilter(){
-
-    const title = document.getElementById("shopAllTitle");
-    const clearButton = document.getElementById("clearCollectionFilter");
-    const allContainer = document.getElementById("allProducts");
-
-    title.textContent = "Shop All";
-    clearButton.style.display = "none";
-
-    allContainer.innerHTML =
-        products.map(product => createProduct(product)).join("");
 }
 
 
@@ -2216,27 +2879,28 @@ function clearCollectionFilter(){
 function createCollection(collection,index){
 
     const name =
-        collection["Collection Name"] ||
-        collection.Name ||
-        collection.name ||
-        "ÉLORIA Collection";
+        getCollectionName(collection);
 
     const description =
-        collection.Description ||
-        collection.description ||
-        "";
+        getField(collection,[
+            "Description",
+            "description",
+            "الوصف"
+        ]) || "";
 
-    const images = getCollectionImages(collection);
+    const images =
+        getCollectionImages(collection);
 
     const image1 =
-        images[0] ||
-        "https://via.placeholder.com/1200x750?text=ELORIA";
+        images[0] || COLLECTION_PLACEHOLDER;
 
     const image2 =
-        images[1] ||
-        "";
+        images[1] || image1;
 
-    const safeId = "collectionGallery_" + index;
+    const hasSecond =
+        image2 &&
+        image2 !== image1;
+
 
     return `
 
@@ -2247,7 +2911,6 @@ function createCollection(collection,index){
 
             <div
                 class="collection-gallery"
-                id="${safeId}"
                 ontouchstart="collectionTouchStart(event,this)"
                 ontouchend="collectionTouchEnd(event,this)"
             >
@@ -2257,19 +2920,19 @@ function createCollection(collection,index){
                     src="${escapeHTML(image1)}"
                     alt="${escapeHTML(name)}"
                     loading="lazy"
-                    onerror="this.src='https://via.placeholder.com/1200x750?text=ELORIA'"
+                    onerror="this.src='${COLLECTION_PLACEHOLDER}'"
                 >
 
                 ${
-                    image2
+                    hasSecond
                     ? `
-                    <img
-                        class="collection-image collection-image-two"
-                        src="${escapeHTML(image2)}"
-                        alt="${escapeHTML(name)}"
-                        loading="lazy"
-                        onerror="this.style.display='none'"
-                    >
+                        <img
+                            class="collection-image collection-image-two"
+                            src="${escapeHTML(image2)}"
+                            alt="${escapeHTML(name)}"
+                            loading="lazy"
+                            onerror="this.style.display='none'"
+                        >
                     `
                     : ""
                 }
@@ -2292,19 +2955,25 @@ function createCollection(collection,index){
                         : ""
                     }
 
+                    <div class="collection-discover">
+                        DISCOVER COLLECTION
+                    </div>
+
                 </div>
 
                 ${
-                    image2
+                    hasSecond
                     ? `
-                    <div class="collection-dots">
-                        <span class="collection-dot active"></span>
-                        <span class="collection-dot"></span>
-                    </div>
+                        <div class="collection-dots">
 
-                    <div class="collection-swipe-hint">
-                        SWIPE
-                    </div>
+                            <span class="collection-dot active"></span>
+                            <span class="collection-dot"></span>
+
+                        </div>
+
+                        <div class="collection-swipe-hint">
+                            SWIPE
+                        </div>
                     `
                     : ""
                 }
@@ -2314,8 +2983,13 @@ function createCollection(collection,index){
         </article>
 
     `;
+
 }
 
+
+/* =====================================================
+   COLLECTION SWIPE
+===================================================== */
 
 function collectionTouchStart(event,element){
 
@@ -2328,33 +3002,55 @@ function collectionTouchStart(event,element){
 function collectionTouchEnd(event,element){
 
     const start =
-        parseFloat(element.dataset.touchStartX || 0);
+        parseFloat(
+            element.dataset.touchStartX || 0
+        );
 
     const end =
         event.changedTouches[0].clientX;
 
-    if(!start) return;
+    if(!start){
+        return;
+    }
 
-    const difference = start - end;
+    const difference =
+        start - end;
 
-    if(Math.abs(difference) < 45) return;
+    if(Math.abs(difference) < 45){
+        return;
+    }
 
     const images =
-        element.querySelectorAll(".collection-image");
+        element.querySelectorAll(
+            ".collection-image"
+        );
 
-    if(images.length < 2) return;
+    if(images.length < 2){
+        return;
+    }
 
     const dots =
-        element.querySelectorAll(".collection-dot");
+        element.querySelectorAll(
+            ".collection-dot"
+        );
 
     const current =
-        element.classList.contains("show-second") ? 1 : 0;
+        element.classList.contains(
+            "show-second"
+        ) ? 1 : 0;
 
     let next =
-        difference > 0 ? current + 1 : current - 1;
+        difference > 0
+        ? current + 1
+        : current - 1;
 
-    if(next > 1) next = 0;
-    if(next < 0) next = 1;
+    if(next > 1){
+        next = 0;
+    }
+
+    if(next < 0){
+        next = 1;
+    }
 
     if(next === 1){
         element.classList.add("show-second");
@@ -2362,25 +3058,167 @@ function collectionTouchEnd(event,element){
         element.classList.remove("show-second");
     }
 
-    dots.forEach((dot,index) => {
-        dot.classList.toggle("active",index === next);
-    });
+    dots.forEach(
+        (dot,index) =>
+            dot.classList.toggle(
+                "active",
+                index === next
+            )
+    );
 
     element.dataset.touchStartX = "";
+
 }
 
 
 /* =====================================================
-   PRODUCTS ERROR
+   OPEN COLLECTION — FIXED
 ===================================================== */
 
-function showLoadError(message){
+function openCollection(index){
 
-    document.getElementById("newProducts").innerHTML =
-        `<div class="error">${escapeHTML(message)}</div>`;
+    const collection =
+        collections[index];
 
-    document.getElementById("allProducts").innerHTML =
-        `<div class="error">${escapeHTML(message)}</div>`;
+    if(!collection){
+        return;
+    }
+
+
+    const name =
+        getCollectionName(collection);
+
+
+    /*
+       IMPORTANT:
+       We now use several ways to find the products.
+       This makes the collection work whether the
+       Sheet stores Product IDs, product names,
+       Category, Collection or Group.
+    */
+
+    let filtered =
+        products.filter(product =>
+            productBelongsToCollection(
+                product,
+                collection
+            )
+        );
+
+
+    const title =
+        document.getElementById(
+            "shopAllTitle"
+        );
+
+    const filter =
+        document.getElementById(
+            "collectionFilter"
+        );
+
+    const filterName =
+        document.getElementById(
+            "collectionFilterName"
+        );
+
+    const clearButton =
+        document.getElementById(
+            "clearCollectionFilter"
+        );
+
+    const allContainer =
+        document.getElementById(
+            "allProducts"
+        );
+
+
+    title.textContent =
+        name;
+
+    filter.style.display =
+        "flex";
+
+    filterName.textContent =
+        "VIEWING · " + name;
+
+    clearButton.style.display =
+        "inline-block";
+
+
+    if(!filtered.length){
+
+        allContainer.innerHTML = `
+
+            <div class="empty">
+
+                NO PRODUCTS ARE LINKED TO
+                THIS COLLECTION YET.
+
+                <br><br>
+
+                CHECK THE COLLECTION'S
+                PRODUCT IDs OR CATEGORY
+                IN GOOGLE SHEETS.
+
+            </div>
+
+        `;
+
+    }else{
+
+        allContainer.innerHTML =
+            filtered
+                .map(product =>
+                    createProduct(product)
+                )
+                .join("");
+
+    }
+
+
+    document
+        .getElementById("all-products")
+        .scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+}
+
+
+/* =====================================================
+   CLEAR COLLECTION
+===================================================== */
+
+function clearCollectionFilter(){
+
+    const title =
+        document.getElementById(
+            "shopAllTitle"
+        );
+
+    const filter =
+        document.getElementById(
+            "collectionFilter"
+        );
+
+    const allContainer =
+        document.getElementById(
+            "allProducts"
+        );
+
+    title.textContent =
+        "Shop All";
+
+    filter.style.display =
+        "none";
+
+    allContainer.innerHTML =
+        products
+            .map(product =>
+                createProduct(product)
+            )
+            .join("");
 
 }
 
@@ -2392,50 +3230,70 @@ function showLoadError(message){
 function displayProducts(){
 
     const newContainer =
-        document.getElementById("newProducts");
+        document.getElementById(
+            "newProducts"
+        );
 
     const allContainer =
-        document.getElementById("allProducts");
+        document.getElementById(
+            "allProducts"
+        );
 
 
     if(!products.length){
 
         newContainer.innerHTML =
-            `<div class="empty">NO PRODUCTS AVAILABLE YET.</div>`;
+            `<div class="empty">
+                NO PRODUCTS AVAILABLE YET.
+            </div>`;
 
         allContainer.innerHTML =
-            `<div class="empty">NO PRODUCTS AVAILABLE YET.</div>`;
+            `<div class="empty">
+                NO PRODUCTS AVAILABLE YET.
+            </div>`;
 
         return;
-
     }
 
 
     const newProducts =
         products.filter(product =>
-            isTrue(product.New)
+            isTrue(
+                getField(product,[
+                    "New",
+                    "new",
+                    "Nouveau",
+                    "جديد"
+                ])
+            )
         );
 
 
     if(!newProducts.length){
 
         newContainer.innerHTML =
-            `<div class="empty">NEW ARRIVALS COMING SOON.</div>`;
+            `<div class="empty">
+                NEW ARRIVALS COMING SOON.
+            </div>`;
 
     }else{
 
         newContainer.innerHTML =
             newProducts
-            .map(product => createProduct(product))
-            .join("");
+                .map(product =>
+                    createProduct(product)
+                )
+                .join("");
 
     }
 
 
     allContainer.innerHTML =
         products
-        .map(product => createProduct(product))
-        .join("");
+            .map(product =>
+                createProduct(product)
+            )
+            .join("");
 
 }
 
@@ -2457,20 +3315,26 @@ function createProduct(product){
 
     const image1 =
         images[0] ||
-        "https://via.placeholder.com/600x800?text=ELORIA";
+        PRODUCT_PLACEHOLDER;
 
     const image2 =
         images[1] ||
         image1;
 
     const name =
-        product["Product Name"] ||
-        product.name ||
+        getField(product,[
+            "Product Name",
+            "Name",
+            "name"
+        ]) ||
         "ÉLORIA Product";
 
     const price =
-        getField(product,["Price","price","السعر"]) ||
-        "";
+        getField(product,[
+            "Price",
+            "price",
+            "السعر"
+        ]);
 
     const oldPrice =
         getField(product,[
@@ -2479,20 +3343,54 @@ function createProduct(product){
             "Previous Price",
             "السعر القديم",
             "السعر قبل التخفيض"
-        ]) ||
-        "";
+        ]);
 
     const isNew =
-        isTrue(product.New);
+        isTrue(
+            getField(product,[
+                "New",
+                "new",
+                "جديد"
+            ])
+        );
 
     const isSale =
-        isTrue(product.Sale);
+        isTrue(
+            getField(product,[
+                "Sale",
+                "sale",
+                "تخفيض"
+            ])
+        );
+
+
+    const priceNumber =
+        parseFloat(
+            String(price || "")
+                .replace(",",".")
+                .replace(/[^\d.-]/g,"")
+        );
+
+    const oldPriceNumber =
+        parseFloat(
+            String(oldPrice || "")
+                .replace(",",".")
+                .replace(/[^\d.-]/g,"")
+        );
+
+
+    const hasOldPrice =
+        oldPrice &&
+        !isNaN(oldPriceNumber) &&
+        !isNaN(priceNumber) &&
+        oldPriceNumber > priceNumber;
+
 
     return `
 
         <article
             class="product-card"
-            onclick="openProduct('${escapeHTML(id)}')"
+            onclick="openProduct(${JSON.stringify(String(id))})"
         >
 
             <div class="product-image">
@@ -2502,7 +3400,7 @@ function createProduct(product){
                     src="${escapeHTML(image1)}"
                     alt="${escapeHTML(name)}"
                     loading="lazy"
-                    onerror="this.src='https://via.placeholder.com/600x800?text=ELORIA'"
+                    onerror="this.src='${PRODUCT_PLACEHOLDER}'"
                 >
 
                 <img
@@ -2523,10 +3421,14 @@ function createProduct(product){
 
                     ${
                         isSale
-                        ? `<span class="badge sale">SALE</span>`
+                        ? `<span class="badge">SALE</span>`
                         : ""
                     }
 
+                </div>
+
+                <div class="product-hover">
+                    VIEW PIECE
                 </div>
 
             </div>
@@ -2544,7 +3446,7 @@ function createProduct(product){
                     </span>
 
                     ${
-                        oldPrice && parseFloat(String(oldPrice).replace(",","." ).replace(/[^\d.-]/g,"")) > parseFloat(String(price).replace(",","." ).replace(/[^\d.-]/g,""))
+                        hasOldPrice
                         ? `
                             <span class="old-price">
                                 ${formatPrice(oldPrice)}
@@ -2565,7 +3467,7 @@ function createProduct(product){
 
 
 /* =====================================================
-   PRODUCT OPTIONS HTML
+   PRODUCT OPTIONS
 ===================================================== */
 
 function renderProductOptions(){
@@ -2581,6 +3483,7 @@ function renderProductOptions(){
         getProductSizes(currentProduct);
 
     let html = "";
+
 
     if(colors.length){
 
@@ -2598,8 +3501,12 @@ function renderProductOptions(){
 
                         <button
                             type="button"
-                            class="option-button ${selectedColor === color ? "selected" : ""}"
-                            onclick="selectColor('${escapeHTML(color)}')"
+                            class="option-button ${
+                                selectedColor === color
+                                ? "selected"
+                                : ""
+                            }"
+                            onclick="selectColor(${JSON.stringify(color)})"
                         >
                             ${escapeHTML(color)}
                         </button>
@@ -2638,8 +3545,12 @@ function renderProductOptions(){
 
                         <button
                             type="button"
-                            class="option-button ${selectedSize === size ? "selected" : ""}"
-                            onclick="selectSize('${escapeHTML(size)}')"
+                            class="option-button ${
+                                selectedSize === size
+                                ? "selected"
+                                : ""
+                            }"
+                            onclick="selectSize(${JSON.stringify(size)})"
                         >
                             ${escapeHTML(size)}
                         </button>
@@ -2662,8 +3573,9 @@ function renderProductOptions(){
     }
 
 
-    document.getElementById("detailOptions").innerHTML =
-        html;
+    document.getElementById(
+        "detailOptions"
+    ).innerHTML = html;
 
 }
 
@@ -2693,11 +3605,7 @@ function selectSize(size){
 function openProduct(id){
 
     currentProduct =
-        products.find(
-            (product,index) =>
-                getProductId(product,index) === String(id)
-        );
-
+        findProductById(id);
 
     if(!currentProduct){
         return;
@@ -2705,61 +3613,93 @@ function openProduct(id){
 
 
     detailQuantity = 1;
-
     selectedColor = "";
     selectedSize = "";
 
 
-    document.getElementById("detailQuantity")
-        .textContent = "1";
+    document.getElementById(
+        "detailQuantity"
+    ).textContent = "1";
 
 
     const images =
-        getProductImages(currentProduct);
+        getProductImages(
+            currentProduct
+        );
 
 
-    const image1 =
+    document.getElementById(
+        "detailImage1"
+    ).src =
         images[0] ||
-        "https://via.placeholder.com/600x800?text=ELORIA";
+        PRODUCT_PLACEHOLDER;
 
 
-    const image2 =
+    document.getElementById(
+        "detailImage2"
+    ).src =
         images[1] ||
-        image1;
+        images[0] ||
+        PRODUCT_PLACEHOLDER;
 
 
-    document.getElementById("detailImage1").src =
-        image1;
-
-
-    document.getElementById("detailImage2").src =
-        image2;
-
-
-    document.getElementById("detailName").textContent =
-        currentProduct["Product Name"] ||
-        currentProduct.name ||
+    const name =
+        getField(currentProduct,[
+            "Product Name",
+            "Name",
+            "name"
+        ]) ||
         "ÉLORIA Product";
 
 
+    document.getElementById(
+        "detailName"
+    ).textContent =
+        name;
+
+
     const price =
-        currentProduct.Price ||
-        currentProduct.price ||
-        "";
+        getField(currentProduct,[
+            "Price",
+            "price",
+            "السعر"
+        ]);
 
 
     const oldPrice =
-        currentProduct["Old Price"] ||
-        currentProduct.oldPrice ||
-        "";
+        getField(currentProduct,[
+            "Old Price",
+            "oldPrice",
+            "السعر القديم"
+        ]);
 
 
-    document.getElementById("detailPrice").innerHTML = `
+    const priceNumber =
+        parseFloat(
+            String(price || "")
+                .replace(",",".")
+                .replace(/[^\d.-]/g,"")
+        );
+
+    const oldPriceNumber =
+        parseFloat(
+            String(oldPrice || "")
+                .replace(",",".")
+                .replace(/[^\d.-]/g,"")
+        );
+
+
+    document.getElementById(
+        "detailPrice"
+    ).innerHTML = `
 
         ${formatPrice(price)}
 
         ${
-            oldPrice && parseFloat(String(oldPrice).replace(",","." ).replace(/[^\d.-]/g,"")) > parseFloat(String(price).replace(",","." ).replace(/[^\d.-]/g,""))
+            oldPrice &&
+            !isNaN(oldPriceNumber) &&
+            !isNaN(priceNumber) &&
+            oldPriceNumber > priceNumber
             ? `
                 <span class="detail-old-price">
                     ${formatPrice(oldPrice)}
@@ -2771,33 +3711,39 @@ function openProduct(id){
     `;
 
 
-    document.getElementById("detailDescription").textContent =
-        currentProduct.Description ||
-        currentProduct.description ||
+    document.getElementById(
+        "detailDescription"
+    ).textContent =
+        getField(currentProduct,[
+            "Description",
+            "description",
+            "الوصف"
+        ]) ||
         "A beautiful piece from the ÉLORIA collection.";
 
 
     const stockValue =
-        parseInt(currentProduct.Stock);
+        parseInt(
+            getField(currentProduct,[
+                "Stock",
+                "stock",
+                "المخزون"
+            ])
+        );
 
 
     const stockElement =
-        document.getElementById("detailStock");
+        document.getElementById(
+            "detailStock"
+        );
 
 
     if(!isNaN(stockValue)){
 
-        if(stockValue <= 0){
-
-            stockElement.textContent =
-                "OUT OF STOCK";
-
-        }else{
-
-            stockElement.textContent =
-                stockValue + " PIECES AVAILABLE";
-
-        }
+        stockElement.textContent =
+            stockValue <= 0
+            ? "OUT OF STOCK"
+            : stockValue + " PIECES AVAILABLE";
 
     }else{
 
@@ -2810,7 +3756,15 @@ function openProduct(id){
     let badges = "";
 
 
-    if(isTrue(currentProduct.New)){
+    if(
+        isTrue(
+            getField(currentProduct,[
+                "New",
+                "new",
+                "جديد"
+            ])
+        )
+    ){
 
         badges +=
             `<span class="badge new">NEW</span>`;
@@ -2818,15 +3772,25 @@ function openProduct(id){
     }
 
 
-    if(isTrue(currentProduct.Sale)){
+    if(
+        isTrue(
+            getField(currentProduct,[
+                "Sale",
+                "sale",
+                "تخفيض"
+            ])
+        )
+    ){
 
         badges +=
-            `<span class="badge sale">SALE</span>`;
+            `<span class="badge">SALE</span>`;
 
     }
 
 
-    document.getElementById("detailBadges").innerHTML =
+    document.getElementById(
+        "detailBadges"
+    ).innerHTML =
         badges;
 
 
@@ -2834,39 +3798,44 @@ function openProduct(id){
 
 
     const addButton =
-        document.getElementById("addButton");
+        document.getElementById(
+            "addButton"
+        );
 
 
-    if(!isNaN(stockValue) && stockValue <= 0){
+    if(
+        !isNaN(stockValue) &&
+        stockValue <= 0
+    ){
 
         addButton.disabled = true;
-
         addButton.textContent =
             "OUT OF STOCK";
 
     }else{
 
         addButton.disabled = false;
-
         addButton.textContent =
             "ADD TO BAG";
 
     }
 
 
-    document.getElementById("productModal")
-        .classList.add("active");
+    document.getElementById(
+        "productModal"
+    ).classList.add("active");
 
-
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+        "hidden";
 
 }
 
 
 function closeProduct(){
 
-    document.getElementById("productModal")
-        .classList.remove("active");
+    document.getElementById(
+        "productModal"
+    ).classList.remove("active");
 
     document.body.style.overflow = "";
 
@@ -2879,9 +3848,14 @@ function changeDetailQuantity(change){
         return;
     }
 
-
     const stock =
-        parseInt(currentProduct.Stock);
+        parseInt(
+            getField(currentProduct,[
+                "Stock",
+                "stock",
+                "المخزون"
+            ])
+        );
 
 
     detailQuantity += change;
@@ -2892,13 +3866,20 @@ function changeDetailQuantity(change){
     }
 
 
-    if(!isNaN(stock) && detailQuantity > stock){
+    if(
+        !isNaN(stock) &&
+        detailQuantity > stock
+    ){
+
         detailQuantity = stock;
+
     }
 
 
-    document.getElementById("detailQuantity")
-        .textContent = detailQuantity;
+    document.getElementById(
+        "detailQuantity"
+    ).textContent =
+        detailQuantity;
 
 }
 
@@ -2907,14 +3888,13 @@ function changeDetailQuantity(change){
    CART
 ===================================================== */
 
-let cart = [];
-
-
 try{
 
     cart =
         JSON.parse(
-            localStorage.getItem("eloria_cart_v1")
+            localStorage.getItem(
+                "eloria_cart_v1"
+            )
         ) || [];
 
 }catch(error){
@@ -2941,19 +3921,22 @@ function updateBagCount(){
     const count =
         cart.reduce(
             (total,item) =>
-                total + Number(item.quantity || 0),
+                total +
+                Number(item.quantity || 0),
             0
         );
 
 
-    document.getElementById("bagCount")
-        .textContent = count;
+    document.getElementById(
+        "bagCount"
+    ).textContent =
+        count;
 
 }
 
 
 /* =====================================================
-   ADD PRODUCT TO BAG
+   ADD TO BAG
 ===================================================== */
 
 function addCurrentProduct(){
@@ -2964,29 +3947,38 @@ function addCurrentProduct(){
 
 
     const index =
-        products.indexOf(currentProduct);
+        products.indexOf(
+            currentProduct
+        );
 
 
     const id =
-        getProductId(currentProduct,index);
+        getProductId(
+            currentProduct,
+            index
+        );
 
 
     const colors =
-        getProductColors(currentProduct);
+        getProductColors(
+            currentProduct
+        );
 
     const sizes =
-        getProductSizes(currentProduct);
+        getProductSizes(
+            currentProduct
+        );
 
 
-    /*
-       If the product has colors,
-       the customer must choose one.
-    */
-
-    if(colors.length && !selectedColor){
+    if(
+        colors.length &&
+        !selectedColor
+    ){
 
         const element =
-            document.getElementById("colorRequired");
+            document.getElementById(
+                "colorRequired"
+            );
 
         if(element){
             element.classList.add("show");
@@ -2997,15 +3989,15 @@ function addCurrentProduct(){
     }
 
 
-    /*
-       If the product has sizes,
-       the customer must choose one.
-    */
-
-    if(sizes.length && !selectedSize){
+    if(
+        sizes.length &&
+        !selectedSize
+    ){
 
         const element =
-            document.getElementById("sizeRequired");
+            document.getElementById(
+                "sizeRequired"
+            );
 
         if(element){
             element.classList.add("show");
@@ -3025,32 +4017,47 @@ function addCurrentProduct(){
 
 
     const existing =
-        cart.find(item =>
-            item.cartKey === cartKey
+        cart.find(
+            item =>
+                item.cartKey === cartKey
         );
 
 
     const stock =
-        parseInt(currentProduct.Stock);
+        parseInt(
+            getField(currentProduct,[
+                "Stock",
+                "stock",
+                "المخزون"
+            ])
+        );
 
 
     const images =
-        getProductImages(currentProduct);
+        getProductImages(
+            currentProduct
+        );
 
 
     if(existing){
 
         const newQuantity =
-            existing.quantity + detailQuantity;
+            existing.quantity +
+            detailQuantity;
 
 
-        if(!isNaN(stock) && newQuantity > stock){
+        if(
+            !isNaN(stock) &&
+            newQuantity > stock
+        ){
 
-            existing.quantity = stock;
+            existing.quantity =
+                stock;
 
         }else{
 
-            existing.quantity = newQuantity;
+            existing.quantity =
+                newQuantity;
 
         }
 
@@ -3063,23 +4070,30 @@ function addCurrentProduct(){
             id:id,
 
             name:
-                currentProduct["Product Name"] ||
-                currentProduct.name ||
+                getField(currentProduct,[
+                    "Product Name",
+                    "Name",
+                    "name"
+                ]) ||
                 "ÉLORIA Product",
 
             price:
-                currentProduct.Price ||
-                currentProduct.price ||
-                0,
+                getField(currentProduct,[
+                    "Price",
+                    "price"
+                ]) || 0,
 
             image:
-                images[0] || "",
+                images[0] || PRODUCT_PLACEHOLDER,
 
-            color:selectedColor || "",
+            color:
+                selectedColor || "",
 
-            size:selectedSize || "",
+            size:
+                selectedSize || "",
 
-            quantity:detailQuantity
+            quantity:
+                detailQuantity
 
         });
 
@@ -3103,20 +4117,24 @@ function openBag(){
 
     renderBag();
 
-    document.getElementById("bagOverlay")
-        .classList.add("active");
+    document.getElementById(
+        "bagOverlay"
+    ).classList.add("active");
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+        "hidden";
 
 }
 
 
 function closeBag(){
 
-    document.getElementById("bagOverlay")
-        .classList.remove("active");
+    document.getElementById(
+        "bagOverlay"
+    ).classList.remove("active");
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -3124,23 +4142,26 @@ function closeBag(){
 function renderBag(){
 
     const container =
-        document.getElementById("bagItems");
+        document.getElementById(
+            "bagItems"
+        );
 
 
     if(!cart.length){
 
         container.innerHTML = `
 
-            <div class="empty-bag">
+            <div class="empty">
                 YOUR BAG IS EMPTY.
             </div>
 
         `;
 
 
-        document.getElementById("subtotal")
-            .textContent = "€0.00";
-
+        document.getElementById(
+            "subtotal"
+        ).textContent =
+            "€0.00";
 
         return;
 
@@ -3148,113 +4169,133 @@ function renderBag(){
 
 
     container.innerHTML =
-        cart.map((item,index) => `
+        cart.map(
+            (item,index) => `
 
-            <div class="bag-item">
+                <div class="bag-item">
 
-                <img
-                    src="${escapeHTML(item.image)}"
-                    alt="${escapeHTML(item.name)}"
-                    onerror="this.src='https://via.placeholder.com/200x250?text=ELORIA'"
-                >
-
-                <div>
-
-                    <div class="bag-item-name">
-                        ${escapeHTML(item.name)}
-                    </div>
-
-                    ${
-                        item.color || item.size
-                        ? `
-                            <div class="bag-item-variant">
-
-                                ${
-                                    item.color
-                                    ? `COLOR: ${escapeHTML(item.color)}`
-                                    : ""
-                                }
-
-                                ${
-                                    item.color && item.size
-                                    ? " · "
-                                    : ""
-                                }
-
-                                ${
-                                    item.size
-                                    ? `SIZE: ${escapeHTML(item.size)}`
-                                    : ""
-                                }
-
-                            </div>
-                        `
-                        : ""
-                    }
-
-                    <div class="bag-item-price">
-                        ${formatPrice(item.price)}
-                    </div>
-
-                    <div class="bag-quantity">
-
-                        <button
-                            onclick="changeCartQuantity(${index},-1)"
-                        >
-                            −
-                        </button>
-
-                        <span>
-                            ${item.quantity}
-                        </span>
-
-                        <button
-                            onclick="changeCartQuantity(${index},1)"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                    <button
-                        class="remove"
-                        onclick="removeFromCart(${index})"
+                    <img
+                        src="${escapeHTML(
+                            item.image ||
+                            PRODUCT_PLACEHOLDER
+                        )}"
+                        alt="${escapeHTML(item.name)}"
+                        onerror="this.src='${PRODUCT_PLACEHOLDER}'"
                     >
-                        REMOVE
-                    </button>
+
+                    <div>
+
+                        <div class="bag-item-name">
+                            ${escapeHTML(item.name)}
+                        </div>
+
+                        ${
+                            item.color ||
+                            item.size
+                            ? `
+                                <div class="bag-item-variant">
+
+                                    ${
+                                        item.color
+                                        ? "COLOR: " +
+                                          escapeHTML(item.color)
+                                        : ""
+                                    }
+
+                                    ${
+                                        item.color &&
+                                        item.size
+                                        ? " · "
+                                        : ""
+                                    }
+
+                                    ${
+                                        item.size
+                                        ? "SIZE: " +
+                                          escapeHTML(item.size)
+                                        : ""
+                                    }
+
+                                </div>
+                            `
+                            : ""
+                        }
+
+                        <div class="bag-item-price">
+                            ${formatPrice(item.price)}
+                        </div>
+
+                        <div class="bag-quantity">
+
+                            <button
+                                onclick="changeCartQuantity(${index},-1)"
+                            >
+                                −
+                            </button>
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+                            <button
+                                onclick="changeCartQuantity(${index},1)"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+                        <button
+                            class="remove"
+                            onclick="removeFromCart(${index})"
+                        >
+                            REMOVE
+                        </button>
+
+                    </div>
+
+                    <div>
+                        ${formatPrice(
+                            parseFloat(
+                                String(item.price)
+                                    .replace(",",".")
+                                    .replace(/[^\d.-]/g,"")
+                            ) *
+                            Number(item.quantity)
+                        )}
+                    </div>
 
                 </div>
 
-                <div>
-                    ${formatPrice(
-                        parseFloat(item.price) *
-                        Number(item.quantity)
-                    )}
-                </div>
-
-            </div>
-
-        `).join("");
+            `
+        ).join("");
 
 
     const total =
         cart.reduce(
-            (sum,item) =>
-                sum +
-                (
+            (sum,item) => {
+
+                const price =
                     parseFloat(
                         String(item.price)
                             .replace(",",".")
                             .replace(/[^\d.-]/g,"")
-                    ) *
-                    Number(item.quantity)
-                ),
+                    );
+
+                return sum +
+                    (
+                        (isNaN(price) ? 0 : price) *
+                        Number(item.quantity)
+                    );
+
+            },
             0
         );
 
 
-    document.getElementById("subtotal")
-        .textContent =
+    document.getElementById(
+        "subtotal"
+    ).textContent =
         "€" + total.toFixed(2);
 
 }
@@ -3266,14 +4307,11 @@ function changeCartQuantity(index,change){
         return;
     }
 
-
     cart[index].quantity += change;
 
 
     if(cart[index].quantity <= 0){
-
         cart.splice(index,1);
-
     }
 
 
@@ -3328,15 +4366,19 @@ function checkout(){
 
 function openSearch(){
 
-    document.getElementById("searchPanel")
-        .classList.add("active");
+    document.getElementById(
+        "searchPanel"
+    ).classList.add("active");
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+        "hidden";
+
 
     setTimeout(() => {
 
-        document.getElementById("searchInput")
-            .focus();
+        document.getElementById(
+            "searchInput"
+        ).focus();
 
     },100);
 
@@ -3345,10 +4387,12 @@ function openSearch(){
 
 function closeSearch(){
 
-    document.getElementById("searchPanel")
-        .classList.remove("active");
+    document.getElementById(
+        "searchPanel"
+    ).classList.remove("active");
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -3356,50 +4400,95 @@ function closeSearch(){
 function performSearch(){
 
     const rawQuery =
-        document.getElementById("searchInput")
-        .value
-        .trim();
+        document.getElementById(
+            "searchInput"
+        ).value.trim();
 
-    const query = normalizeText(rawQuery);
+    const query =
+        normalizeText(rawQuery);
 
     const container =
-        document.getElementById("searchResults");
+        document.getElementById(
+            "searchResults"
+        );
+
 
     if(!query){
+
         container.innerHTML = `
+
             <div class="search-empty">
                 START TYPING TO SEARCH.
             </div>
+
         `;
+
         return;
+
     }
+
 
     const results =
         products.filter(product => {
 
             const fields = [
-                getField(product,["Product Name","Name","name","Nom","اسم المنتج"]),
-                getField(product,["Category","category","Category Name","الفئة"]),
-                getField(product,["Description","description","الوصف"]),
+
+                getField(product,[
+                    "Product Name",
+                    "Name",
+                    "name",
+                    "Nom",
+                    "اسم المنتج"
+                ]),
+
+                getField(product,[
+                    "Category",
+                    "category",
+                    "Category Name",
+                    "الفئة"
+                ]),
+
+                getField(product,[
+                    "Collection",
+                    "Collection Name",
+                    "Group",
+                    "المجموعة"
+                ]),
+
+                getField(product,[
+                    "Description",
+                    "description",
+                    "الوصف"
+                ]),
+
                 getProductColors(product).join(" "),
+
                 getProductSizes(product).join(" ")
+
             ];
 
-            const searchable = normalizeText(
-                fields.filter(Boolean).join(" ")
-            );
 
-            return searchable.includes(query);
+            return normalizeText(
+                fields.filter(Boolean).join(" ")
+            ).includes(query);
+
         });
 
+
     if(!results.length){
+
         container.innerHTML = `
+
             <div class="search-empty">
                 NO PRODUCTS FOUND.
             </div>
+
         `;
+
         return;
+
     }
+
 
     container.innerHTML =
         results.map(product => {
@@ -3408,7 +4497,10 @@ function performSearch(){
                 products.indexOf(product);
 
             const id =
-                getProductId(product,index);
+                getProductId(
+                    product,
+                    index
+                );
 
             const name =
                 getField(product,[
@@ -3421,23 +4513,35 @@ function performSearch(){
                 "ÉLORIA Product";
 
             const price =
-                getField(product,["Price","price","السعر"]) ||
+                getField(product,[
+                    "Price",
+                    "price",
+                    "السعر"
+                ]) ||
                 "";
 
+
             return `
+
                 <div
                     class="search-result"
                     onclick="openSearchProduct(${JSON.stringify(String(id))})"
                 >
+
                     ${escapeHTML(name)}
+
                     <small>
                         ${formatPrice(price)}
                     </small>
+
                 </div>
+
             `;
 
         }).join("");
+
 }
+
 
 function openSearchProduct(id){
 
@@ -3454,20 +4558,24 @@ function openSearchProduct(id){
 
 function openContact(){
 
-    document.getElementById("contactPanel")
-        .classList.add("active");
+    document.getElementById(
+        "contactPanel"
+    ).classList.add("active");
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+        "hidden";
 
 }
 
 
 function closeContact(){
 
-    document.getElementById("contactPanel")
-        .classList.remove("active");
+    document.getElementById(
+        "contactPanel"
+    ).classList.remove("active");
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -3475,64 +4583,105 @@ function closeContact(){
 function showDemoContact(type){
 
     if(type === "WhatsApp"){
+
         alert(
-            "ÉLORIA WhatsApp (DEMO)\\n\\n" +
-            "+213 550 000 000\\n\\n" +
+            "ÉLORIA WhatsApp (DEMO)\n\n" +
+            "+213 550 000 000\n\n" +
             "This is a temporary demo contact."
         );
+
     }else{
+
         alert(
-            "ÉLORIA Instagram (DEMO)\\n\\n" +
-            "@eloria.demo\\n\\n" +
+            "ÉLORIA Instagram (DEMO)\n\n" +
+            "@eloria.demo\n\n" +
             "This is a temporary demo account."
         );
+
     }
 
 }
 
 
 /* =====================================================
-   CLOSE MODALS
+   CLOSE ON BACKDROP
 ===================================================== */
 
-document.getElementById("productModal")
-.addEventListener("click",function(event){
+document
+    .getElementById("productModal")
+    .addEventListener(
+        "click",
+        function(event){
 
-    if(event.target === this){
-        closeProduct();
+            if(event.target === this){
+                closeProduct();
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("bagOverlay")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === this){
+                closeBag();
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("searchPanel")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === this){
+                closeSearch();
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("contactPanel")
+    .addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === this){
+                closeContact();
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   ESCAPE KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeProduct();
+            closeBag();
+            closeSearch();
+            closeContact();
+
+        }
+
     }
-
-});
-
-
-document.getElementById("bagOverlay")
-.addEventListener("click",function(event){
-
-    if(event.target === this){
-        closeBag();
-    }
-
-});
-
-
-document.getElementById("searchPanel")
-.addEventListener("click",function(event){
-
-    if(event.target === this){
-        closeSearch();
-    }
-
-});
-
-
-document.getElementById("contactPanel")
-.addEventListener("click",function(event){
-
-    if(event.target === this){
-        closeContact();
-    }
-
-});
+);
 
 
 /* =====================================================
