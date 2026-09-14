@@ -836,6 +836,10 @@ header{
     font-size:9px;
 }
 
+.option-button:hover{
+    border-color:var(--ink);
+}
+
 .option-button.selected{
     background:var(--ink);
     color:white;
@@ -941,6 +945,10 @@ header{
     font-family:'Cormorant Garamond',serif;
     font-size:23px;
     cursor:pointer;
+}
+
+.search-result:hover{
+    opacity:.65;
 }
 
 .search-result small{
@@ -1387,10 +1395,6 @@ footer p{
 
 <body>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header>
 
     <div class="logo">ÉLORIA</div>
@@ -1430,11 +1434,6 @@ footer p{
     </div>
 
 </header>
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
 
 <section class="hero">
 
@@ -1478,11 +1477,6 @@ footer p{
 
 </section>
 
-
-<!-- =====================================================
-     INTRO
-===================================================== -->
-
 <section class="intro">
 
     <div>
@@ -1513,15 +1507,7 @@ footer p{
 
 </section>
 
-
-<!-- =====================================================
-     COLLECTIONS
-===================================================== -->
-
-<section
-    class="section"
-    id="collections"
->
+<section class="section" id="collections">
 
     <div class="section-heading">
 
@@ -1558,15 +1544,7 @@ footer p{
 
 </section>
 
-
-<!-- =====================================================
-     NEW ARRIVALS
-===================================================== -->
-
-<section
-    class="section"
-    id="new-arrivals"
->
+<section class="section" id="new-arrivals">
 
     <div class="section-heading">
 
@@ -1601,11 +1579,6 @@ footer p{
     </div>
 
 </section>
-
-
-<!-- =====================================================
-     EDITORIAL
-===================================================== -->
 
 <section class="editorial">
 
@@ -1644,15 +1617,7 @@ footer p{
 
 </section>
 
-
-<!-- =====================================================
-     SHOP ALL
-===================================================== -->
-
-<section
-    class="section"
-    id="all-products"
->
+<section class="section" id="all-products">
 
     <div class="section-heading">
 
@@ -1705,11 +1670,6 @@ footer p{
 
 </section>
 
-
-<!-- =====================================================
-     NEWSLETTER
-===================================================== -->
-
 <section class="newsletter">
 
     <small>
@@ -1726,15 +1686,7 @@ footer p{
 
 </section>
 
-
-<!-- =====================================================
-     PRODUCT MODAL
-===================================================== -->
-
-<div
-    class="modal"
-    id="productModal"
->
+<div class="modal" id="productModal">
 
     <div class="product-detail">
 
@@ -1820,15 +1772,7 @@ footer p{
 
 </div>
 
-
-<!-- =====================================================
-     SEARCH
-===================================================== -->
-
-<div
-    class="search-panel"
-    id="searchPanel"
->
+<div class="search-panel" id="searchPanel">
 
     <div class="search-box">
 
@@ -1867,15 +1811,7 @@ footer p{
 
 </div>
 
-
-<!-- =====================================================
-     CONTACT
-===================================================== -->
-
-<div
-    class="contact-panel"
-    id="contactPanel"
->
+<div class="contact-panel" id="contactPanel">
 
     <div class="contact-box">
 
@@ -1917,15 +1853,7 @@ footer p{
 
 </div>
 
-
-<!-- =====================================================
-     BAG
-===================================================== -->
-
-<div
-    class="bag-overlay"
-    id="bagOverlay"
->
+<div class="bag-overlay" id="bagOverlay">
 
     <div class="bag">
 
@@ -1976,11 +1904,6 @@ footer p{
 
 </div>
 
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
 <footer>
 
     <div class="footer-logo">
@@ -1999,12 +1922,10 @@ footer p{
 
 </footer>
 
-
 <script>
 
 /* =====================================================
-   ÉLORIA
-   GOOGLE SHEETS CONNECTION
+   ÉLORIA — GOOGLE SHEETS
 ===================================================== */
 
 const SCRIPT_URL =
@@ -2120,7 +2041,9 @@ function getField(object,names){
                 value !== null &&
                 String(value).trim() !== ""
             ){
+
                 return value;
+
             }
 
         }
@@ -2279,21 +2202,37 @@ function parseOptions(value){
 }
 
 
+/* =====================================================
+   COLORS — IMPROVED
+===================================================== */
+
 function getProductColors(product){
 
     return parseOptions(
         getField(product,[
             "Colors",
             "Color",
+            "Colour",
+            "Colours",
+            "Available Colors",
+            "Available Colours",
+            "Product Colors",
+            "Product Colours",
             "Couleurs",
             "Couleur",
             "الألوان",
-            "اللون"
+            "اللون",
+            "ألوان",
+            "لون"
         ])
     );
 
 }
 
+
+/* =====================================================
+   SIZES — IMPROVED
+===================================================== */
 
 function getProductSizes(product){
 
@@ -2301,10 +2240,14 @@ function getProductSizes(product){
         getField(product,[
             "Sizes",
             "Size",
+            "Available Sizes",
+            "Product Sizes",
             "Tailles",
             "Taille",
             "المقاسات",
-            "المقاس"
+            "المقاس",
+            "مقاسات",
+            "مقاس"
         ])
     );
 
@@ -2579,6 +2522,46 @@ function loadCollections(){
 
 
 /* =====================================================
+   SAFE ERROR HELPERS
+===================================================== */
+
+function showLoadError(message){
+
+    const newContainer =
+        document.getElementById("newProducts");
+
+    const allContainer =
+        document.getElementById("allProducts");
+
+    if(newContainer){
+        newContainer.innerHTML =
+            `<div class="error">${escapeHTML(message)}</div>`;
+    }
+
+    if(allContainer){
+        allContainer.innerHTML =
+            `<div class="error">${escapeHTML(message)}</div>`;
+    }
+
+}
+
+
+function showCollectionsMessage(message){
+
+    const container =
+        document.getElementById("collectionsContainer");
+
+    if(container){
+
+        container.innerHTML =
+            `<div class="error">${escapeHTML(message)}</div>`;
+
+    }
+
+}
+
+
+/* =====================================================
    COLLECTION HELPERS
 ===================================================== */
 
@@ -2671,10 +2654,6 @@ function productBelongsToCollection(product,collection){
         );
 
 
-    /* ---------------------------------------------
-       1. Product IDs
-    --------------------------------------------- */
-
     const ids =
         getCollectionProductIds(collection)
             .map(id => normalizeText(id));
@@ -2683,13 +2662,11 @@ function productBelongsToCollection(product,collection){
         ids.length &&
         ids.includes(productId)
     ){
+
         return true;
+
     }
 
-
-    /* ---------------------------------------------
-       2. Product names
-    --------------------------------------------- */
 
     const names =
         getCollectionProductNames(collection)
@@ -2712,18 +2689,17 @@ function productBelongsToCollection(product,collection){
             productName.includes(name)
         )
     ){
+
         return true;
+
     }
 
-
-    /* ---------------------------------------------
-       3. Category / Collection / Group
-    --------------------------------------------- */
 
     const collectionName =
         normalizeText(
             getCollectionName(collection)
         );
+
 
     const productGroups = [
 
@@ -2744,8 +2720,7 @@ function productBelongsToCollection(product,collection){
             "Product Group"
         ])
 
-    ]
-    .join(" ");
+    ].join(" ");
 
 
     const groupText =
@@ -2754,16 +2729,15 @@ function productBelongsToCollection(product,collection){
 
     if(
         collectionName &&
-        groupText
-    ){
-
-        if(
+        groupText &&
+        (
             groupText === collectionName ||
             groupText.includes(collectionName) ||
             collectionName.includes(groupText)
-        ){
-            return true;
-        }
+        )
+    ){
+
+        return true;
 
     }
 
@@ -2851,6 +2825,10 @@ function displayCollections(){
             "collectionsContainer"
         );
 
+    if(!container){
+        return;
+    }
+
     if(!collections.length){
 
         container.innerHTML =
@@ -2859,6 +2837,7 @@ function displayCollections(){
             </div>`;
 
         return;
+
     }
 
     container.innerHTML =
@@ -3072,7 +3051,7 @@ function collectionTouchEnd(event,element){
 
 
 /* =====================================================
-   OPEN COLLECTION — FIXED
+   OPEN COLLECTION
 ===================================================== */
 
 function openCollection(index){
@@ -3084,20 +3063,10 @@ function openCollection(index){
         return;
     }
 
-
     const name =
         getCollectionName(collection);
 
-
-    /*
-       IMPORTANT:
-       We now use several ways to find the products.
-       This makes the collection work whether the
-       Sheet stores Product IDs, product names,
-       Category, Collection or Group.
-    */
-
-    let filtered =
+    const filtered =
         products.filter(product =>
             productBelongsToCollection(
                 product,
@@ -3202,6 +3171,11 @@ function clearCollectionFilter(){
             "collectionFilter"
         );
 
+    const clearButton =
+        document.getElementById(
+            "clearCollectionFilter"
+        );
+
     const allContainer =
         document.getElementById(
             "allProducts"
@@ -3211,6 +3185,9 @@ function clearCollectionFilter(){
         "Shop All";
 
     filter.style.display =
+        "none";
+
+    clearButton.style.display =
         "none";
 
     allContainer.innerHTML =
@@ -3390,12 +3367,6 @@ function createProduct(product){
         oldPriceNumber > priceNumber;
 
 
-    /*
-       IMPORTANT:
-       We use single quotes around the ID
-       so the onclick HTML attribute remains valid.
-    */
-
     const safeId =
         String(id)
             .replace(/\\/g,"\\\\")
@@ -3483,7 +3454,7 @@ function createProduct(product){
 
 
 /* =====================================================
-   PRODUCT OPTIONS
+   PRODUCT OPTIONS — FIXED
 ===================================================== */
 
 function renderProductOptions(){
@@ -3492,124 +3463,307 @@ function renderProductOptions(){
         return;
     }
 
+
+    const container =
+        document.getElementById(
+            "detailOptions"
+        );
+
+    if(!container){
+        return;
+    }
+
+
     const colors =
-        getProductColors(currentProduct);
+        getProductColors(
+            currentProduct
+        );
 
     const sizes =
-        getProductSizes(currentProduct);
+        getProductSizes(
+            currentProduct
+        );
 
-    let html = "";
 
+    container.innerHTML = "";
+
+
+    /* ---------------------------------------------
+       COLORS
+    --------------------------------------------- */
 
     if(colors.length){
 
-        html += `
+        const colorGroup =
+            document.createElement("div");
 
-            <div class="option-group">
+        colorGroup.className =
+            "option-group";
 
-                <span class="option-title">
-                    Color
-                </span>
 
-                <div class="option-list">
+        colorGroup.innerHTML = `
 
-                    ${colors.map(color => `
+            <span class="option-title">
+                Color
+            </span>
 
-                        <button
-                            type="button"
-                            class="option-button ${
-                                selectedColor === color
-                                ? "selected"
-                                : ""
-                            }"
-                            onclick="selectColor(${JSON.stringify(color)})"
-                        >
-                            ${escapeHTML(color)}
-                        </button>
+            <div class="option-list color-list"></div>
 
-                    `).join("")}
-
-                </div>
-
-                <div
-                    id="colorRequired"
-                    class="option-required"
-                >
-                    PLEASE SELECT A COLOR.
-                </div>
-
+            <div
+                id="colorRequired"
+                class="option-required"
+            >
+                PLEASE SELECT A COLOR.
             </div>
 
         `;
 
+
+        const colorList =
+            colorGroup.querySelector(
+                ".color-list"
+            );
+
+
+        colors.forEach(color => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "option-button";
+
+
+            button.textContent =
+                color;
+
+
+            button.dataset.color =
+                color;
+
+
+            if(
+                normalizeText(selectedColor) ===
+                normalizeText(color)
+            ){
+
+                button.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                function(event){
+
+                    event.stopPropagation();
+
+                    selectColor(color);
+
+                }
+            );
+
+
+            colorList.appendChild(
+                button
+            );
+
+        });
+
+
+        container.appendChild(
+            colorGroup
+        );
+
     }
 
+
+    /* ---------------------------------------------
+       SIZES
+    --------------------------------------------- */
 
     if(sizes.length){
 
-        html += `
+        const sizeGroup =
+            document.createElement("div");
 
-            <div class="option-group">
+        sizeGroup.className =
+            "option-group";
 
-                <span class="option-title">
-                    Size
-                </span>
 
-                <div class="option-list">
+        sizeGroup.innerHTML = `
 
-                    ${sizes.map(size => `
+            <span class="option-title">
+                Size
+            </span>
 
-                        <button
-                            type="button"
-                            class="option-button ${
-                                selectedSize === size
-                                ? "selected"
-                                : ""
-                            }"
-                            onclick="selectSize(${JSON.stringify(size)})"
-                        >
-                            ${escapeHTML(size)}
-                        </button>
+            <div class="option-list size-list"></div>
 
-                    `).join("")}
-
-                </div>
-
-                <div
-                    id="sizeRequired"
-                    class="option-required"
-                >
-                    PLEASE SELECT A SIZE.
-                </div>
-
+            <div
+                id="sizeRequired"
+                class="option-required"
+            >
+                PLEASE SELECT A SIZE.
             </div>
 
         `;
 
+
+        const sizeList =
+            sizeGroup.querySelector(
+                ".size-list"
+            );
+
+
+        sizes.forEach(size => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "option-button";
+
+
+            button.textContent =
+                size;
+
+
+            button.dataset.size =
+                size;
+
+
+            if(
+                normalizeText(selectedSize) ===
+                normalizeText(size)
+            ){
+
+                button.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                function(event){
+
+                    event.stopPropagation();
+
+                    selectSize(size);
+
+                }
+            );
+
+
+            sizeList.appendChild(
+                button
+            );
+
+        });
+
+
+        container.appendChild(
+            sizeGroup
+        );
+
     }
-
-
-    document.getElementById(
-        "detailOptions"
-    ).innerHTML = html;
 
 }
 
+
+/* =====================================================
+   SELECT COLOR — FIXED
+===================================================== */
 
 function selectColor(color){
 
-    selectedColor = color;
+    selectedColor =
+        String(color);
 
-    renderProductOptions();
+
+    document
+        .querySelectorAll(
+            ".color-list .option-button"
+        )
+        .forEach(button => {
+
+            button.classList.toggle(
+                "selected",
+                normalizeText(
+                    button.dataset.color
+                ) ===
+                normalizeText(
+                    selectedColor
+                )
+            );
+
+        });
+
+
+    const required =
+        document.getElementById(
+            "colorRequired"
+        );
+
+    if(required){
+
+        required.classList.remove(
+            "show"
+        );
+
+    }
 
 }
 
 
+/* =====================================================
+   SELECT SIZE — FIXED
+===================================================== */
+
 function selectSize(size){
 
-    selectedSize = size;
+    selectedSize =
+        String(size);
 
-    renderProductOptions();
+
+    document
+        .querySelectorAll(
+            ".size-list .option-button"
+        )
+        .forEach(button => {
+
+            button.classList.toggle(
+                "selected",
+                normalizeText(
+                    button.dataset.size
+                ) ===
+                normalizeText(
+                    selectedSize
+                )
+            );
+
+        });
+
+
+    const required =
+        document.getElementById(
+            "sizeRequired"
+        );
+
+    if(required){
+
+        required.classList.remove(
+            "show"
+        );
+
+    }
 
 }
 
@@ -3624,12 +3778,18 @@ function openProduct(id){
         findProductById(id);
 
     if(!currentProduct){
+        console.warn(
+            "ÉLORIA: Product not found:",
+            id
+        );
         return;
     }
 
 
     detailQuantity = 1;
+
     selectedColor = "";
+
     selectedSize = "";
 
 
@@ -3660,11 +3820,16 @@ function openProduct(id){
 
 
     const name =
-        getField(currentProduct,[
-            "Product Name",
-            "Name",
-            "name"
-        ]) ||
+        getField(
+            currentProduct,
+            [
+                "Product Name",
+                "Name",
+                "name",
+                "Nom",
+                "اسم المنتج"
+            ]
+        ) ||
         "ÉLORIA Product";
 
 
@@ -3675,19 +3840,27 @@ function openProduct(id){
 
 
     const price =
-        getField(currentProduct,[
-            "Price",
-            "price",
-            "السعر"
-        ]);
+        getField(
+            currentProduct,
+            [
+                "Price",
+                "price",
+                "السعر"
+            ]
+        );
 
 
     const oldPrice =
-        getField(currentProduct,[
-            "Old Price",
-            "oldPrice",
-            "السعر القديم"
-        ]);
+        getField(
+            currentProduct,
+            [
+                "Old Price",
+                "oldPrice",
+                "Previous Price",
+                "السعر القديم",
+                "السعر قبل التخفيض"
+            ]
+        );
 
 
     const priceNumber =
@@ -3696,6 +3869,7 @@ function openProduct(id){
                 .replace(",",".")
                 .replace(/[^\d.-]/g,"")
         );
+
 
     const oldPriceNumber =
         parseFloat(
@@ -3730,21 +3904,29 @@ function openProduct(id){
     document.getElementById(
         "detailDescription"
     ).textContent =
-        getField(currentProduct,[
-            "Description",
-            "description",
-            "الوصف"
-        ]) ||
+        getField(
+            currentProduct,
+            [
+                "Description",
+                "description",
+                "الوصف"
+            ]
+        ) ||
         "A beautiful piece from the ÉLORIA collection.";
 
 
     const stockValue =
         parseInt(
-            getField(currentProduct,[
-                "Stock",
-                "stock",
-                "المخزون"
-            ])
+            getField(
+                currentProduct,
+                [
+                    "Stock",
+                    "stock",
+                    "Quantity",
+                    "quantity",
+                    "المخزون"
+                ]
+            )
         );
 
 
@@ -3774,11 +3956,15 @@ function openProduct(id){
 
     if(
         isTrue(
-            getField(currentProduct,[
-                "New",
-                "new",
-                "جديد"
-            ])
+            getField(
+                currentProduct,
+                [
+                    "New",
+                    "new",
+                    "Nouveau",
+                    "جديد"
+                ]
+            )
         )
     ){
 
@@ -3790,11 +3976,15 @@ function openProduct(id){
 
     if(
         isTrue(
-            getField(currentProduct,[
-                "Sale",
-                "sale",
-                "تخفيض"
-            ])
+            getField(
+                currentProduct,
+                [
+                    "Sale",
+                    "sale",
+                    "Sold",
+                    "تخفيض"
+                ]
+            )
         )
     ){
 
@@ -3825,12 +4015,14 @@ function openProduct(id){
     ){
 
         addButton.disabled = true;
+
         addButton.textContent =
             "OUT OF STOCK";
 
     }else{
 
         addButton.disabled = false;
+
         addButton.textContent =
             "ADD TO BAG";
 
@@ -3853,7 +4045,8 @@ function closeProduct(){
         "productModal"
     ).classList.remove("active");
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -3864,13 +4057,19 @@ function changeDetailQuantity(change){
         return;
     }
 
+
     const stock =
         parseInt(
-            getField(currentProduct,[
-                "Stock",
-                "stock",
-                "المخزون"
-            ])
+            getField(
+                currentProduct,
+                [
+                    "Stock",
+                    "stock",
+                    "Quantity",
+                    "quantity",
+                    "المخزون"
+                ]
+            )
         );
 
 
@@ -3878,12 +4077,15 @@ function changeDetailQuantity(change){
 
 
     if(detailQuantity < 1){
+
         detailQuantity = 1;
+
     }
 
 
     if(
         !isNaN(stock) &&
+        stock > 0 &&
         detailQuantity > stock
     ){
 
@@ -3943,10 +4145,17 @@ function updateBagCount(){
         );
 
 
-    document.getElementById(
-        "bagCount"
-    ).textContent =
-        count;
+    const element =
+        document.getElementById(
+            "bagCount"
+        );
+
+    if(element){
+
+        element.textContent =
+            count;
+
+    }
 
 }
 
@@ -3980,6 +4189,7 @@ function addCurrentProduct(){
             currentProduct
         );
 
+
     const sizes =
         getProductSizes(
             currentProduct
@@ -3997,7 +4207,11 @@ function addCurrentProduct(){
             );
 
         if(element){
-            element.classList.add("show");
+
+            element.classList.add(
+                "show"
+            );
+
         }
 
         return;
@@ -4016,7 +4230,11 @@ function addCurrentProduct(){
             );
 
         if(element){
-            element.classList.add("show");
+
+            element.classList.add(
+                "show"
+            );
+
         }
 
         return;
@@ -4041,11 +4259,16 @@ function addCurrentProduct(){
 
     const stock =
         parseInt(
-            getField(currentProduct,[
-                "Stock",
-                "stock",
-                "المخزون"
-            ])
+            getField(
+                currentProduct,
+                [
+                    "Stock",
+                    "stock",
+                    "Quantity",
+                    "quantity",
+                    "المخزون"
+                ]
+            )
         );
 
 
@@ -4064,6 +4287,7 @@ function addCurrentProduct(){
 
         if(
             !isNaN(stock) &&
+            stock > 0 &&
             newQuantity > stock
         ){
 
@@ -4086,21 +4310,31 @@ function addCurrentProduct(){
             id:id,
 
             name:
-                getField(currentProduct,[
-                    "Product Name",
-                    "Name",
-                    "name"
-                ]) ||
+                getField(
+                    currentProduct,
+                    [
+                        "Product Name",
+                        "Name",
+                        "name",
+                        "Nom",
+                        "اسم المنتج"
+                    ]
+                ) ||
                 "ÉLORIA Product",
 
             price:
-                getField(currentProduct,[
-                    "Price",
-                    "price"
-                ]) || 0,
+                getField(
+                    currentProduct,
+                    [
+                        "Price",
+                        "price",
+                        "السعر"
+                    ]
+                ) || 0,
 
             image:
-                images[0] || PRODUCT_PLACEHOLDER,
+                images[0] ||
+                PRODUCT_PLACEHOLDER,
 
             color:
                 selectedColor || "",
@@ -4327,7 +4561,9 @@ function changeCartQuantity(index,change){
 
 
     if(cart[index].quantity <= 0){
+
         cart.splice(index,1);
+
     }
 
 
@@ -4357,7 +4593,9 @@ function checkout(){
 
     if(!cart.length){
 
-        alert("Your bag is empty.");
+        alert(
+            "Your bag is empty."
+        );
 
         return;
 
@@ -4412,6 +4650,10 @@ function closeSearch(){
 
 }
 
+
+/* =====================================================
+   SEARCH — FIXED
+===================================================== */
 
 function performSearch(){
 
@@ -4468,6 +4710,7 @@ function performSearch(){
                     "Collection",
                     "Collection Name",
                     "Group",
+                    "Group Name",
                     "المجموعة"
                 ]),
 
@@ -4537,11 +4780,17 @@ function performSearch(){
                 "";
 
 
+            const safeId =
+                String(id)
+                    .replace(/\\/g,"\\\\")
+                    .replace(/'/g,"\\'");
+
+
             return `
 
                 <div
                     class="search-result"
-                    onclick="openSearchProduct(${JSON.stringify(String(id))})"
+                    onclick="openSearchProduct('${safeId}')"
                 >
 
                     ${escapeHTML(name)}
